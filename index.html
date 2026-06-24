@@ -2785,10 +2785,6 @@ btnPVL.onclick = () => {
 
 
 };
-
-  /* =========================
-   CARRITO — RENDER CONTENIDO
-   ========================= */
 /* =========================
    CARRITO — RENDER CONTENIDO
    ========================= */
@@ -2850,9 +2846,9 @@ function renderCart(){
         <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; gap:10px;">
 
           <div class="qty">
-            <button class="qbtn" data-k="${k}" data-a="d">–</button>
+            <button class="qbtn" data-cart-k="${k}" data-cart-a="d">–</button>
             <div class="qval">${q}</div>
-            <button class="qbtn" data-k="${k}" data-a="i">+</button>
+            <button class="qbtn" data-cart-k="${k}" data-cart-a="i">+</button>
           </div>
 
           <div style="text-align:right; min-width:105px;">
@@ -2915,12 +2911,12 @@ function renderCart(){
 
   container.innerHTML = html;
 
-  /* eventos + / - */
-  container.querySelectorAll("[data-a]").forEach(b => {
+  /* eventos + / - del carrito */
+  container.querySelectorAll("[data-cart-a]").forEach(b => {
     b.onclick = () => {
 
-      const k = b.getAttribute("data-k");
-      const act = b.getAttribute("data-a");
+      const k = b.getAttribute("data-cart-k");
+      const act = b.getAttribute("data-cart-a");
 
       const item = CART.get(k);
       if(!item) return;
@@ -2950,6 +2946,39 @@ function renderCart(){
     const txt = buildWA(sub, iva, ii, total);
     cartWA.href = "https://wa.me/?text=" + encodeURIComponent(txt);
   }
+}
+
+
+/* =========================
+   CARRITO — MODAL OPEN/CLOSE
+   ========================= */
+const btnCartModal = document.getElementById("btnCart");
+const cartModal = document.getElementById("cartModal");
+const cartClose = document.getElementById("cartClose");
+
+if(btnCartModal){
+  btnCartModal.onclick = () => {
+    if(cartModal){
+      renderCart();
+      cartModal.style.display = "flex";
+    }
+  };
+}
+
+if(cartClose){
+  cartClose.onclick = () => {
+    if(cartModal){
+      cartModal.style.display = "none";
+    }
+  };
+}
+
+if(cartModal){
+  cartModal.onclick = (e) => {
+    if(e.target.id === "cartModal"){
+      cartModal.style.display = "none";
+    }
+  };
 }
 </script>
 </body>
