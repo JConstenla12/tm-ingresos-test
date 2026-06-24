@@ -1573,7 +1573,230 @@ body.theme-light #btnNewIngresos.active{
     0 6px 16px rgba(0,0,0,.35),
     inset 0 1px 0 rgba(255,255,255,.06);
 }
-  
+  /* =========================
+   MODAL CARRITO — PRO
+   ========================= */
+
+#cartModal .modalBox{
+  width:min(620px,96vw);
+  height:min(680px,88vh);
+}
+
+#cartContent{
+  width:100%;
+}
+
+.cartHeaderRow{
+  display:grid;
+  grid-template-columns:minmax(0,1.4fr) 94px 96px 106px 38px;
+  gap:8px;
+  align-items:center;
+
+  padding:10px 12px;
+  margin-bottom:10px;
+
+  border-radius:12px;
+  background:rgba(255,255,255,.06);
+  color:var(--muted);
+
+  font-size:12px;
+  font-weight:900;
+}
+
+.cartItemRow{
+  display:grid;
+  grid-template-columns:minmax(0,1.4fr) 94px 96px 106px 38px;
+  gap:8px;
+  align-items:center;
+
+  padding:12px;
+  margin-bottom:10px;
+
+  border-radius:14px;
+  border:1px solid var(--stroke);
+  background:rgba(255,255,255,.04);
+}
+
+.cartProdTitle{
+  font-weight:900;
+  font-size:14px;
+  line-height:1.2;
+}
+
+.cartProdArt{
+  margin-top:3px;
+  font-size:12px;
+  color:var(--muted);
+}
+
+.cartProdDesc{
+  margin-top:4px;
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.25;
+}
+
+.cartQtyBox{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+}
+
+.cartQtyBox .qbtn{
+  width:34px;
+  height:34px;
+  border-radius:12px;
+}
+
+.cartPriceBox{
+  text-align:right;
+  font-weight:900;
+  font-size:13px;
+}
+
+.cartSubBox{
+  text-align:right;
+  font-weight:900;
+  font-size:13px;
+}
+
+.cartTrash{
+  width:34px;
+  height:34px;
+  border-radius:12px;
+
+  border:1px solid rgba(239,68,68,.35);
+  background:rgba(239,68,68,.12);
+  color:#ef4444;
+
+  font-size:16px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.cartTrash:active{
+  transform:scale(.94);
+  background:rgba(239,68,68,.22);
+  box-shadow:0 0 0 3px rgba(239,68,68,.18);
+}
+
+.cartTotalsBox{
+  margin-top:14px;
+  padding:12px;
+
+  border:1px solid var(--stroke);
+  border-radius:14px;
+  background:rgba(255,255,255,.04);
+}
+
+.cartTotalLine{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:8px;
+  font-size:13px;
+}
+
+.cartTotalLine span{
+  color:var(--muted);
+}
+
+.cartTotalFinal{
+  display:flex;
+  justify-content:space-between;
+
+  margin-top:10px;
+  padding-top:10px;
+
+  border-top:1px solid var(--stroke);
+  font-size:17px;
+  font-weight:900;
+}
+
+.cartTotalFinal b{
+  color:var(--accent);
+}
+
+.cartActions{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:14px;
+}
+
+.cartWAButton{
+  width:100%;
+
+  background:#22c55e !important;
+  color:#fff !important;
+
+  border:1px solid rgba(255,255,255,.18) !important;
+  border-radius:16px;
+
+  font-size:16px;
+  font-weight:900;
+
+  box-shadow:
+    0 0 0 3px rgba(34,197,94,.20),
+    0 10px 24px rgba(34,197,94,.38);
+}
+
+.cartWAButton:active{
+  transform:scale(.97);
+  box-shadow:
+    0 0 0 3px rgba(34,197,94,.22),
+    0 6px 18px rgba(34,197,94,.30);
+}
+
+/* Light mode */
+body.theme-light .cartHeaderRow,
+body.theme-light .cartItemRow,
+body.theme-light .cartTotalsBox{
+  background:#ffffff;
+  border:1px solid rgba(0,0,0,.08);
+  box-shadow:0 4px 12px rgba(0,0,0,.06);
+}
+
+/* Ajuste teléfonos chicos */
+@media (max-width: 430px){
+  .cartHeaderRow{
+    grid-template-columns:minmax(0,1.25fr) 84px 88px 96px 34px;
+    gap:6px;
+    padding:9px 9px;
+    font-size:11px;
+  }
+
+  .cartItemRow{
+    grid-template-columns:minmax(0,1.25fr) 84px 88px 96px 34px;
+    gap:6px;
+    padding:10px 9px;
+  }
+
+  .cartProdTitle{
+    font-size:13px;
+  }
+
+  .cartProdArt,
+  .cartProdDesc{
+    font-size:11px;
+  }
+
+  .cartQtyBox .qbtn{
+    width:30px;
+    height:30px;
+  }
+
+  .cartPriceBox,
+  .cartSubBox{
+    font-size:12px;
+  }
+
+  .cartTrash{
+    width:30px;
+    height:30px;
+    font-size:14px;
+  }
+}
 </style>
 </head>
 
@@ -2795,7 +3018,7 @@ function renderCart(){
 
   if(CART.size === 0){
     container.innerHTML = `
-      <div style="text-align:center; padding:24px; color:var(--muted);">
+      <div style="text-align:center; padding:28px; color:var(--muted);">
         🛒 Carrito vacío
       </div>
     `;
@@ -2803,10 +3026,22 @@ function renderCart(){
   }
 
   let html = "";
+
   let sub = 0;
   let iva = 0;
   let ii  = 0;
   let items = 0;
+
+  /* encabezados */
+  html += `
+    <div class="cartHeaderRow">
+      <div>Producto</div>
+      <div style="text-align:center;">Cant.</div>
+      <div style="text-align:right;">Precio unit.</div>
+      <div style="text-align:right;">Subtotal</div>
+      <div></div>
+    </div>
+  `;
 
   CART.forEach((v, k) => {
 
@@ -2820,7 +3055,7 @@ function renderCart(){
       : ars(net);
 
     const lineTotal = net === null
-      ? `<span style="color:var(--muted);">Sin total</span>`
+      ? `<span style="color:var(--muted);">—</span>`
       : ars(net * q);
 
     if(net !== null){
@@ -2833,117 +3068,88 @@ function renderCart(){
     items += q;
 
     html += `
-<div style="
-  padding:14px;
-  border-radius:14px;
-  background:rgba(255,255,255,.04);
-  border:1px solid var(--stroke);
-  margin-bottom:10px;
-">
+      <div class="cartItemRow">
 
-  <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+        <div>
+          <div class="cartProdTitle">${marcaOpLabel(p)}</div>
+          <div class="cartProdArt">${p.ARTICULO || ""}</div>
+          <div class="cartProdDesc">${(p.DESCRIPCION || "").slice(0,42)}</div>
+        </div>
 
-    <div style="flex:1; min-width:0;">
-      <div style="font-weight:900; font-size:14px;">
-        ${marcaOpLabel(p)}
+        <div class="cartQtyBox">
+          <button class="qbtn" data-cart-k="${k}" data-cart-a="d">–</button>
+          <div class="qval">${q}</div>
+          <button class="qbtn" data-cart-k="${k}" data-cart-a="i">+</button>
+        </div>
+
+        <div class="cartPriceBox">
+          ${price}
+        </div>
+
+        <div class="cartSubBox">
+          ${lineTotal}
+        </div>
+
+        <button class="cartTrash" data-cart-k="${k}" data-cart-a="x" title="Quitar artículo">
+          🗑
+        </button>
+
       </div>
-
-      <div style="font-size:12px; color:var(--muted); margin-top:2px;">
-        ${p.ARTICULO}
-      </div>
-
-      <div style="font-size:12px; color:var(--muted); margin-top:4px;">
-        ${(p.DESCRIPCION || "").slice(0,45)}
-      </div>
-    </div>
-
-    <div style="text-align:right; min-width:110px;">
-      <div style="font-size:12px; color:var(--muted);">Subtotal</div>
-      <div style="font-weight:900;">
-        ${lineTotal}
-      </div>
-    </div>
-
-  </div>
-
-  <div style="
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-top:10px;
-  ">
-
-    <div class="qty">
-      <button class="qbtn" data-cart-k="${k}" data-cart-a="d">–</button>
-      <div class="qval">${q}</div>
-      <button class="qbtn" data-cart-k="${k}" data-cart-a="i">+</button>
-    </div>
-
-    <div style="text-align:right;">
-      <div style="font-size:12px; color:var(--muted);">Precio</div>
-      <div style="font-weight:900;">
-        ${price}
-      </div>
-    </div>
-
-  </div>
-
-</div>
-`;
+    `;
   });
 
   const total = sub + iva + ii;
 
   html += `
-    <div style="margin-top:14px; padding:12px; border:1px solid var(--stroke); border-radius:14px; background:rgba(255,255,255,.04);">
+    <div class="cartTotalsBox">
 
-      <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-        <span style="color:var(--muted);">Ítems</span>
+      <div class="cartTotalLine">
+        <span>Ítems</span>
         <b>${items}</b>
       </div>
 
-      <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-        <span style="color:var(--muted);">Subtotal</span>
+      <div class="cartTotalLine">
+        <span>Subtotal</span>
         <b>${ars(sub)}</b>
       </div>
 
-      <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-        <span style="color:var(--muted);">IVA</span>
+      <div class="cartTotalLine">
+        <span>IVA</span>
         <b>${ars(iva)}</b>
       </div>
 
-      <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-        <span style="color:var(--muted);">Imp. Int.</span>
+      <div class="cartTotalLine">
+        <span>Imp. Int.</span>
         <b>${ars(ii)}</b>
       </div>
 
-      <div style="display:flex; justify-content:space-between; margin-top:10px; padding-top:10px; border-top:1px solid var(--stroke); font-size:16px;">
-        <span style="font-weight:900;">Total + imp.</span>
-        <b style="color:var(--accent);">${ars(total)}</b>
+      <div class="cartTotalFinal">
+        <span>Total + imp.</span>
+        <b>${ars(total)}</b>
       </div>
 
     </div>
 
-    <div style="display:flex; flex-direction:column; gap:10px; margin-top:14px;">
+    <div class="cartActions">
 
-    <a class="btn primary" id="cartWA" target="_blank" style="width:100%; text-align:center;">
-  📲 Enviar pedido por WhatsApp
-</a>
+      <a class="btn cartWAButton" id="cartWA" target="_blank">
+        📲 Enviar pedido por WhatsApp
+      </a>
 
-<button class="btn" id="cartContinue" style="width:100%;">
-  Seguir comprando
-</button>
+      <button class="btn" id="cartContinue">
+        Seguir comprando
+      </button>
 
-<button class="btn" id="cartEmpty" style="width:100%; border-color:#ef4444; color:#ef4444;">
-  🗑 Vaciar carrito
-</button>
+      <button class="btn" id="cartEmpty" style="border-color:#ef4444; color:#ef4444;">
+        🗑 Vaciar carrito
+      </button>
 
     </div>
   `;
 
   container.innerHTML = html;
 
-  /* eventos + / - del carrito */
+  /* eventos + / - / quitar artículo */
   container.querySelectorAll("[data-cart-a]").forEach(b => {
     b.onclick = () => {
 
@@ -2953,9 +3159,17 @@ function renderCart(){
       const item = CART.get(k);
       if(!item) return;
 
-      const cur = item.q;
+      if(act === "i"){
+        setQty(item.p, item.q + 1);
+      }
 
-      setQty(item.p, act === "i" ? cur + 1 : cur - 1);
+      if(act === "d"){
+        setQty(item.p, item.q - 1);
+      }
+
+      if(act === "x"){
+        setQty(item.p, 0);
+      }
 
       renderCart();
     };
@@ -2971,15 +3185,22 @@ function renderCart(){
       }
     };
   }
+
+  /* botón vaciar carrito */
   const cartEmpty = document.getElementById("cartEmpty");
-if(cartEmpty){
-  cartEmpty.onclick = () => {
-    CART.clear();
-    totals();
-    render();
-    renderCart();
-  };
-}
+  if(cartEmpty){
+    cartEmpty.onclick = () => {
+
+      CART.clear();
+
+      ALL_CARTS = {};
+      localStorage.removeItem("tm_carts");
+
+      totals();
+      render();
+      renderCart();
+    };
+  }
 
   /* botón WhatsApp */
   const cartWA = document.getElementById("cartWA");
@@ -2988,7 +3209,6 @@ if(cartEmpty){
     cartWA.href = "https://wa.me/?text=" + encodeURIComponent(txt);
   }
 }
-
 
 /* =========================
    CARRITO — MODAL OPEN/CLOSE
