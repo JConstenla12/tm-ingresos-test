@@ -1,0 +1,15 @@
+{
+  "name": "Todomusica Ingresos",
+  "short_name": "TM",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#050a14",
+  "theme_color": "#0a1a3a",
+  "icons": [
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
