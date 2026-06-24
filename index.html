@@ -1,0 +1,2739 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Todomusica — Ingresos de Mayo</title>
+<link rel="manifest" href="manifest.json">
+
+<style>
+:root{
+  --bg: radial-gradient(circle at top left, #0a1a3a, #070b14 72%);
+  --panel:#0b1220;
+  --card:#0f1930;
+  --stroke:rgba(255,255,255,.10);
+  --text:#eaf0ff;
+  --muted:#9db0d4;
+  --accent:#f59e0b;
+  --good:#22c55e;
+  --warn:#fbbf24;
+  --ing:#38bdf8;
+  --bad:#ef4444;
+
+  --shell-max-mobile: 430px;
+  --shell-max-desktop: 960px;
+  --shell-side: 14px;
+  --radius-xl: 20px;
+  --radius-lg: 16px;
+  --radius-md: 14px;
+}
+
+/* =========================
+   THEME LIGHT — BASE (PASO 1)
+   ========================= */
+body.theme-light{
+
+  /* FONDO GENERAL (más suave, menos plano) */
+  --bg: linear-gradient(180deg,#f1f5f9,#e2e8f0);
+
+  /* CAPAS */
+  --panel:#ffffff;          /* header / zonas principales */
+  --card:#ffffff;           /* cards */
+
+  /* BORDE */
+  --stroke:rgba(0,0,0,.08); /* más sutil */
+
+  /* TEXTO */
+  --text:#0f172a;           /* más oscuro */
+  --muted:#64748b;          /* gris más elegante */
+
+}
+
+/* =========================
+   THEME LIGHT — SUPERFICIES
+   ========================= */
+
+/* CARDS (productos) */
+body.theme-light .card{
+  border:1px solid rgba(0,0,0,.06);
+
+  /* 👇 sombra real pero suave */
+  box-shadow:
+    0 6px 18px rgba(0,0,0,.08),
+    inset 0 1px 0 rgba(255,255,255,.9);
+
+  /* separación visual */
+  background:#ffffff;
+}
+
+/* INPUTS / SELECTS */
+body.theme-light .inp,
+body.theme-light select{
+  background:#f8fafc; /* leve gris para diferenciar */
+  border:1px solid rgba(0,0,0,.10);
+}
+
+/* TOTALES (bloques tipo tarjeta) */
+body.theme-light .totItem{
+  background:#ffffff;
+
+  border:1px solid rgba(0,0,0,.08);
+
+  /* 👇 clave para que “floten” */
+  box-shadow:0 4px 10px rgba(0,0,0,.06);
+}
+
+/* BOTONES */
+body.theme-light .btn{
+  background:#ffffff;
+  border:1px solid rgba(0,0,0,.10);
+}
+
+  /* =========================
+   BOTON LIMPIAR — LIGHT MODE FIX
+   ========================= */
+body.theme-light #btnClearFilters{
+  background:#ffffff;
+  color:#0f172a;
+
+  border:1px solid rgba(0,0,0,.12);
+
+  box-shadow:
+    0 4px 10px rgba(0,0,0,.08),
+    inset 0 1px 0 rgba(255,255,255,.9);
+}
+
+body.theme-light #btnClearFilters:active{
+  background:rgba(239,68,68,.12);
+
+  box-shadow:
+    0 0 0 3px rgba(239,68,68,.12),
+    0 6px 16px rgba(0,0,0,.10);
+}
+  /* =========================
+   CART BAR — VACIAR (LIGHT FIX)
+   ========================= */
+
+body.theme-light .cartInner{
+  background:rgba(255,255,255,.92);
+  border:1px solid rgba(0,0,0,.08);
+}
+
+body.theme-light .cartLeft b{
+  color:#0f172a;
+}
+
+body.theme-light .cartLeft div{
+  color:#64748b;
+}
+
+/* Botón Vaciar */
+body.theme-light #btnEmpty{
+  background:#f1f5f9;
+  color:#0f172a;
+  border:1px solid rgba(0,0,0,.12);
+}
+
+/* activo */
+body.theme-light #btnEmpty:active{
+  background:rgba(239,68,68,.15); /* leve rojo */
+  box-shadow:0 0 0 2px rgba(239,68,68,.15);
+}
+/* BOTÓN ACTIVO */
+body.theme-light .btn:active{
+  background:rgba(245,158,11,.15);
+}
+
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  -webkit-tap-highlight-color: transparent;
+}
+
+a, button, .imgBox, .card{
+  -webkit-tap-highlight-color: transparent;
+}
+
+.top{
+  background:linear-gradient(180deg,var(--panel),transparent 85%);
+  border-bottom:1px solid var(--stroke);
+}
+
+.appShell{
+  width:min(calc(100% - (var(--shell-side) * 2)), var(--shell-max-mobile));
+  margin:0 auto;
+  padding:14px 0 28px;
+}
+
+.shellBlock{
+  width:100%;
+}
+
+/* =========================
+   FILA 1
+   ========================= */
+.row1{
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr);
+  gap:10px 12px;
+  align-items:start;
+}
+
+.brandLeft{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-width:0;
+}
+
+.logo{
+  font-weight:900;
+  font-size:clamp(22px,7vw,32px);
+  letter-spacing:.2px;
+  line-height:1;
+  white-space:nowrap;
+}
+
+.social{
+  display:flex;
+  gap:6px;
+  align-items:center;
+  flex-shrink:0;
+}
+
+.iconBtn{
+  width:30px;
+  height:30px;
+  border-radius:999px;
+  border:1px solid var(--stroke);
+  background:rgba(255,255,255,.06);
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  color:var(--text);
+  transition:transform .12s ease, background .12s ease, box-shadow .12s ease, border-color .12s ease;
+}
+/* =========================
+   BOTÓN PVL (PASO 9.2 — VISUAL PRO)
+   ========================= */
+#btnPVL{
+  width:auto;                 /* rompe el ancho fijo heredado de .iconBtn */
+  min-width:78px;
+  height:40px;                /* tamaño real tipo pill */
+  padding:0 12px;
+
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+
+  flex:0 0 auto;
+  white-space:nowrap;
+
+  border-radius:999px;
+  border:1px solid var(--stroke);
+  background:rgba(255,255,255,.06);
+  color:var(--text);
+
+  font-size:12px;
+  font-weight:800;
+  line-height:1;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.05),
+    0 4px 12px rgba(0,0,0,.16);
+
+  transition:
+    transform .12s ease,
+    background .12s ease,
+    box-shadow .12s ease,
+    border-color .12s ease,
+    filter .12s ease;
+}
+
+#btnPVL:active{
+  transform:scale(.96);
+  background:rgba(245,158,11,.18);
+  box-shadow:
+    0 0 0 3px rgba(245,158,11,.22),
+    0 8px 20px rgba(245,158,11,.18);
+}
+  /* =========================
+   BOTÓN PVL — ESTADO ACTIVO
+   ========================= */
+#btnPVL.active{
+  background:linear-gradient(135deg,#f59e0b,#fbbf24);
+  color:#111;
+  border-color:rgba(0,0,0,.2);
+
+  box-shadow:
+    0 0 0 3px rgba(245,158,11,.25),
+    0 10px 25px rgba(245,158,11,.35);
+
+  transform:translateY(-1px);
+}
+
+/* efecto brillo suave */
+#btnPVL.active span{
+  text-shadow:0 0 6px rgba(255,200,0,.6);
+}
+body.theme-light #btnPVL.active{
+  background:linear-gradient(135deg,#f59e0b,#fcd34d);
+  color:#111;
+  border-color:rgba(0,0,0,.15);
+
+  box-shadow:
+    0 6px 16px rgba(245,158,11,.25),
+    0 0 0 3px rgba(245,158,11,.18);
+}
+  /* =========================
+   LIMPIAR FILTROS — ACTIVO LIGHT
+   ========================= */
+body.theme-light #btnClearFilters.active{
+  background:linear-gradient(135deg,#f59e0b,#fcd34d);
+  color:#111;
+
+  border-color:rgba(0,0,0,.15);
+
+  box-shadow:
+    0 6px 16px rgba(245,158,11,.25),
+    0 0 0 3px rgba(245,158,11,.18);
+
+  transform:translateY(-1px);
+}
+
+
+/* =========================
+   BOTÓN PVL — LIGHT MODE
+   ========================= */
+body.theme-light #btnPVL{
+  background:#ffffff;
+  border:1px solid rgba(0,0,0,.10);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.9),
+    0 4px 10px rgba(0,0,0,.08);
+}
+
+body.theme-light #btnPVL:active{
+  background:rgba(245,158,11,.15);
+  box-shadow:
+    0 0 0 3px rgba(245,158,11,.18),
+    0 6px 16px rgba(245,158,11,.12);
+}
+
+
+.iconBtn svg{
+  width:15px;
+  height:15px;
+  opacity:.95;
+}
+
+.iconBtn:active{
+  transform:scale(.92);
+  box-shadow:0 0 0 3px rgba(245,158,11,.3), 0 6px 18px rgba(245,158,11,.25);
+}
+
+.addr{
+  min-width:0;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.3;
+  align-self:center;
+}
+/* FILA 2 - dirección en línea adaptable */
+.addrLine{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px 10px;
+  font-size:11px;
+  color:var(--muted);
+  line-height:1.3;
+}
+
+.addrLine a{
+  color:#3b82f6;
+  text-decoration:underline;
+  white-space:nowrap;
+}
+.addr a{
+  color:#3b82f6;
+  text-decoration:underline;
+}
+
+/* =========================
+   FILA 2
+   ========================= */
+.row2{
+  margin-top:12px;
+  display:grid;
+  grid-template-columns:auto auto minmax(0,1fr);
+  gap:8px;
+  align-items:center;
+}
+
+.titleBox{
+  min-width:0;
+
+  /* 👇 CLAVE */
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.titleBox h1{
+  margin:0;
+  font-size:clamp(17px,5.2vw,24px);
+  font-weight:900;
+  line-height:1.1;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.monthBtn{
+  min-width:64px;
+  justify-content:center;
+  font-weight:900;
+}
+  /* =========================
+   FILA 3 - MES + TITULO
+   ========================= */
+.rowMonth{
+  margin-top:12px;
+  display:grid;
+
+  /* 👇 AHORA 3 COLUMNAS */
+  grid-template-columns:auto minmax(0,1fr) auto;
+
+  gap:10px;
+  align-items:center;
+}
+
+
+/* =========================
+   FILA 3
+   ========================= */
+.row3{
+  margin-top:12px;
+  display:grid;
+  grid-template-columns:minmax(0,1.25fr) repeat(3,minmax(0,.9fr));
+  gap:8px;
+  align-items:center;
+}
+  /* =========================
+   FILTROS (3 COLUMNAS)
+   ========================= */
+.row3Filters{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+}
+
+
+.inp, select{
+  width:100%;
+  min-width:0;
+  padding:10px 10px;
+  border-radius:14px;
+  border:1px solid var(--stroke);
+  background:var(--card);
+  color:var(--text);
+  outline:none;
+  font-size:12.5px;
+  line-height:1;
+}
+
+.inp::placeholder{
+  color:var(--muted);
+}
+
+select{
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* =========================
+   FILA 4
+   ========================= */
+.row4{
+  margin-top:10px;
+  display:flex;
+  justify-content:flex-start;
+}
+
+.legal{
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.25;
+  text-align:right;
+}
+
+/* =========================
+   FILA 5
+   ========================= */
+.row5{
+  margin-top:12px;
+}
+
+ /* =========================
+   TOTALES - GRID MODULAR
+   ========================= */
+.totBlock{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:12px;
+}
+
+.totItem{
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.03);
+  border-radius:14px;
+
+  padding:10px 12px;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  font-size:12px;
+  color:var(--muted);
+}
+
+.totItem b{
+  color:var(--text);
+  font-weight:900;
+}
+
+.totItemTotal{
+  grid-column:1 / 2;
+}
+
+.totItemWA{
+  grid-column:2 / 3;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0;
+}
+/* BOTÓN WHATSAPP PRO */
+.waBtn{
+  width:100%;
+  height:100%;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+
+  background:#22c55e;
+  color:#fff;
+
+  border-radius:16px;
+  text-decoration:none;
+
+  box-shadow:0 8px 22px rgba(34,197,94,.35);
+
+  padding:10px 8px;
+  gap:2px;
+}
+
+
+.waMain{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+
+  width:auto;              /* 👈 IMPORTANTE */
+  margin:0 auto;           /* 👈 CENTRA EL BLOQUE */
+
+  font-size:20px;
+  font-weight:900;
+}
+.waMain span{
+  font-size:20px;
+  font-weight:900;
+}
+
+/* WhatsApp botón - versión final PRO */
+
+.waIconReal{
+  width:32px;
+  height:32px;
+ 
+}
+
+.waIconCircle svg{
+  width:18px;
+  height:18px;
+}
+
+.waSub{
+  font-size:12px;
+  color:#043d1c;
+  font-weight:800;
+  margin-top:2px;
+}
+
+.waBtn:active{
+  transform:scale(.96);
+  box-shadow:0 5px 14px rgba(34,197,94,.25);
+}
+/* =========================
+   BOTONES / SWITCH
+   ========================= */
+.rightBtns{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+.btn{
+  border:1px solid var(--stroke);
+  background:rgba(255,255,255,.06);
+  color:var(--text);
+  padding:10px 12px;
+  border-radius:14px;
+  cursor:pointer;
+  font-size:12px;
+  transition:transform .12s ease, filter .12s ease, background .12s ease, box-shadow .12s ease, border-color .12s ease;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+}
+
+.btn:active{
+  transform:translateY(1px) scale(.98);
+  background:rgba(245,158,11,.18);
+  box-shadow:0 0 0 3px rgba(245,158,11,.25), 0 8px 20px rgba(245,158,11,.25);
+}
+
+.btn.primary{
+  background:var(--accent);
+  color:#111;
+  border-color:rgba(0,0,0,.15);
+  font-weight:800;
+  box-shadow:0 6px 16px rgba(245,158,11,.25);
+}
+
+.btn.primary:active{
+  box-shadow:0 0 0 3px rgba(245,158,11,.22), 0 10px 22px rgba(245,158,11,.18);
+}
+
+.themeSwitch{
+  display:flex;
+  align-items:center;
+  cursor:pointer;
+  padding:4px;
+  background:rgba(255,255,255,.04);
+  border-radius:999px;
+}
+
+.switchTrack{
+  position:relative;
+  width:72px;
+  height:32px;
+  border-radius:999px;
+  background:linear-gradient(135deg,#0f172a,#1e3a8a);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 8px;
+  box-shadow:0 6px 20px rgba(0,0,0,.35);
+}
+
+.switchTrack span{
+  font-size:14px;
+  z-index:2;
+}
+
+.switchKnob{
+  position:absolute;
+  width:26px;
+  height:26px;
+  border-radius:50%;
+  background:linear-gradient(145deg,#ffffff,#e5e7eb);
+  border:1px solid rgba(0,0,0,.15);
+  left:3px;
+  top:3px;
+  transition:all .25s ease;
+  box-shadow:0 4px 12px rgba(0,0,0,.4);
+}
+
+body.theme-light .switchTrack{
+  background:linear-gradient(135deg,#f59e0b,#fcd34d);
+  box-shadow:0 8px 20px rgba(0,0,0,.15);
+}
+
+body.theme-light .switchKnob{
+  left:43px;
+  box-shadow:0 4px 10px rgba(0,0,0,.25);
+}
+
+.moon{color:#fff}
+.sun{color:#fff}
+
+body:not(.theme-light) .moon{
+  text-shadow:0 0 10px rgba(255,255,255,.9), 0 0 20px rgba(255,255,255,.5);
+}
+
+body.theme-light .sun{
+  text-shadow:0 0 10px rgba(255,200,0,.9), 0 0 20px rgba(255,200,0,.6);
+}
+
+/* =========================
+   GRID / CARDS
+   ========================= */
+.products{
+  margin-top:16px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:14px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:18px;
+  padding:14px;
+  display:grid;
+  grid-template-columns:1fr;
+  gap:12px;
+  align-items:start;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+  transition:transform .12s ease;
+}
+
+body.theme-light .card{
+  border:1px solid rgba(0,0,0,.08);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.85);
+}
+
+.card.inCart{
+  border:1px solid rgba(245,158,11,.5);
+  box-shadow:0 0 0 2px rgba(245,158,11,.2), 0 10px 30px rgba(245,158,11,.2);
+}
+
+.card.inCart .badge{
+  border-color:rgba(245,158,11,.35);
+}
+
+.card:active{
+  transform:scale(.995);
+}
+
+.imgBox{
+  position:relative;
+  width:100%;
+  aspect-ratio:1 / 1;
+  border-radius:16px;
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--stroke);
+  overflow:hidden;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+}
+
+.imgBox:active{
+  transform:scale(.99);
+  border-color:rgba(245,158,11,.35);
+  box-shadow:0 0 0 3px rgba(245,158,11,.14);
+}
+
+.imgBox img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+}
+
+.stickerOff{
+  position:absolute;
+  top:10px;
+  left:10px;
+  background:#ef4444;
+  color:#fff;
+  font-weight:900;
+  font-size:12px;
+  padding:6px 10px;
+  border-radius:999px;
+  box-shadow:0 10px 22px rgba(239,68,68,.35);
+  border:1px solid rgba(255,255,255,.15);
+  z-index:3;
+}
+
+.cardInfo{
+  min-width:0;
+}
+
+.pTitle{
+  font-weight:900;
+  font-size:14px;
+  margin:0 0 4px;
+}
+
+.pDesc{
+  margin:0;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.3;
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:4;
+  overflow:hidden;
+}
+
+.prod-block{
+  margin-top:10px;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.prod-rubro{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:700;
+  border:1px solid var(--stroke);
+  background:rgba(255,255,255,.05);
+  width:max-content;
+  max-width:100%;
+}
+
+.prod-line{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  font-size:12px;
+  color:var(--muted);
+}
+
+.badge, .mini{
+  border:1px solid var(--stroke);
+  background:rgba(255,255,255,.06);
+  padding:4px 8px;
+  border-radius:999px;
+  color:var(--muted);
+  font-weight:700;
+  transition:all .2s ease;
+}
+
+.badge b{color:var(--text)}
+.badge.stock-good b{color:var(--good)}
+.badge.stock-warn b{color:var(--warn)}
+.badge.stock-ing b{color:var(--ing)}
+.badge.stock-bad b{color:var(--bad)}
+
+.oldPrice{
+  color:var(--muted);
+  text-decoration:line-through;
+  font-size:12px;
+  margin-top:2px;
+}
+
+.netLabel{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:2px;
+}
+
+.priceBig{
+  font-size:18px;
+  font-weight:900;
+}
+
+  .priceConsultar{
+  color:#fbbf24; /* amarillo advertencia */
+  font-weight:900;
+}
+.prod-bottom{
+  margin-top:6px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.qty{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-shrink:0;
+}
+
+.qbtn{
+  width:40px;
+  height:40px;
+  border-radius:14px;
+  border:1px solid var(--stroke);
+  background:rgba(255,255,255,.06);
+  color:var(--text);
+  cursor:pointer;
+  font-size:20px;
+  line-height:1;
+  transition:transform .10s ease, background .12s ease, box-shadow .12s ease;
+}
+
+.qbtn:active{
+  transform:scale(.92);
+  background:rgba(245,158,11,.22);
+  box-shadow:0 0 0 3px rgba(245,158,11,.3), 0 6px 18px rgba(245,158,11,.25);
+}
+
+.qval{
+  width:30px;
+  text-align:center;
+  font-weight:900;
+}
+
+/* =========================
+   CART BAR
+   ========================= */
+.cartBar{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  padding:10px 10px 12px;
+  background:linear-gradient(180deg,transparent,rgba(0,0,0,.65));
+  z-index:40;
+}
+
+.cartInner{
+  width:min(calc(100% - 6px), var(--shell-max-mobile));
+  margin:0 auto;
+  border:1px solid var(--stroke);
+  background:rgba(7,11,20,.92);
+  border-radius:16px;
+  padding:10px 12px;
+  display:none;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.cartLeft b{font-size:13px}
+.cartLeft div{font-size:12px;color:var(--muted)}
+.cartRight{display:flex;gap:8px;flex-wrap:wrap}
+
+/* =========================
+   MODAL
+   ========================= */
+.modal{
+  position:fixed;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,.75);
+  z-index:100;
+  padding:14px;
+}
+
+.modalBox{
+  width:min(920px,96vw);
+  height:min(650px,86vh);
+  border:1px solid rgba(255,255,255,.12);
+  background:#050a14;
+  border-radius:18px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+
+  /* =========================
+   MODAL — LIGHT MODE FIX (PASO 2)
+   ========================= */
+
+/* Fondo del overlay (menos agresivo) */
+body.theme-light .modal{
+  background:rgba(15,23,42,.35); /* gris azulado suave en vez de negro */
+}
+
+/* Caja del modal */
+body.theme-light .modalBox{
+  background:#ffffff;
+
+  border:1px solid rgba(0,0,0,.10);
+
+  /* profundidad elegante */
+  box-shadow:0 20px 50px rgba(0,0,0,.25);
+}
+
+/* Header del modal */
+body.theme-light .modalTop{
+  border-bottom:1px solid rgba(0,0,0,.08);
+}
+
+/* Botón cerrar */
+body.theme-light .modalTop button{
+  background:#f1f5f9;
+  color:#0f172a;
+  border:1px solid rgba(0,0,0,.10);
+}
+
+/* Zona de imagen */
+body.theme-light .modalBody{
+  background:#f8fafc; /* 👈 clave: espacio limpio para imagen */
+}
+
+/* Flechas navegación */
+body.theme-light .nav{
+  background:#ffffff;
+  border:1px solid rgba(0,0,0,.15);
+
+  box-shadow:0 6px 14px rgba(0,0,0,.15);
+}
+  
+.modalTop{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:10px 12px;
+  border-bottom:1px solid rgba(255,255,255,.12);
+}
+
+.modalTop button{
+  padding:8px 12px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.25);
+  background:rgba(255,255,255,.10);
+  color:#fff;
+  cursor:pointer;
+  font-weight:700;
+  transition:all .15s ease;
+}
+
+.modalTop button:active{
+  transform:scale(.96);
+  background:rgba(245,158,11,.25);
+  box-shadow:0 0 0 3px rgba(245,158,11,.25);
+}
+
+.modalBody{
+  flex:1;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#030611;
+  overflow:hidden;
+}
+
+.modalBody img{
+  max-width:90%;
+  max-height:85%;
+  object-fit:contain;
+  object-position:center;
+}
+
+.nav{
+  position:absolute;
+  top:65%;
+  transform:translateY(-50%);
+  width:52px;
+  height:52px;
+  border-radius:999px;
+  background:#ffffff;
+  color:#000;
+  border:2px solid #000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:26px;
+  font-weight:900;
+  cursor:pointer;
+  z-index:3;
+  box-shadow:0 10px 25px rgba(0,0,0,.4);
+  transition:transform .12s ease, box-shadow .12s ease, filter .12s ease;
+}
+
+.nav:active{
+  transform:translateY(-50%) scale(.92);
+  filter:brightness(1.05);
+  box-shadow:0 10px 25px rgba(0,0,0,.45), 0 0 0 3px rgba(245,158,11,.18);
+}
+
+.nav.left{left:10px}
+.nav.right{right:10px}
+
+.dots{
+  position:absolute;
+  bottom:10px;
+  left:0;
+  right:0;
+  display:flex;
+  justify-content:center;
+  gap:6px;
+}
+
+.dot{
+  width:7px;
+  height:7px;
+  border-radius:999px;
+  background:rgba(255,255,255,.25);
+}
+
+.dot.on{
+  background:rgba(245,158,11,.95);
+}
+
+  /* =========================
+   MODAL — DOTS LIGHT FIX (PASO 2.1)
+   ========================= */
+
+body.theme-light .dot{
+  background:rgba(0,0,0,.25); /* gris visible sobre fondo claro */
+}
+
+body.theme-light .dot.on{
+  background:var(--accent); /* mantiene el naranja activo */
+  box-shadow:0 0 0 2px rgba(245,158,11,.25); /* leve glow pro */
+}
+
+/* =========================
+   SPLASH
+   ========================= */
+#splash{
+  position:fixed;
+  inset:0;
+  background:#050a14;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+  animation:splashOut .5s ease forwards;
+  animation-delay:1s;
+}
+
+@keyframes splashOut{
+  to{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+  }
+}
+
+.splashBox{text-align:center}
+.splashLogo{
+  font-size:56px;
+  font-weight:900;
+  color:#f59e0b;
+  letter-spacing:1px;
+  text-shadow:0 0 20px rgba(245,158,11,.5);
+}
+.splashText{
+  margin-top:10px;
+  color:#9db0d4;
+  font-size:14px;
+}
+
+/* =========================
+   HOVERS SOLO MOUSE
+   ========================= */
+@media (hover:hover){
+  .btn:hover{
+    filter:brightness(1.1);
+    transform:translateY(-1px);
+    box-shadow:0 6px 16px rgba(0,0,0,.25);
+  }
+
+  .iconBtn:hover{
+    transform:scale(1.1);
+    background:rgba(255,255,255,.15);
+  }
+
+  .qbtn:hover{
+    background:var(--accent);
+    color:#111;
+    border-color:rgba(245,158,11,.6);
+    box-shadow:0 6px 18px rgba(245,158,11,.35);
+    transform:translateY(-1px);
+  }
+}
+
+/* =========================
+   MICRO AJUSTES TELÉFONOS CHICOS
+   ========================= */
+@media (max-width: 380px){
+  :root{
+    --shell-side: 10px;
+  }
+
+  .row1{
+    gap:8px 10px;
+  }
+
+  .logo{
+    font-size:clamp(20px,6.6vw,28px);
+  }
+
+  .addr{
+    font-size:10.5px;
+  }
+
+  .row2{
+    gap:6px;
+  }
+
+  .titleBox h1{
+    font-size:16px;
+  }
+
+  .monthBtn{
+    min-width:58px;
+  }
+
+  .row3{
+    gap:6px;
+  }
+
+  .inp, select{
+    padding:9px 8px;
+    font-size:11.5px;
+    border-radius:12px;
+  }
+
+  .legal{
+    font-size:10px;
+  }
+
+  .totals{
+    padding:10px;
+    gap:8px;
+  }
+
+  .totalList{
+    gap:6px 10px;
+    font-size:11px;
+  }
+
+  .btn{
+    padding:9px 10px;
+    font-size:11.5px;
+  }
+}
+
+/* =========================
+   DESKTOP BÁSICO (sin premium todavía)
+   ========================= */
+@media (min-width: 768px){
+  .appShell{
+    width:min(calc(100% - 36px), var(--shell-max-desktop));
+    padding-top:18px;
+    padding-bottom:36px;
+  }
+
+  .row1{
+    grid-template-columns:auto minmax(0,1fr);
+    gap:12px 18px;
+  }
+
+  .logo{
+    font-size:52px;
+  }
+
+  .iconBtn{
+    width:38px;
+    height:38px;
+  }
+
+  .iconBtn svg{
+    width:18px;
+    height:18px;
+  }
+
+  .addr{
+    font-size:17px;
+    line-height:1.35;
+  }
+
+  .row2{
+    margin-top:16px;
+    grid-template-columns:auto auto minmax(0,1fr);
+    gap:12px;
+  }
+
+  .titleBox h1{
+    font-size:20px;
+  }
+
+  .row3{
+    margin-top:14px;
+    grid-template-columns:minmax(280px,1.35fr) repeat(3,minmax(150px,1fr));
+    gap:10px;
+  }
+
+  .inp, select{
+    min-height:50px;
+    font-size:14px;
+    padding:12px 14px;
+  }
+
+  .row4{
+    margin-top:12px;
+  }
+
+  .legal{
+    font-size:14px;
+  }
+
+  .row5{
+    margin-top:14px;
+  }
+
+  .totals{
+    padding:14px 16px;
+    grid-template-columns:minmax(0,1fr) auto;
+  }
+
+  .totalList{
+    gap:10px 18px;
+    font-size:14px;
+  }
+
+  .grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:18px;
+  }
+
+  .products{
+    margin-top:20px;
+  }
+
+  .cartInner{
+    width:min(calc(100% - 20px), var(--shell-max-desktop));
+  }
+}
+
+/* Redes activas */
+.iconBtn[href*="facebook"]:active{
+  background:#1877f2;
+  color:#fff;
+}
+
+.iconBtn[href*="instagram"]:active{
+  background:linear-gradient(45deg,#f58529,#dd2a7b,#8134af,#515bd4);
+  color:#fff;
+}
+
+.iconBtn[href*="youtube"]:active{
+  background:#ff0000;
+  color:#fff;
+}
+/* =========================
+   BOTON LIMPIAR FILTROS — PRO
+   ========================= */
+#btnClearFilters{
+  background:linear-gradient(135deg,#1f2937,#111827);
+  border:1px solid rgba(255,255,255,.12);
+
+  font-weight:800;
+  letter-spacing:.2px;
+
+  padding:10px 14px;
+
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+
+  border-radius:999px;
+
+  box-shadow:
+    0 6px 18px rgba(0,0,0,.35),
+    inset 0 1px 0 rgba(255,255,255,.06);
+}
+
+  #btnClearFilters.active{
+  background:linear-gradient(135deg,#f59e0b,#fbbf24);
+  color:#111;
+  border-color:rgba(0,0,0,.2);
+
+  box-shadow:
+    0 0 0 3px rgba(245,158,11,.25),
+    0 10px 25px rgba(245,158,11,.35);
+
+  transform:translateY(-1px);
+}
+#btnClearFilters:active{
+  transform:scale(.96);
+  background:rgba(239,68,68,.18);
+
+  box-shadow:
+    0 0 0 3px rgba(239,68,68,.2),
+    0 8px 20px rgba(0,0,0,.25);
+}
+  /* =========================/* =================ROS ACTIVOS — GLOBAL
+   ========================= */
+.inp.active,
+select.active{
+  border-color:rgba(245,158,11,.7);
+
+  box-shadow:
+    0 0 0 2px rgba(245,158,11,.25);
+
+  background:rgba(245,158,11,.08);
+}
+
+/* =========================
+   FILTROS ACTIVOS — LIGHT MODE
+   ========================= */
+body.theme-light .inp.active,
+body.theme-light select.active{
+  border-color:#f59e0b;
+
+  box-shadow:
+    0 0 0 2px rgba(245,158,11,.25);
+
+  background:rgba(245,158,11,.12);
+}
+  /* =========================
+   FIX SELECT DROPDOWN (DESKTOP)
+   ========================= */
+select{
+  color:var(--text);
+}
+
+/* opciones del dropdown */
+select option{
+  color:#111;            /* texto negro siempre */
+  background:#fff;       /* fondo blanco limpio */
+}
+
+/* cuando está seleccionado */
+select option:checked{
+  background:#3b82f6;
+  color:#fff;
+}
+/* =========================
+   BUSCAR FULL WIDTH
+   ========================= */
+.row3Search{
+  grid-template-columns:1fr;
+}
+/* =========================
+   FILTROS ACTIVOS — MODO BOTON (DARK)
+   ========================= */
+.inp.active,
+select.active{
+
+  background:linear-gradient(135deg,#f59e0b,#fbbf24);
+  color:#111;
+
+  border-color:rgba(0,0,0,.2);
+
+  box-shadow:
+    0 0 0 3px rgba(245,158,11,.25),
+    0 10px 25px rgba(245,158,11,.35);
+
+  transform:translateY(-1px);
+}
+
+/* texto dentro */
+.inp.active::placeholder{
+  color:#333;
+}
+
+/* =========================
+   FILTROS ACTIVOS — LIGHT
+   ========================= */
+body.theme-light .inp.active,
+body.theme-light select.active{
+
+  background:linear-gradient(135deg,#f59e0b,#fcd34d);
+  color:#111;
+
+  border-color:rgba(0,0,0,.15);
+
+  box-shadow:
+    0 6px 16px rgba(245,158,11,.25),
+    0 0 0 3px rgba(245,158,11,.18);
+
+  transform:translateY(-1px);
+}
+  /* =========================
+   BADGE NUEVO INGRESO
+   ========================= */
+.badgeNew{
+  margin-left:8px;
+
+  font-size:11px;
+  font-weight:900;
+
+  padding:4px 8px;
+  border-radius:999px;
+
+  background:linear-gradient(135deg,#f59e0b,#fbbf24);
+  color:#111;
+
+  box-shadow:
+    0 4px 10px rgba(245,158,11,.35);
+}
+  /* =========================
+   TEXTO NUEVOS INGRESOS
+   ========================= */
+.newIngresoTxt{
+  margin-top:6px;
+
+  font-size:12px;
+  font-weight:900;
+
+  color:#f59e0b;
+
+  display:none;
+}
+  /* =========================
+   BOTONES SUPERIORES (NUEVOS + LIMPIAR)
+   ========================= */
+.rowBtnsTop{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+
+/* botón nuevos ingresos */
+#btnNewIngresos{
+  display:none;
+
+  background:linear-gradient(135deg,#f59e0b,#fbbf24);
+  color:#111;
+
+  border:1px solid rgba(0,0,0,.2);
+
+  font-weight:900;
+
+  box-shadow:
+    0 0 0 3px rgba(245,158,11,.25),
+    0 10px 25px rgba(245,158,11,.35);
+}
+/* =========================
+   BOTON NUEVOS INGRESOS — ACTIVO
+   ========================= */
+#btnNewIngresos.active{
+  background:linear-gradient(135deg,#f97316,#facc15);
+  color:#111;
+
+  border-color:rgba(0,0,0,.22);
+
+  box-shadow:
+    0 0 0 3px rgba(249,115,22,.28),
+    0 12px 28px rgba(249,115,22,.38);
+
+  transform:translateY(-1px);
+}
+
+body.theme-light #btnNewIngresos.active{
+  background:linear-gradient(135deg,#f97316,#fcd34d);
+  color:#111;
+
+  border-color:rgba(0,0,0,.16);
+
+  box-shadow:
+    0 6px 16px rgba(249,115,22,.26),
+    0 0 0 3px rgba(249,115,22,.18);
+}
+  
+</style>
+</head>
+
+<body>
+  <div id="splash">
+    <div class="splashBox">
+      <div class="splashLogo">tm</div>
+      <div class="splashText">Todomusica</div>
+    </div>
+  </div>
+
+  <div class="top">
+    <div class="appShell">
+
+   <!-- FILA 1 - Logo + redes + theme -->
+<div class="shellBlock row1">
+
+  <div class="brandLeft">
+    <div class="logo">todomusica</div>
+
+    <div class="social">
+      <a class="iconBtn" target="_blank" rel="noopener" href="https://www.facebook.com/people/Todomusica-SA/100064115318334/">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.4h-1.2c-1.2 0-1.6.8-1.6 1.5V12h2.7l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"/></svg>
+      </a>
+      <a class="iconBtn" target="_blank" rel="noopener" href="https://www.instagram.com/todomusicasa/">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3zm-5 3.5A4.5 4.5 0 1 1 7.5 12 4.5 4.5 0 0 1 12 7.5zm0 2A2.5 2.5 0 1 0 14.5 12 2.5 2.5 0 0 0 12 9.5zm5.2-2.2a1 1 0 1 1-1 1 1 1 0 0 1 1-1z"/></svg>
+      </a>
+      <a class="iconBtn" target="_blank" rel="noopener" href="https://www.youtube.com/@TodomusicaS.A">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.6 7.2a3 3 0 0 0-2.1-2.1C17.7 4.6 12 4.6 12 4.6s-5.7 0-7.5.5A3 3 0 0 0 2.4 7.2 31 31 0 0 0 2 12a31 31 0 0 0 .4 4.8 3 3 0 0 0 2.1 2.1c1.8.5 7.5.5 7.5.5s5.7 0 7.5-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 22 12a31 31 0 0 0-.4-4.8zM10 15.5v-7l6 3.5-6 3.5z"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="rightBtns">
+    <div class="themeSwitch" id="btnTheme">
+      <div class="switchTrack">
+        <span class="moon">🌙</span>
+        <span class="sun">☀️</span>
+        <div class="switchKnob"></div>
+      </div>
+    </div>
+  </div>
+
+</div>   
+   <!-- FILA 2 - Dirección (inline adaptativa) -->
+<div class="shellBlock row2addr">
+  <div class="addrLine">
+    <span>Av. Martin Garcia 463 | CABA</span>
+    <span>Tel. +54 9 (11) 5565-7500</span>
+    <a href="https://todomusica.com.ar/" target="_blank">www.todomusica.com.ar</a>
+  </div>
+</div>
+<!-- FILA MES / TITULO / PVL -->
+<div class="shellBlock rowMonth">
+
+  <select class="inp monthBtn" id="selMonth"></select>
+
+  <div class="titleBox">
+    <h1 id="ttl">Ingresos de Mayo</h1>
+
+    <button class="iconBtn" id="btnPVL" title="Cambiar vista (PVC / PVL)">
+      👁 <span id="lblPVL">PVC</span>
+    </button>
+  </div>
+
+</div>
+
+<!-- NUEVA FILA — LIMPIAR FILTROS -->
+<div class="shellBlock row4 rowBtnsTop">
+
+  <button class="btn" id="btnNewIngresos">
+    🔥 Nuevos ingresos
+  </button>
+
+  <button class="btn" id="btnClearFilters">
+    🧹 Limpiar filtros
+  </button>
+
+</div>
+
+
+<!-- NUEVA FILA — BUSCAR SOLO -->
+<div class="shellBlock row3 row3Search">
+  <input class="inp" id="q" placeholder="Buscar..." />
+</div>
+
+<!-- NUEVA FILA — FILTROS -->
+<div class="shellBlock row3 row3Filters">
+  <select id="fMarca">
+    <option value="">Marca</option>
+  </select>
+
+  <select id="fRubro">
+    <option value="">Rubro</option>
+  </select>
+
+  <select id="fStk">
+    <option value="">Stock</option>
+    <option value=">10">&gt;10</option>
+    <option value="<10">&lt;10</option>
+    <option value="INGRESANDO">Ingresando</option>
+  </select>
+</div>
+<!-- TOTALES -->
+<div class="totBlock">
+
+  <div class="totItem">
+    <span>Ítems</span>
+    <b id="it">0</b>
+  </div>
+
+  <div class="totItem">
+    <span>Subtotal.</span>
+    <b id="sub">$0</b>
+  </div>
+
+  <div class="totItem">
+    <span>IVA</span>
+    <b id="iva">$0</b>
+  </div>
+
+  <div class="totItem">
+    <span>Imp. Int.</span>
+    <b id="ii">$0</b>
+  </div>
+
+  <div class="totItem totItemTotal">
+    <span>Total + imp.</span>
+    <b id="tot">$0</b>
+  </div>
+
+  <div class="totItem totItemWA">
+    <a class="waBtn" id="wa" href="#" target="_blank">
+
+      <div class="waMain">
+        <svg viewBox="0 0 32 32" fill="none" stroke="#fff" stroke-width="2.4" class="waIconReal">
+          <path d="M16 3C9.4 3 4 8.4 4 15c0 2.5.8 4.9 2.2 6.9L4.5 28l6.3-1.6C12.7 27.5 14.3 28 16 28c6.6 0 12-5.4 12-12S22.6 3 16 3z"/>
+          <path d="M12 11c.3-.6.6-.6 1-.6h.8c.2 0 .5.1.6.4l1.2 2.9c.1.3.1.5-.1.7l-.6.7c-.2.2-.2.4-.1.6.4.8 1.2 1.8 2 2.5.8.7 1.6 1.1 2.2 1.3.3.1.4 0 .6-.1l.8-1c.2-.2.4-.3.7-.2l2.8 1.3c.2.1.4.4.3.6-.2.9-.9 2-2.2 2.3-.7.2-1.6.2-2.6-.2-1.6-.6-3.7-2.1-5.3-3.8-1.5-1.7-2.5-3.5-2.9-5-.3-1.1-.1-2 .2-2.6z"/>
+        </svg>
+
+        <span>WhatsApp</span>
+      </div>
+
+      <div class="waSub">
+        <strong>Enviar pedido</strong>
+      </div>
+
+    </a>
+  </div>
+
+</div>
+
+<!-- NUEVA FILA — LEYENDA ABAJO -->
+<div class="shellBlock row4">
+  <div class="legal">
+    Los precios están sujetos a modificaciones sin previo aviso
+  </div>
+</div>
+      <!-- PRODUCTOS -->
+      <div class="shellBlock products">
+        <div class="grid" id="grid"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="cartBar">
+    <div class="cartInner" id="cart">
+      <div class="cartLeft">
+        <b id="cIt">0 ítems</b>
+        <div id="cTot">Total: $0</div>
+      </div>
+      <div class="cartRight">
+        <button class="btn" id="btnEmpty">Vaciar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="modal">
+    <div class="modalBox">
+      <div class="modalTop">
+        <b id="mT">Producto</b>
+        <button id="mX">Cerrar ✕</button>
+      </div>
+      <div class="modalBody">
+        <button class="nav left" id="mL">‹</button>
+        <img id="mI" alt="Imagen producto">
+        <button class="nav right" id="mR">›</button>
+        <div class="dots" id="dots"></div>
+      </div>
+    </div>
+  </div>
+
+<script>
+/* =========================
+   MES — CONFIG (PASO 3.1)
+   ========================= */
+
+const MONTHS = [
+  { name: "Mayo",  file: "ingresostm_mayo.csv" },
+  { name: "Junio", file: "ingresostm_junio.csv" }
+];
+
+let currentMonthIndex = 1; // arranca en Junio
+const PLACE = "data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='640' height='480'><rect width='100%' height='100%' fill='#0b1220'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='26' fill='#9db0d4'>Sin imagen</text></svg>`);
+
+const CART = new Map();
+let ALL = [], VIEW = [];
+const MONTH_DATA = {};
+
+/* =========================
+   CARTS GLOBAL POR MES (PASO 13)
+   ========================= */
+let ALL_CARTS = JSON.parse(localStorage.getItem("tm_carts") || "{}");
+
+function monthKeyByIndex(i){
+  return MONTHS[i]?.file || String(i);
+}
+
+function currentMonthKey(){
+  return monthKeyByIndex(currentMonthIndex);
+}
+  async function getMonthData(i){
+  const key = monthKeyByIndex(i);
+
+  if(MONTH_DATA[key]){
+    return MONTH_DATA[key];
+  }
+
+  const file = MONTHS[i].file;
+  const t = await fetch(file + "?cb=" + Date.now()).then(r => r.text());
+
+  const first = t.split(/\r?\n/)[0] || "";
+  const delim = first.includes(";") ? ";" : ",";
+  const data = rowsToObj(parseCSV(t, delim));
+
+  MONTH_DATA[key] = data;
+  return data;
+}
+
+
+function saveCurrentMonthCart(){
+  ALL_CARTS[currentMonthKey()] = [...CART];
+  localStorage.setItem("tm_carts", JSON.stringify(ALL_CARTS));
+}
+
+  /* =========================
+   MODO PVL (PASO 10)
+   ========================= */
+let modoPVL = false;
+  let filtroNuevosIngresos = false;
+
+function num(v){
+  if(v==null) return NaN;
+  let s=String(v).replace(/\r/g,'').trim();
+  if(!s) return NaN;
+  s=s.replace(/\$/g,'').replace(/\s+/g,'');
+  const lc=s.lastIndexOf(','), ld=s.lastIndexOf('.');
+  if(lc>-1 && ld>-1){
+    s = (lc>ld) ? s.replace(/\./g,'').replace(',','.') : s.replace(/,/g,'');
+  }else if(lc>-1 && ld===-1){
+    s=s.replace(',','.');
+  }
+  const n=Number(s);
+  return Number.isFinite(n) ? n : NaN;
+}
+
+function pct(v){
+  let n=num(v);
+  if(!Number.isFinite(n)) return 0;
+  if(n>1) n=n/100;
+  return n;
+}
+
+function ars(n){
+  return "$"+n.toLocaleString("es-AR",{minimumFractionDigits:2,maximumFractionDigits:2});
+}
+
+function parseCSV(text, d){
+  const rows=[]; let row=[]; let f=""; let q=false;
+  for(let i=0;i<text.length;i++){
+    const c=text[i], nx=text[i+1];
+    if(q){
+      if(c=='"' && nx=='"'){ f+='"'; i++; }
+      else if(c=='"'){ q=false; }
+      else f+=c;
+    }else{
+      if(c=='"') q=true;
+      else if(c===d){ row.push(f); f=""; }
+      else if(c=="\n" || (c=="\r" && nx=="\n")){
+        row.push(f); rows.push(row); row=[]; f="";
+        if(c=="\r") i++;
+      }else f+=c;
+    }
+  }
+  if(f.length || row.length){
+    row.push(f);
+    rows.push(row);
+  }
+  return rows;
+}
+
+function rowsToObj(rows){
+  const h=rows[0].map(x=>x.replace(/^\uFEFF/,'').trim());
+  const out=[];
+  for(let i=1;i<rows.length;i++){
+    const r=rows[i];
+    if(!r || !r.length) continue;
+    const o={};
+    for(let j=0;j<h.length;j++) o[h[j]]=(r[j]??"").trim();
+    if(Object.values(o).some(x=>x!=="")) out.push(o);
+  }
+  return out;
+}
+
+function imgs(p){
+  const a=[p.IMAGEN_URL_1,p.IMAGEN_URL_2,p.IMAGEN_URL_3,p.IMAGEN_URL_4,p.IMAGEN_URL_5]
+    .map(x=>(x??"").trim())
+    .filter(Boolean);
+  return a.length ? a : [PLACE];
+}
+
+function stkNorm(v){
+  const s=String(v||"").replace(/\s+/g,'').toUpperCase();
+  if(s.includes("INGRES")) return "INGRESANDO";
+  if(s===">10") return ">10";
+  if(s==="<10" || s===" <10") return "<10";
+  return s || "";
+}
+/* =========================
+   MARCA + OP (PASO 8.1)
+   ========================= */
+
+/* arma el texto visible: "PRESONUS 5591" */
+function marcaOpLabel(p){
+  const marca = (p.MARCA || "").trim();
+  const op = String(p.OP || "").trim();
+
+  return op ? `${marca} ${op}` : marca;
+}
+
+/* devuelve OP como número para ordenar */
+function opNum(p){
+  const n = parseInt(String(p.OP || "").trim(), 10);
+  return Number.isFinite(n) ? n : 0;
+}
+  
+function pvcNeto(p){
+  const pvc = num(p.PVC);
+  const off = pct(p.OFF);
+
+  if(!Number.isFinite(pvc) || pvc === 0){
+    return null; // 👈 clave
+  }
+
+  return pvc * (1 - off);
+}
+function qty(p){
+  return CART.get(p.ARTICULO)?.q ?? 0;
+}
+
+function setQty(p, q){
+  q = Math.max(0, q|0);
+  const k = p.ARTICULO;
+  if(!k) return;
+
+  if(q === 0) CART.delete(k);
+  else CART.set(k, { q, p });
+
+  /* guardar solo el carrito del mes actual dentro del global */
+  saveCurrentMonthCart();
+
+  totals();
+  render();
+}
+
+function badgeStock(v){
+  const s=stkNorm(v);
+  if(s==="INGRESANDO") return `<span class="badge stock-ing"><b>INGRESANDO</b></span>`;
+  if(s===">10") return `<span class="badge stock-good">Stock: <b>&gt;10</b></span>`;
+  if(s==="<10") return `<span class="badge stock-warn">Stock: <b>&lt;10</b></span>`;
+  if(s==="0") return `<span class="badge stock-bad">Stock: <b>0</b></span>`;
+  return `<span class="badge">Stock: <b>${s||"—"}</b></span>`;
+}
+
+function card(p){
+  const marca   = p.MARCA || "";
+  const marcaOp = marcaOpLabel(p);
+  const art     = p.ARTICULO || "";
+  const desc    = p.DESCRIPCION || "";
+  const esNuevo = (p.NUEVO_INGRESO || "").trim().toUpperCase() === "SI";
+  const rub     = p.RUBRO || "";
+
+  const net = pvcNeto(p);
+  const off = pct(p.OFF);
+  const pvL = num(p.PVL);
+  const mk  = pct(p.MKUP);
+  const iva = pct(p.IVA);
+  const ii  = pct(p.II);
+
+  const q = qty(p);
+
+  /* en PVL no queremos resaltar carrito */
+  const inCart = (!modoPVL && q > 0) ? "inCart" : "";
+
+  const im = (p.IMAGEN_URL_1 || "").trim() || PLACE;
+
+  /* =========================
+     CARD — MODO PVL
+     ========================= */
+  if(modoPVL){
+    return `
+    <div class="card ${inCart}" data-k="${art}">
+      <div class="imgBox" data-z="1">
+        ${off > 0 ? `<div class="stickerOff">${Math.round(off*100)}% OFF</div>` : ``}
+        <img src="${im}" onerror="this.onerror=null;this.src='${PLACE}'">
+      </div>
+
+      <div class="cardInfo">
+        <div class="pTitle">
+  ${marcaOp} · ${art}
+  ${esNuevo ? '<span class="badgeNew">Nuevo 🔥</span>' : ''}
+</div>
+
+        <p class="pDesc">${desc}</p>
+
+        <div class="prod-block">
+          <div class="prod-rubro">${rub || "—"}</div>
+
+          <div class="prod-line">
+            ${badgeStock(p.STOCK_TXT)}
+          </div>
+
+          <div class="prod-bottom">
+            <div>
+              <div class="priceBig">
+  ${Number.isFinite(pvL) && pvL > 0 
+    ? ars(pvL) 
+    : '<span class="priceConsultar">Consultar</span>'}
+</div>
+<div class="netLabel">${Number.isFinite(pvL) && pvL > 0 ? "PVL sugerido" : ""}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  /* =========================
+     CARD — MODO PVC
+     ========================= */
+  return `
+  <div class="card ${inCart}" data-k="${art}">
+    <div class="imgBox" data-z="1">
+      ${off > 0 ? `<div class="stickerOff">${Math.round(off*100)}% OFF</div>` : ``}
+      <img src="${im}" onerror="this.onerror=null;this.src='${PLACE}'">
+    </div>
+
+    <div class="cardInfo">
+      <div class="pTitle">
+  ${marcaOp} · ${art}
+  ${esNuevo ? '<span class="badgeNew">Nuevo 🔥</span>' : ''}
+</div>
+      <p class="pDesc">${desc}</p>
+
+      <div class="prod-block">
+        <div class="prod-rubro">${rub || "—"}</div>
+
+        <div class="prod-line">
+          ${badgeStock(p.STOCK_TXT)}
+          <span class="mini">IVA ${(iva*100).toLocaleString("es-AR",{maximumFractionDigits:1})}%</span>
+          <span class="mini">II ${Math.round(ii*100)}%</span>
+        </div>
+
+        <div class="prod-line">
+          ${Number.isFinite(pvL) && pvL > 0 ? `<span class="mini">PVL ${ars(pvL)}</span>` : ""}
+          ${mk > 0 ? `<span class="mini">MKUP ${Math.round(mk*100)}%</span>` : ""}
+        </div>
+
+        <div class="prod-bottom">
+          <div>
+            ${off > 0 && net !== null ? `<div class="oldPrice">PVC: ${ars(num(p.PVC))}</div>` : ``}
+            <div class="priceBig">
+  ${net === null ? '<span class="priceConsultar">Consultar</span>' : ars(net)}
+</div>
+            <div class="netLabel">${net === null ? "" : "PVC Neto"}</div>
+          </div>
+
+          <div class="qty">
+            <button class="qbtn" data-a="d">–</button>
+            <div class="qval">${q}</div>
+            <button class="qbtn" data-a="i">+</button>
+          </div>
+        </div>
+</div>
+    </div>
+  </div>`;
+}
+  function applyFilters(data, q, m, r, s){
+  return data.filter(p => {
+
+    const esNuevoIngreso = (p.NUEVO_INGRESO || "").trim().toUpperCase() === "SI";
+
+    if(filtroNuevosIngresos && !esNuevoIngreso) return false;
+    if(m && marcaOpLabel(p) !== m) return false;
+    if(r && (p.RUBRO || "") !== r) return false;
+
+    if(s){
+      const st = stkNorm(p.STOCK_TXT);
+      if(st !== s) return false;
+    }
+
+    if(!q) return true;
+
+    const blob = [p.MARCA, p.ARTICULO, p.DESCRIPCION, p.RUBRO, p.OP]
+      .join(" ")
+      .toLowerCase();
+
+    return blob.includes(q);
+  });
+}
+  function updateNewIngresoBanner(){
+  const hasNew = ALL.some(p =>
+    (p.NUEVO_INGRESO || "").trim().toUpperCase() === "SI"
+  );
+
+  const el = document.getElementById("btnNewIngresos");
+
+  if(!el) return;
+
+  el.style.display = hasNew ? "inline-flex" : "none";
+}
+  function buildMarcaOptions(data){
+  const marcaMap = new Map();
+
+  data.forEach(x => {
+    const label = marcaOpLabel(x);
+    if(!label) return;
+
+    if(!marcaMap.has(label)){
+      marcaMap.set(label, {
+        label,
+        marca: (x.MARCA || "").trim(),
+        op: opNum(x)
+      });
+    }
+  });
+
+  return [...marcaMap.values()]
+    .sort((a,b) => {
+      const cmpMarca = a.marca.localeCompare(b.marca, "es", { sensitivity:"base" });
+      if(cmpMarca !== 0) return cmpMarca;
+      return a.op - b.op;
+    })
+    .map(x => x.label);
+}
+
+function buildRubroOptions(data){
+  return [...new Set(
+    data.map(x => (x.RUBRO || "").trim()).filter(Boolean)
+  )].sort((a,b) => a.localeCompare(b, "es", { sensitivity:"base" }));
+}
+
+function refillSelect(selectEl, placeholder, values, keepValue){
+  selectEl.innerHTML = `<option value="">${placeholder}</option>`;
+
+  values.forEach(v => {
+    const o = document.createElement("option");
+    o.value = v;
+    o.textContent = v;
+    selectEl.appendChild(o);
+  });
+
+  selectEl.value = values.includes(keepValue) ? keepValue : "";
+}
+
+function rebuildDependentFilters(){
+  const q = (document.getElementById("q").value || "").toLowerCase().trim();
+  let m = document.getElementById("fMarca").value;
+  let r = document.getElementById("fRubro").value;
+  const s = document.getElementById("fStk").value;
+
+  const fMarca = document.getElementById("fMarca");
+  const fRubro = document.getElementById("fRubro");
+
+  /* 1) validar marca contra el contexto actual (ignorando la propia marca) */
+  let marcas = buildMarcaOptions(
+    applyFilters(ALL, q, "", r, s)
+  );
+
+  if(!marcas.includes(m)){
+    m = "";
+  }
+
+  /* 2) validar rubro contra el contexto actual (ignorando el propio rubro) */
+  let rubros = buildRubroOptions(
+    applyFilters(ALL, q, m, "", s)
+  );
+
+  if(!rubros.includes(r)){
+    r = "";
+  }
+
+  /* 3) reconstrucción final ya con valores válidos */
+  marcas = buildMarcaOptions(
+    applyFilters(ALL, q, "", r, s)
+  );
+
+  rubros = buildRubroOptions(
+    applyFilters(ALL, q, m, "", s)
+  );
+
+  refillSelect(fMarca, "Marca", marcas, m);
+  refillSelect(fRubro, "Rubro", rubros, r);
+}
+function render(){
+  const g=document.getElementById("grid");
+  g.innerHTML = VIEW.map(card).join("");
+
+  g.querySelectorAll(".card").forEach(el=>{
+    const k=el.getAttribute("data-k");
+    const p=VIEW.find(x=>x.ARTICULO===k);
+    if(!p) return;
+
+    el.querySelectorAll("[data-a]").forEach(b=>{
+      b.onclick=()=>{
+        const act=b.getAttribute("data-a");
+        const cur=qty(p);
+        setQty(p, act==="i" ? cur+1 : cur-1);
+      };
+    });
+
+    const z=el.querySelector("[data-z]");
+    if(z) z.onclick=()=>openModal(p);
+  });
+}
+ async function apply(){
+
+  if(filtroNuevosIngresos && !ALL.some(p =>
+    (p.NUEVO_INGRESO || "").trim().toUpperCase() === "SI"
+  )){
+    filtroNuevosIngresos = false;
+  }
+
+  rebuildDependentFilters();
+  const q = (document.getElementById("q").value || "").toLowerCase().trim();
+  let m = document.getElementById("fMarca").value;
+  let r = document.getElementById("fRubro").value;
+  const s = document.getElementById("fStk").value;
+
+  let result = applyFilters(ALL, q, m, r, s);
+
+  /* -------------------------------------------------
+     SI HAY TEXTO Y NO ENCUENTRA EN EL MES ACTUAL,
+     BUSCAR EN LOS OTROS MESES Y CAMBIAR AUTOMÁTICAMENTE
+     ------------------------------------------------- */
+  if(q && result.length === 0){
+    for(let i = 0; i < MONTHS.length; i++){
+      if(i === currentMonthIndex) continue;
+
+      const altData = await getMonthData(i);
+      const altResult = applyFilters(altData, q, "", "", "");
+
+      if(altResult.length > 0){
+        currentMonthIndex = i;
+        await loadCSV();
+        return apply();
+      }
+    }
+  }
+
+  /* -------------------------------------------------
+     SI EL TEXTO ENCUENTRA UNA SOLA MARCA+OP,
+     REFLEJARLO TAMBIÉN EN EL SELECT DE MARCA
+     ------------------------------------------------- */
+  if(q && !m && result.length > 0){
+    const labels = [...new Set(result.map(x => marcaOpLabel(x)).filter(Boolean))];
+
+    if(labels.length === 1){
+      document.getElementById("fMarca").value = labels[0];
+
+      rebuildDependentFilters();
+
+      m = document.getElementById("fMarca").value;
+      r = document.getElementById("fRubro").value;
+
+      result = applyFilters(ALL, q, m, r, s);
+    }
+  }
+
+  VIEW = result;
+  render();
+  totals();
+
+  checkFiltersActive();
+}
+/* =========================
+   TOTALES GLOBALES + WHATSAPP POR MES (PASO 13 FIX)
+   ========================= */
+function totals(){
+  let sub = 0, iva = 0, ii = 0, items = 0;
+
+  ALL_CARTS = JSON.parse(localStorage.getItem("tm_carts") || "{}");
+
+  Object.values(ALL_CARTS).forEach(monthCart => {
+    (monthCart || []).forEach(([k, v]) => {
+      const p = v.p;
+      const q = v.q;
+
+      const net = pvcNeto(p);
+
+if(net !== null){
+  const line = net * q;
+
+  sub += line;
+  iva += line * pct(p.IVA);
+  ii  += line * pct(p.II);
+}
+
+      items += q;
+    });
+  });
+
+  const tot = sub + iva + ii;
+
+  document.getElementById("it").textContent  = String(items);
+  document.getElementById("sub").textContent = ars(sub);
+  document.getElementById("iva").textContent = ars(iva);
+  document.getElementById("ii").textContent  = ars(ii);
+  document.getElementById("tot").textContent = ars(tot);
+
+  const cart = document.getElementById("cart");
+  if(items > 0){
+    cart.style.display = "flex";
+    document.getElementById("cIt").textContent = `${items} ítems`;
+    document.getElementById("cTot").textContent = `Total: ${ars(tot)}`;
+  }else{
+    cart.style.display = "none";
+  }
+
+  const txt = buildWA(sub, iva, ii, tot);
+
+ const wa = document.getElementById("wa");
+  if(wa){
+    wa.href = items > 0
+      ? "https://wa.me/?text=" + encodeURIComponent(txt)
+      : "#";
+  }
+
+  updateNewIngresoBanner();
+}
+function buildWA(sub, iva, ii, tot){
+  const lines = [];
+  
+  
+
+  ALL_CARTS = JSON.parse(localStorage.getItem("tm_carts") || "{}");
+
+  MONTHS.forEach((m, i) => {
+    const key = monthKeyByIndex(i);
+    const monthCart = ALL_CARTS[key] || [];
+
+    if(!monthCart.length) return;
+
+    let mSub = 0;
+    let mIva = 0;
+    let mIi  = 0;
+
+    lines.push(`Pedido — Ingresos de ${m.name} (Todomusica)`);
+    lines.push("");
+
+    monthCart.forEach(([k, v]) => {
+      const p = v.p;
+      const q = v.q;
+     const net = pvcNeto(p);
+
+if(net === null){
+  lines.push(`${p.MARCA || ""}`);
+  lines.push(`${p.ARTICULO || ""}`);
+  lines.push(`Cant: ${q}`);
+  lines.push(`Consultar`);
+  lines.push("");
+  return;
+}
+
+const line = net * q;
+
+      mSub += line;
+      mIva += line * pct(p.IVA);
+      mIi  += line * pct(p.II);
+
+      lines.push(`${p.MARCA || ""}`);
+      lines.push(`${p.ARTICULO || ""}`);
+      lines.push(`Cant: ${q}`);
+      lines.push(`${ars(net)}`);
+      lines.push("");
+    });
+
+    const mTot = mSub + mIva + mIi;
+
+   
+lines.push(`Subtotal: ${ars(mSub)}`);
+lines.push(`IVA: ${ars(mIva)}`);
+lines.push(`Imp. Int: ${ars(mIi)}`);
+lines.push(`Total: ${ars(mTot)}`);
+    lines.push("");
+
+    lines.push("--------------------------------");
+    lines.push("");
+  });
+
+  /* total general */
+ lines.push(`SUBTOTAL GENERAL: ${ars(sub)}`);
+lines.push(`IVA: ${ars(iva)}`);
+lines.push(`IMP. INT: ${ars(ii)}`);
+lines.push(`TOTAL FINAL: ${ars(tot)}`);
+  lines.push("");
+
+  lines.push("Los precios están sujetos a modificaciones sin previo aviso");
+
+  return lines.join("\n");
+}
+  /* Modal */
+let M_P=null, M_A=[], M_I=0;
+
+function dots(){
+  const d=document.getElementById("dots");
+  d.innerHTML=M_A.map((_,i)=>`<div class="dot ${i===M_I?"on":""}"></div>`).join("");
+}
+
+function show(){
+  document.getElementById("mI").src=M_A[M_I]||PLACE;
+  dots();
+}
+
+function openModal(p){
+  M_P=p;
+  M_A=imgs(p);
+  M_I=0;
+  document.getElementById("mT").textContent=`${p.MARCA} · ${p.ARTICULO}`;
+  document.getElementById("modal").style.display="flex";
+  show();
+}
+
+function closeModal(){
+  document.getElementById("modal").style.display="none";
+}
+
+function next(){
+  M_I=(M_I+1)%M_A.length;
+  show();
+}
+
+function prev(){
+  M_I=(M_I-1+M_A.length)%M_A.length;
+  show();
+}
+
+document.getElementById("mX").onclick=closeModal;
+document.getElementById("modal").onclick=(e)=>{ if(e.target.id==="modal") closeModal(); }
+document.getElementById("mR").onclick=(e)=>{ e.stopPropagation(); next(); }
+document.getElementById("mL").onclick=(e)=>{ e.stopPropagation(); prev(); }
+
+/* Vaciar */
+document.getElementById("btnEmpty").onclick = () => {
+  CART.clear();
+  ALL_CARTS = {};
+  localStorage.removeItem("tm_carts");
+  totals();
+  render();
+};
+
+/* Load CSV */
+/* =========================
+   LOAD CSV POR MES (PASO 3.2)
+   ========================= */
+
+async function loadCSV(){
+  const prevMarca = document.getElementById("fMarca").value;
+  const prevRubro = document.getElementById("fRubro").value;
+  const prevStk   = document.getElementById("fStk").value;
+
+  try{
+    ALL = await getMonthData(currentMonthIndex);
+
+    /* =========================
+       FILTRO MARCA — MARCA + OP
+       ========================= */
+    const marcaMap = new Map();
+
+    ALL.forEach(x => {
+      const label = marcaOpLabel(x);
+      if(!label) return;
+
+      if(!marcaMap.has(label)){
+        marcaMap.set(label, {
+          label,
+          marca: (x.MARCA || "").trim(),
+          op: opNum(x)
+        });
+      }
+    });
+
+    const marcas = [...marcaMap.values()]
+      .sort((a,b) => {
+        const cmpMarca = a.marca.localeCompare(b.marca, "es", { sensitivity:"base" });
+        if(cmpMarca !== 0) return cmpMarca;
+        return a.op - b.op;
+      })
+      .map(x => x.label);
+
+    const rubros = [...new Set(ALL.map(x => (x.RUBRO || "").trim()).filter(Boolean))]
+      .sort((a,b) => a.localeCompare(b, "es", { sensitivity:"base" }));
+
+    const fMarca = document.getElementById("fMarca");
+    const fRubro = document.getElementById("fRubro");
+    const fStk   = document.getElementById("fStk");
+
+    fMarca.innerHTML = '<option value="">Marca</option>';
+    fRubro.innerHTML = '<option value="">Rubro</option>';
+
+    marcas.forEach(m => {
+      const o = document.createElement("option");
+      o.value = m;
+      o.textContent = m;
+      fMarca.appendChild(o);
+    });
+
+    rubros.forEach(r => {
+      const o = document.createElement("option");
+      o.value = r;
+      o.textContent = r;
+      fRubro.appendChild(o);
+    });
+
+    /* restaurar filtros si siguen existiendo en ese mes */
+    if(marcas.includes(prevMarca)){
+      fMarca.value = prevMarca;
+    }else{
+      fMarca.value = "";
+    }
+
+    if(rubros.includes(prevRubro)){
+      fRubro.value = prevRubro;
+    }else{
+      fRubro.value = "";
+    }
+
+    fStk.value = prevStk;
+
+    /* =========================
+       CART — REHIDRATAR MES ACTUAL
+       ========================= */
+    CART.clear();
+
+    ALL_CARTS = JSON.parse(localStorage.getItem("tm_carts") || "{}");
+    const savedMonthCart = ALL_CARTS[currentMonthKey()] || [];
+
+    savedMonthCart.forEach(([k, v]) => {
+      const existe = ALL.find(x => x.ARTICULO === k);
+      if(existe){
+        CART.set(k, { q: v.q, p: existe });
+      }
+    });
+
+    syncModoPVLUI();
+    updateMonthUI();
+
+    /* IMPORTANTE:
+       al cambiar de mes, volver a aplicar lo que ya está escrito/seleccionado */
+    await apply();
+
+  }catch(err){
+    alert("No pude leer el CSV del mes.");
+    console.error(err);
+  }
+}
+  /* =========================
+   MES — UI + SELECT (PASO 4.2)
+   ========================= */
+
+function updateMonthUI(){
+  const m = MONTHS[currentMonthIndex];
+
+  /* título */
+  document.getElementById("ttl").textContent = `Ingresos de ${m.name}`;
+  document.title = `Todomusica — Ingresos de ${m.name}`;
+
+  /* select */
+  const sel = document.getElementById("selMonth");
+
+  /* limpiar opciones */
+  sel.innerHTML = "";
+
+  MONTHS.forEach((m, i)=>{
+    const o = document.createElement("option");
+    o.value = i;
+    o.textContent = m.name;
+    sel.appendChild(o);
+  });
+
+  /* seleccionar actual */
+  sel.value = currentMonthIndex;
+}
+
+/* evento del select */
+document.getElementById("selMonth").addEventListener("change", async (e)=>{
+  currentMonthIndex = parseInt(e.target.value, 10);
+  await loadCSV();
+});
+
+/* Filtros */
+document.getElementById("q").addEventListener("input", () => {
+  const q = (document.getElementById("q").value || "").trim();
+
+  if(q === ""){
+    document.getElementById("fMarca").value = "";
+    document.getElementById("fRubro").value = "";
+    document.getElementById("fStk").value = "";
+  }
+
+  apply();
+});
+
+document.getElementById("q").addEventListener("change", () => {
+  const q = (document.getElementById("q").value || "").trim();
+
+  if(q === ""){
+    document.getElementById("fMarca").value = "";
+    document.getElementById("fRubro").value = "";
+    document.getElementById("fStk").value = "";
+  }
+
+  apply();
+});
+
+["fMarca","fRubro","fStk"].forEach(id=>{
+  document.getElementById(id).addEventListener("input", apply);
+  document.getElementById(id).addEventListener("change", apply);
+});
+
+function checkFiltersActive(){
+  const q = document.getElementById("q");
+  const m = document.getElementById("fMarca");
+  const r = document.getElementById("fRubro");
+  const s = document.getElementById("fStk");
+
+  const btnClear = document.getElementById("btnClearFilters");
+  const btnNew   = document.getElementById("btnNewIngresos");
+
+  /* limpiar estados */
+  [q, m, r, s].forEach(el => el.classList.remove("active"));
+
+  /* activar filtros según valor */
+  if(q.value.trim()) q.classList.add("active");
+  if(m.value) m.classList.add("active");
+  if(r.value) r.classList.add("active");
+  if(s.value) s.classList.add("active");
+
+  /* activar botón Nuevos ingresos */
+  if(btnNew){
+    btnNew.classList.toggle("active", filtroNuevosIngresos);
+  }
+
+  /* activar botón limpiar si hay cualquier filtro */
+  if(q.value.trim() || m.value || r.value || s.value || filtroNuevosIngresos){
+    btnClear.classList.add("active");
+  }else{
+    btnClear.classList.remove("active");
+  }
+} 
+   document.getElementById("btnClearFilters").onclick = () => {
+  filtroNuevosIngresos = false;
+
+  document.getElementById("q").value = "";
+  document.getElementById("fMarca").value = "";
+  document.getElementById("fRubro").value = "";
+  document.getElementById("fStk").value = "";
+
+  apply();
+};
+   document.getElementById("btnNewIngresos").onclick = () => {
+  filtroNuevosIngresos = !filtroNuevosIngresos;
+
+  document.getElementById("q").value = "";
+  document.getElementById("fRubro").value = "";
+  document.getElementById("fStk").value = "";
+
+  const marcasNuevas = [...new Set(
+    ALL
+      .filter(p => (p.NUEVO_INGRESO || "").trim().toUpperCase() === "SI")
+      .map(p => marcaOpLabel(p))
+      .filter(Boolean)
+  )];
+
+  /*
+    Si hay una sola marca nueva, la seleccionamos en Marca
+    y se ilumina el filtro de Marca.
+  */
+  if(filtroNuevosIngresos && marcasNuevas.length === 1){
+    document.getElementById("fMarca").value = marcasNuevas[0];
+  }else{
+    document.getElementById("fMarca").value = "";
+  }
+
+  apply();
+};
+
+/* THEME */
+const btnTheme = document.getElementById("btnTheme");
+
+if(btnTheme){
+  const saved = localStorage.getItem("tm_theme");
+
+  if(saved === "light"){
+    document.body.classList.add("theme-light");
+  }
+
+  btnTheme.onclick = () => {
+    document.body.classList.toggle("theme-light");
+    const isLight = document.body.classList.contains("theme-light");
+    localStorage.setItem("tm_theme", isLight ? "light" : "dark");
+  };
+}
+
+/* INIT */
+loadCSV();
+  
+  /* =========================
+   BOTÓN PVL — TOGGLE (PASO 10.1)
+   ========================= */
+
+/* =========================
+   BOTÓN PVL — TOGGLE (PASO 10.1)
+   ========================= */
+const btnPVL = document.getElementById("btnPVL");
+const lblPVL = document.getElementById("lblPVL");
+
+/* =========================
+   MODO PVL — UI GENERAL (PASO 10.2)
+   ========================= */
+function syncModoPVLUI(){
+  const totBlock = document.querySelector(".totBlock");
+  const cartBar  = document.querySelector(".cartBar");
+  const waBtn    = document.getElementById("wa");
+
+  if(totBlock){
+    totBlock.style.display = modoPVL ? "none" : "";
+  }
+
+  if(cartBar){
+    cartBar.style.display = modoPVL ? "none" : "";
+  }
+
+  if(waBtn){
+    waBtn.style.display = modoPVL ? "none" : "";
+  }
+}
+
+btnPVL.onclick = () => {
+
+  /* toggle flag */
+  modoPVL = !modoPVL;
+
+  /* texto */
+  lblPVL.textContent = modoPVL ? "PVL" : "PVC";
+
+  /* estado visual */
+  btnPVL.classList.toggle("active", modoPVL);
+
+  /* aplicar visibilidad */
+  syncModoPVLUI();
+
+  
+/* re-render cards */
+  render();
+
+
+};
+</script>
+</body>
+</html>
