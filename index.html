@@ -2789,17 +2789,28 @@ btnPVL.onclick = () => {
   /* =========================
    CARRITO — RENDER CONTENIDO
    ========================= */
+/* =========================
+   CARRITO — RENDER CONTENIDO
+   ========================= */
 function renderCart(){
 
   const container = document.getElementById("cartContent");
   if(!container) return;
 
   if(CART.size === 0){
-    container.innerHTML = "<div style='text-align:center; padding:20px; color:var(--muted)'>Carrito vacío</div>";
+    container.innerHTML = `
+      <div style="text-align:center; padding:24px; color:var(--muted);">
+        🛒 Carrito vacío
+      </div>
+    `;
     return;
   }
 
   let html = "";
+  let sub = 0;
+  let iva = 0;
+  let ii  = 0;
+  let items = 0;
 
   CART.forEach((v, k) => {
 
@@ -2808,21 +2819,35 @@ function renderCart(){
 
     const net = pvcNeto(p);
 
-    const price = net === null ? "Consultar" : ars(net);
-    const lineTotal = net === null ? "" : ars(net * q);
+    const price = net === null
+      ? `<span class="priceConsultar">Consultar</span>`
+      : ars(net);
+
+    const lineTotal = net === null
+      ? `<span style="color:var(--muted);">Sin total</span>`
+      : ars(net * q);
+
+    if(net !== null){
+      const line = net * q;
+      sub += line;
+      iva += line * pct(p.IVA);
+      ii  += line * pct(p.II);
+    }
+
+    items += q;
 
     html += `
-      <div style="padding:10px 0; border-bottom:1px solid var(--stroke);">
+      <div style="padding:12px 0; border-bottom:1px solid var(--stroke);">
 
-        <div style="font-weight:900;">
+        <div style="font-weight:900; font-size:14px;">
           ${marcaOpLabel(p)} · ${p.ARTICULO}
         </div>
 
-        <div style="font-size:12px; color:var(--muted); margin-top:2px;">
-          ${(p.DESCRIPCION || "").slice(0,50)}
+        <div style="font-size:12px; color:var(--muted); margin-top:3px; line-height:1.3;">
+          ${(p.DESCRIPCION || "").slice(0,55)}
         </div>
 
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; gap:10px;">
 
           <div class="qty">
             <button class="qbtn" data-k="${k}" data-a="d">–</button>
@@ -2830,9 +2855,11 @@ function renderCart(){
             <button class="qbtn" data-k="${k}" data-a="i">+</button>
           </div>
 
-          <div style="text-align:right;">
+          <div style="text-align:right; min-width:105px;">
             <div style="font-weight:900;">${price}</div>
-            <div style="font-size:12px; color:var(--muted);">${lineTotal}</div>
+            <div style="font-size:12px; color:var(--muted); margin-top:2px;">
+              ${lineTotal}
+            </div>
           </div>
 
         </div>
@@ -2840,6 +2867,51 @@ function renderCart(){
       </div>
     `;
   });
+
+  const total = sub + iva + ii;
+
+  html += `
+    <div style="margin-top:14px; padding:12px; border:1px solid var(--stroke); border-radius:14px; background:rgba(255,255,255,.04);">
+
+      <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+        <span style="color:var(--muted);">Ítems</span>
+        <b>${items}</b>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+        <span style="color:var(--muted);">Subtotal</span>
+        <b>${ars(sub)}</b>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+        <span style="color:var(--muted);">IVA</span>
+        <b>${ars(iva)}</b>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+        <span style="color:var(--muted);">Imp. Int.</span>
+        <b>${ars(ii)}</b>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; margin-top:10px; padding-top:10px; border-top:1px solid var(--stroke); font-size:16px;">
+        <span style="font-weight:900;">Total + imp.</span>
+        <b style="color:var(--accent);">${ars(total)}</b>
+      </div>
+
+    </div>
+
+    <div style="display:flex; gap:10px; margin-top:14px;">
+
+      <button class="btn" id="cartContinue" style="flex:1;">
+        Seguir comprando
+      </button>
+
+      <a class="btn primary" id="cartWA" target="_blank" style="flex:1; text-align:center;">
+        WhatsApp
+      </a>
+
+    </div>
+  `;
 
   container.innerHTML = html;
 
@@ -2857,41 +2929,27 @@ function renderCart(){
 
       setQty(item.p, act === "i" ? cur + 1 : cur - 1);
 
-      renderCart(); // refrescar modal
+      renderCart();
     };
   });
-}
-  /* =========================
-   CARRITO — MODAL OPEN/CLOSE
-   ========================= */
 
-const btnCart = document.getElementById("btnCart");
-const cartModal = document.getElementById("cartModal");
-const cartClose = document.getElementById("cartClose");
-
-if(btnCart){
- btnCart.onclick = () => {
-  if(cartModal){
-    renderCart(); // 👈 IMPORTANTE
-    cartModal.style.display = "flex";
-  }
-};
+  /* botón seguir comprando */
+  const cartContinue = document.getElementById("cartContinue");
+  if(cartContinue){
+    cartContinue.onclick = () => {
+      const cartModal = document.getElementById("cartModal");
+      if(cartModal){
+        cartModal.style.display = "none";
+      }
+    };
   }
 
-if(cartClose){
-  cartClose.onclick = () => {
-    if(cartModal){
-      cartModal.style.display = "none";
-    }
-  };
-}
-
-if(cartModal){
-  cartModal.onclick = (e) => {
-    if(e.target.id === "cartModal"){
-      cartModal.style.display = "none";
-    }
-  };
+  /* botón WhatsApp */
+  const cartWA = document.getElementById("cartWA");
+  if(cartWA){
+    const txt = buildWA(sub, iva, ii, total);
+    cartWA.href = "https://wa.me/?text=" + encodeURIComponent(txt);
+  }
 }
 </script>
 </body>
