@@ -1747,7 +1747,32 @@ body.theme-light #btnNewIngresos.active{
     0 0 0 3px rgba(34,197,94,.22),
     0 6px 18px rgba(34,197,94,.30);
 }
+/* =========================
+   BOTONES MODAL CARRITO — ACCIONES
+   ========================= */
 
+#cartContinue,
+#cartEmpty{
+  width:100%;
+  min-height:46px;
+
+  font-size:14px;
+  font-weight:900;
+
+  border-radius:14px;
+}
+
+#cartContinue{
+  color:var(--text);
+  background:rgba(255,255,255,.06);
+}
+
+#cartEmpty{
+  border-color:#ef4444 !important;
+  color:#ef4444 !important;
+  background:rgba(239,68,68,.06);
+}
+  
 /* Light mode */
 body.theme-light .cartHeaderRow,
 body.theme-light .cartItemRow,
@@ -1759,42 +1784,73 @@ body.theme-light .cartTotalsBox{
 
 /* Ajuste teléfonos chicos */
 @media (max-width: 430px){
+  /* =========================
+     CARRITO — MOBILE AJUSTADO
+     ========================= */
+
   .cartHeaderRow{
-    grid-template-columns:minmax(0,1.25fr) 84px 88px 96px 34px;
-    gap:6px;
-    padding:9px 9px;
-    font-size:11px;
+    grid-template-columns:minmax(92px,1fr) 68px 78px 82px 28px;
+    gap:4px;
+    padding:9px 8px;
+    font-size:10.5px;
   }
 
   .cartItemRow{
-    grid-template-columns:minmax(0,1.25fr) 84px 88px 96px 34px;
-    gap:6px;
-    padding:10px 9px;
+    grid-template-columns:minmax(92px,1fr) 68px 78px 82px 28px;
+    gap:4px;
+    padding:10px 8px;
+    align-items:center;
   }
 
   .cartProdTitle{
-    font-size:13px;
+    font-size:12.5px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
   }
 
-  .cartProdArt,
+  .cartProdArt{
+    font-size:10.5px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+
   .cartProdDesc{
-    font-size:11px;
+    display:block;
+    max-width:92px;
+    font-size:10.5px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+
+  .cartQtyBox{
+    gap:4px;
   }
 
   .cartQtyBox .qbtn{
-    width:30px;
-    height:30px;
+    width:28px;
+    height:28px;
+    border-radius:10px;
+    font-size:17px;
+  }
+
+  .cartQtyBox .qval{
+    width:18px;
+    font-size:13px;
   }
 
   .cartPriceBox,
   .cartSubBox{
-    font-size:12px;
+    font-size:11.5px;
+    white-space:nowrap;
   }
 
   .cartTrash{
-    width:30px;
-    height:30px;
-    font-size:14px;
+    width:28px;
+    height:28px;
+    font-size:13px;
   }
 }
 </style>
@@ -3073,7 +3129,7 @@ function renderCart(){
         <div>
           <div class="cartProdTitle">${marcaOpLabel(p)}</div>
           <div class="cartProdArt">${p.ARTICULO || ""}</div>
-          <div class="cartProdDesc">${(p.DESCRIPCION || "").slice(0,42)}</div>
+         <div class="cartProdDesc">${(p.DESCRIPCION || "").slice(
         </div>
 
         <div class="cartQtyBox">
@@ -3186,21 +3242,25 @@ function renderCart(){
     };
   }
 
-  /* botón vaciar carrito */
-  const cartEmpty = document.getElementById("cartEmpty");
-  if(cartEmpty){
-    cartEmpty.onclick = () => {
+/* botón vaciar carrito */
+const cartEmpty = document.getElementById("cartEmpty");
+if(cartEmpty){
+  cartEmpty.onclick = () => {
 
-      CART.clear();
+    CART.clear();
 
-      ALL_CARTS = {};
-      localStorage.removeItem("tm_carts");
+    ALL_CARTS = {};
+    localStorage.setItem("tm_carts", JSON.stringify({}));
 
-      totals();
-      render();
-      renderCart();
-    };
-  }
+    totals();
+    render();
+
+    const cartModal = document.getElementById("cartModal");
+    if(cartModal){
+      cartModal.style.display = "none";
+    }
+  };
+}
 
   /* botón WhatsApp */
   const cartWA = document.getElementById("cartWA");
