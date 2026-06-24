@@ -2304,6 +2304,10 @@ if(net !== null){
   const tot = sub + iva + ii;
 
   document.getElementById("it").textContent  = String(items);
+  const cartCountEl = document.getElementById("cartCount");
+if(cartCountEl){
+  cartCountEl.textContent = String(items);
+}
   document.getElementById("sub").textContent = ars(sub);
   document.getElementById("iva").textContent = ars(iva);
   document.getElementById("ii").textContent  = ars(ii);
