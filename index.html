@@ -1771,6 +1771,30 @@ body.theme-light #btnNewIngresos.active{
     </div>
   </div>
 
+  <!-- =========================
+     MODAL CARRITO
+     ========================= -->
+<div class="modal" id="cartModal">
+
+  <div class="modalBox">
+
+    <div class="modalTop">
+      <b>🛒 Tu carrito</b>
+      <button id="cartClose">Cerrar ✕</button>
+    </div>
+
+    <div class="modalBody" style="flex-direction:column; align-items:stretch; padding:12px; overflow:auto;">
+
+      <div id="cartContent">
+        <!-- acá vamos a renderizar los productos -->
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
 <script>
 /* =========================
    MES — CONFIG (PASO 3.1)
@@ -2761,6 +2785,37 @@ btnPVL.onclick = () => {
 
 
 };
+  /* =========================
+   CARRITO — MODAL OPEN/CLOSE
+   ========================= */
+
+const btnCart = document.getElementById("btnCart");
+const cartModal = document.getElementById("cartModal");
+const cartClose = document.getElementById("cartClose");
+
+if(btnCart){
+  btnCart.onclick = () => {
+    if(cartModal){
+      cartModal.style.display = "flex";
+    }
+  };
+}
+
+if(cartClose){
+  cartClose.onclick = () => {
+    if(cartModal){
+      cartModal.style.display = "none";
+    }
+  };
+}
+
+if(cartModal){
+  cartModal.onclick = (e) => {
+    if(e.target.id === "cartModal"){
+      cartModal.style.display = "none";
+    }
+  };
+}
 </script>
 </body>
 </html>
