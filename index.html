@@ -213,15 +213,27 @@ a, button, .imgBox, .card{
   width:30px;
   height:30px;
   border-radius:999px;
+
   border:1px solid var(--stroke);
-  background:rgba(255,255,255,.06);
+
+  background:rgba(255,255,255,.05);
+
   display:inline-flex;
   align-items:center;
   justify-content:center;
+
   text-decoration:none;
-  color:var(--text);
-  transition:transform .12s ease, background .12s ease, box-shadow .12s ease, border-color .12s ease;
+
+  color:var(--muted); /* 👈 gris base */
+
+  transition:
+    transform .12s ease,
+    background .12s ease,
+    box-shadow .12s ease,
+    border-color .12s ease,
+    filter .12s ease;
 }
+
 /* =========================
    BOTÓN PVL (PASO 9.2 — VISUAL PRO)
    ========================= */
@@ -334,9 +346,8 @@ body.theme-light #btnPVL:active{
 .iconBtn svg{
   width:15px;
   height:15px;
-  opacity:.95;
+  opacity:.75;
 }
-
 .iconBtn:active{
   transform:scale(.92);
   box-shadow:0 0 0 3px rgba(245,158,11,.3), 0 6px 18px rgba(245,158,11,.25);
@@ -1359,20 +1370,25 @@ body.theme-light .dot.on{
   }
 }
 
-/* Redes activas */
+/* Facebook */
 .iconBtn[href*="facebook"]:active{
   background:#1877f2;
   color:#fff;
+  box-shadow:0 0 0 3px rgba(24,119,242,.25);
 }
 
+/* Instagram */
 .iconBtn[href*="instagram"]:active{
   background:linear-gradient(45deg,#f58529,#dd2a7b,#8134af,#515bd4);
   color:#fff;
+  box-shadow:0 0 0 3px rgba(221,42,123,.25);
 }
 
+/* YouTube */
 .iconBtn[href*="youtube"]:active{
   background:#ff0000;
   color:#fff;
+  box-shadow:0 0 0 3px rgba(255,0,0,.25);
 }
 /* =========================
    BOTON LIMPIAR FILTROS — PRO
