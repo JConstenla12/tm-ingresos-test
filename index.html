@@ -2434,28 +2434,38 @@ flex:0 0 110px !important;
     font-size:12px !important;
   }
 }
-
-  /* =========================
-   CART BOUNCE ANIMATION
+/* =========================
+   CART FEEDBACK — BOUNCE SEGURO
    ========================= */
 
 @keyframes cartBounce{
-  0%   { transform:scale(1); }
-  30%  { transform:scale(1.18); }
-  60%  { transform:scale(0.95); }
-  100% { transform:scale(1); }
+  0%{
+    transform:scale(1);
+  }
+
+  35%{
+    transform:scale(1.16);
+  }
+
+  70%{
+    transform:scale(.96);
+  }
+
+  100%{
+    transform:scale(1);
+  }
 }
 
-.cart-bounce{
-  animation:cartBounce .35s ease;
+#btnCart.cart-bounce{
+  animation:cartBounce .34s ease;
 }
 
-/* glow temporal */
-.cart-glow{
+#btnCart.cart-glow{
   box-shadow:
-    0 0 0 4px rgba(245,158,11,.30),
-    0 10px 25px rgba(245,158,11,.35);
+    0 0 0 4px rgba(245,158,11,.28),
+    0 12px 28px rgba(245,158,11,.38) !important;
 }
+  
 </style>
 </head>
 
@@ -2858,18 +2868,53 @@ function qty(p){
 }
 
 function setQty(p, q){
+  const oldQ = qty(p);
+
   q = Math.max(0, q|0);
   const k = p.ARTICULO;
   if(!k) return;
 
-  if(q === 0) CART.delete(k);
-  else CART.set(k, { q, p });
+  if(q === 0){
+    CART.delete(k);
+  }else{
+    CART.set(k, { q, p });
+  }
 
   /* guardar solo el carrito del mes actual dentro del global */
   saveCurrentMonthCart();
 
   totals();
-render();
+  render();
+
+  /* =========================
+     CART FEEDBACK — SOLO AL SUMAR
+     ========================= */
+  if(q > oldQ){
+    cartFeedback();
+  }
+}
+function cartFeedback(){
+  const btnCart = document.getElementById("btnCart");
+
+  if(!btnCart) return;
+
+  btnCart.classList.remove("cart-bounce");
+  btnCart.classList.remove("cart-glow");
+
+  /* reinicia la animación sin romper el layout */
+  void btnCart.offsetWidth;
+
+  btnCart.classList.add("cart-bounce");
+  btnCart.classList.add("cart-glow");
+
+  setTimeout(() => {
+    btnCart.classList.remove("cart-glow");
+  }, 360);
+
+  setTimeout(() => {
+    btnCart.classList.remove("cart-bounce");
+  }, 380);
+}
 
 /* =========================
    CART FEEDBACK (bounce + glow)
