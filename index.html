@@ -3088,14 +3088,18 @@ function renderCart(){
   let ii  = 0;
   let items = 0;
 
-  /* encabezados */
   html += `
-    <div class="cartHeaderRow">
-      <div>Producto</div>
-      <div style="text-align:center;">Cant.</div>
-      <div style="text-align:right;">Precio unit.</div>
-      <div style="text-align:right;">Subtotal</div>
-      <div></div>
+    <div style="
+      margin-bottom:12px;
+      padding:10px 12px;
+      border-radius:14px;
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--stroke);
+      font-size:12px;
+      font-weight:900;
+      color:var(--muted);
+    ">
+      Detalle del pedido
     </div>
   `;
 
@@ -3123,32 +3127,111 @@ function renderCart(){
 
     items += q;
 
+    const descCorta = (p.DESCRIPCION || "").slice(0, 28);
+
     html += `
-      <div class="cartItemRow">
+      <div style="
+        padding:12px;
+        margin-bottom:10px;
+        border-radius:16px;
+        border:1px solid var(--stroke);
+        background:rgba(255,255,255,.04);
+      ">
 
-        <div>
-          <div class="cartProdTitle">${marcaOpLabel(p)}</div>
-          <div class="cartProdArt">${p.ARTICULO || ""}</div>
-         <div class="cartProdDesc">${(p.DESCRIPCION || "").slice(
+        <div style="
+          display:flex;
+          justify-content:space-between;
+          gap:10px;
+          align-items:flex-start;
+        ">
+
+          <div style="min-width:0; flex:1;">
+            <div style="
+              font-weight:900;
+              font-size:14px;
+              white-space:nowrap;
+              overflow:hidden;
+              text-overflow:ellipsis;
+            ">
+              ${marcaOpLabel(p)}
+            </div>
+
+            <div style="
+              margin-top:3px;
+              font-size:12px;
+              color:var(--muted);
+              white-space:nowrap;
+              overflow:hidden;
+              text-overflow:ellipsis;
+            ">
+              ${p.ARTICULO || ""}
+            </div>
+
+            <div style="
+              margin-top:4px;
+              font-size:12px;
+              color:var(--muted);
+              white-space:nowrap;
+              overflow:hidden;
+              text-overflow:ellipsis;
+            ">
+              ${descCorta}
+            </div>
+          </div>
+
+          <button class="cartTrash" data-cart-k="${k}" data-cart-a="x" title="Quitar artículo">
+            🗑
+          </button>
+
         </div>
 
-        <div class="cartQtyBox">
-          <button class="qbtn" data-cart-k="${k}" data-cart-a="d">–</button>
-          <div class="qval">${q}</div>
-          <button class="qbtn" data-cart-k="${k}" data-cart-a="i">+</button>
-        </div>
+        <div style="
+          display:grid;
+          grid-template-columns:1fr 1fr 1fr;
+          gap:8px;
+          margin-top:12px;
+          align-items:end;
+        ">
 
-        <div class="cartPriceBox">
-          ${price}
-        </div>
+          <div>
+            <div style="font-size:11px; color:var(--muted); margin-bottom:5px;">
+              Cant.
+            </div>
 
-        <div class="cartSubBox">
-          ${lineTotal}
-        </div>
+            <div class="qty" style="gap:6px;">
+              <button class="qbtn" data-cart-k="${k}" data-cart-a="d" style="width:30px;height:30px;border-radius:10px;">–</button>
+              <div class="qval" style="width:20px;">${q}</div>
+              <button class="qbtn" data-cart-k="${k}" data-cart-a="i" style="width:30px;height:30px;border-radius:10px;">+</button>
+            </div>
+          </div>
 
-        <button class="cartTrash" data-cart-k="${k}" data-cart-a="x" title="Quitar artículo">
-          🗑
-        </button>
+          <div style="text-align:right;">
+            <div style="font-size:11px; color:var(--muted); margin-bottom:5px;">
+              Precio
+            </div>
+            <div style="
+              font-weight:900;
+              font-size:12.5px;
+              white-space:nowrap;
+            ">
+              ${price}
+            </div>
+          </div>
+
+          <div style="text-align:right;">
+            <div style="font-size:11px; color:var(--muted); margin-bottom:5px;">
+              Subtotal
+            </div>
+            <div style="
+              font-weight:900;
+              font-size:12.5px;
+              white-space:nowrap;
+            ">
+              ${lineTotal}
+            </div>
+          </div>
+
+        </div>
 
       </div>
     `;
@@ -3157,46 +3240,92 @@ function renderCart(){
   const total = sub + iva + ii;
 
   html += `
-    <div class="cartTotalsBox">
+    <div style="
+      margin-top:14px;
+      padding:14px;
+      border:1px solid var(--stroke);
+      border-radius:16px;
+      background:rgba(255,255,255,.04);
+    ">
 
-      <div class="cartTotalLine">
-        <span>Ítems</span>
+      <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+        <span style="color:var(--muted);">Ítems</span>
         <b>${items}</b>
       </div>
 
-      <div class="cartTotalLine">
-        <span>Subtotal</span>
+      <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+        <span style="color:var(--muted);">Subtotal</span>
         <b>${ars(sub)}</b>
       </div>
 
-      <div class="cartTotalLine">
-        <span>IVA</span>
+      <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+        <span style="color:var(--muted);">IVA</span>
         <b>${ars(iva)}</b>
       </div>
 
-      <div class="cartTotalLine">
-        <span>Imp. Int.</span>
+      <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+        <span style="color:var(--muted);">Imp. Int.</span>
         <b>${ars(ii)}</b>
       </div>
 
-      <div class="cartTotalFinal">
+      <div style="
+        display:flex;
+        justify-content:space-between;
+        margin-top:10px;
+        padding-top:10px;
+        border-top:1px solid var(--stroke);
+        font-size:17px;
+        font-weight:900;
+      ">
         <span>Total + imp.</span>
-        <b>${ars(total)}</b>
+        <b style="color:var(--accent);">${ars(total)}</b>
       </div>
 
     </div>
 
-    <div class="cartActions">
+    <div style="
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top:14px;
+    ">
 
-      <a class="btn cartWAButton" id="cartWA" target="_blank">
+      <a class="btn" id="cartWA" target="_blank" style="
+        width:100%;
+        min-height:54px;
+        background:#22c55e;
+        color:#fff;
+        border:1px solid rgba(255,255,255,.18);
+        border-radius:16px;
+        font-size:16px;
+        font-weight:900;
+        box-shadow:
+          0 0 0 3px rgba(34,197,94,.22),
+          0 12px 28px rgba(34,197,94,.42);
+      ">
         📲 Enviar pedido por WhatsApp
       </a>
 
-      <button class="btn" id="cartContinue">
+      <button class="btn" id="cartContinue" style="
+        width:100%;
+        min-height:46px;
+        font-size:14px;
+        font-weight:900;
+        border-radius:14px;
+      ">
         Seguir comprando
       </button>
 
-      <button class="btn" id="cartEmpty" style="border-color:#ef4444; color:#ef4444;">
+      <button class="btn" id="cartEmpty" style="
+        width:100%;
+        min-height:46px;
+        font-size:14px;
+        font-weight:900;
+        border-radius:14px;
+        border-color:#ef4444;
+        color:#ef4444;
+        background:rgba(239,68,68,.06);
+      ">
         🗑 Vaciar carrito
       </button>
 
@@ -3242,25 +3371,26 @@ function renderCart(){
     };
   }
 
-/* botón vaciar carrito */
-const cartEmpty = document.getElementById("cartEmpty");
-if(cartEmpty){
-  cartEmpty.onclick = () => {
+  /* botón vaciar carrito */
+  const cartEmpty = document.getElementById("cartEmpty");
+  if(cartEmpty){
+    cartEmpty.onclick = () => {
 
-    CART.clear();
+      CART.clear();
 
-    ALL_CARTS = {};
-    localStorage.setItem("tm_carts", JSON.stringify({}));
+      ALL_CARTS = {};
+      localStorage.setItem("tm_carts", JSON.stringify({}));
 
-    totals();
-    render();
+      totals();
+      render();
+      renderCart();
 
-    const cartModal = document.getElementById("cartModal");
-    if(cartModal){
-      cartModal.style.display = "none";
-    }
-  };
-}
+      const cartModal = document.getElementById("cartModal");
+      if(cartModal){
+        cartModal.style.display = "none";
+      }
+    };
+  }
 
   /* botón WhatsApp */
   const cartWA = document.getElementById("cartWA");
@@ -3269,8 +3399,7 @@ if(cartEmpty){
     cartWA.href = "https://wa.me/?text=" + encodeURIComponent(txt);
   }
 }
-
-/* =========================
+  /* =========================
    CARRITO — MODAL OPEN/CLOSE
    ========================= */
 const btnCartModal = document.getElementById("btnCart");
