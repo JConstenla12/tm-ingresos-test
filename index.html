@@ -957,6 +957,8 @@ body.theme-light .card{
   padding:10px 10px 12px;
   background:linear-gradient(180deg,transparent,rgba(0,0,0,.65));
   z-index:40;
+  display:flex;
+justify-content:center;
 }
 
 .cartInner{
@@ -1285,7 +1287,7 @@ body.theme-light .dot.on{
    ========================= */
 @media (min-width: 768px){
 .appShell{
-  width:min(calc(100% - 20px), var(--shell-max-desktop));
+  width:min(calc(100% - (var(--shell-side) * 2)), var(--shell-max-desktop));
   margin:0 auto;
 }
   .row1{
@@ -2197,11 +2199,7 @@ flex:0 0 110px !important;
    RESET HEADER FINAL — TM INGRESOS TEST
    ========================================================= */
 
-/* Contenedor general */
-.appShell{
-  width:min(calc(100% - (var(--shell-side) * 2)), var(--shell-max-mobile));
-  margin:0 auto;
-}
+
 
 /* FILA 1: logo grande + theme */
 .row1{
