@@ -411,14 +411,20 @@ body.theme-light #btnPVL:active{
 .rowMonth{
   margin-top:12px;
   display:grid;
-
-  /* 👇 AHORA 3 COLUMNAS */
-  grid-template-columns:auto minmax(0,1fr) auto;
-
+  grid-template-columns:auto minmax(0,1fr);
   gap:10px;
   align-items:center;
 }
-
+/* =========================
+   FILA PVL / CARRITO
+   ========================= */
+.rowPVLCart{
+  margin-top:10px;
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  gap:10px;
+}
 
 /* =========================
    FILA 3
@@ -1555,25 +1561,37 @@ body.theme-light #btnNewIngresos.active{
     0 0 0 3px rgba(249,115,22,.18);
 }
 
-  /* =========================
+ /* =========================
    BOTON CARRITO — PRO
    ========================= */
 #btnCart{
-  padding:11px 16px;         /* 👈 más grande */
-  font-size:13px;            /* 👈 texto más visible */
+  min-width:76px;
+  padding:11px 16px;
+
+  font-size:13px;
   font-weight:900;
 
   border-radius:999px;
 
   display:inline-flex;
   align-items:center;
+  justify-content:center;
   gap:6px;
+
+  white-space:nowrap;
 
   box-shadow:
     0 6px 16px rgba(0,0,0,.35),
     inset 0 1px 0 rgba(255,255,255,.06);
 }
-  #btnCart.active{
+
+#cartCount{
+  display:inline-block;
+  min-width:24px;
+  text-align:center;
+}
+
+#btnCart.active{
   background:linear-gradient(135deg,#f59e0b,#fbbf24);
   color:#111;
 
@@ -1583,7 +1601,6 @@ body.theme-light #btnNewIngresos.active{
 
   transform:translateY(-1px);
 }
-
   /* =========================
    MODAL CARRITO — PRO
    ========================= */
@@ -1916,21 +1933,29 @@ body.theme-light .cartTotalsBox{
     <a href="https://todomusica.com.ar/" target="_blank">www.todomusica.com.ar</a>
   </div>
 </div>
-<!-- FILA MES / TITULO / PVL -->
+<!-- FILA MES / TITULO -->
 <div class="shellBlock rowMonth">
 
   <select class="inp monthBtn" id="selMonth"></select>
 
   <div class="titleBox">
     <h1 id="ttl">Ingresos de Mayo</h1>
-
-    <button class="iconBtn" id="btnPVL" title="Cambiar vista (PVC / PVL)">
-      👁 <span id="lblPVL">PVC</span>
-    </button>
   </div>
 
 </div>
 
+<!-- FILA PVL / CARRITO -->
+<div class="shellBlock rowPVLCart">
+
+  <button class="iconBtn" id="btnPVL" title="Cambiar vista (PVC / PVL)">
+    👁 <span id="lblPVL">PVC</span>
+  </button>
+
+  <button class="btn" id="btnCart">
+    🛒 <span id="cartCount">0</span>
+  </button>
+
+</div>
 <!-- NUEVA FILA — LIMPIAR FILTROS -->
 <div class="shellBlock row4 rowBtnsTop">
 
@@ -1941,10 +1966,6 @@ body.theme-light .cartTotalsBox{
   <button class="btn" id="btnClearFilters">
     🧹 Limpiar filtros
   </button>
-  <button class="btn" id="btnCart">
-  🛒 <span id="cartCount">0</span>
-</button>
-
 
 </div>
 
@@ -3088,7 +3109,12 @@ function renderCart(){
   const container = document.getElementById("cartContent");
   if(!container) return;
 
-  if(CART.size === 0){
+  ALL_CARTS = JSON.parse(localStorage.getItem("tm_carts") || "{}");
+
+  const monthEntries = Object.entries(ALL_CARTS)
+    .filter(([monthKey, monthCart]) => Array.isArray(monthCart) && monthCart.length > 0);
+
+  if(monthEntries.length === 0){
     container.innerHTML = `
       <div style="text-align:center; padding:28px; color:var(--muted);">
         🛒 Carrito vacío
@@ -3119,121 +3145,155 @@ function renderCart(){
     </div>
   `;
 
-   ALL_CARTS = JSON.parse(localStorage.getItem("tm_carts") || "{}");
+  monthEntries.forEach(([monthKey, monthCart]) => {
 
-Object.values(ALL_CARTS).forEach(monthCart => {
-
-  (monthCart || []).forEach(([k, v]) => {
-    items += q;
-
-    const descCorta = (p.DESCRIPCION || "").slice(0, 28);
+    const monthInfo = MONTHS.find(m => m.file === monthKey);
+    const monthName = monthInfo ? monthInfo.name : monthKey;
 
     html += `
       <div style="
-        padding:12px;
-        margin-bottom:10px;
-        border-radius:16px;
-        border:1px solid var(--stroke);
-        background:rgba(255,255,255,.04);
+        margin:12px 0 8px;
+        font-size:12px;
+        font-weight:900;
+        color:var(--accent);
       ">
-
-        <div style="
-          display:flex;
-          justify-content:space-between;
-          gap:10px;
-          align-items:flex-start;
-        ">
-
-          <div style="min-width:0; flex:1;">
-            <div style="
-              font-weight:900;
-              font-size:14px;
-              white-space:nowrap;
-              overflow:hidden;
-              text-overflow:ellipsis;
-            ">
-              ${marcaOpLabel(p)}
-            </div>
-
-            <div style="
-              margin-top:3px;
-              font-size:12px;
-              color:var(--muted);
-              white-space:nowrap;
-              overflow:hidden;
-              text-overflow:ellipsis;
-            ">
-              ${p.ARTICULO || ""}
-            </div>
-
-            <div style="
-              margin-top:4px;
-              font-size:12px;
-              color:var(--muted);
-              white-space:nowrap;
-              overflow:hidden;
-              text-overflow:ellipsis;
-            ">
-              ${descCorta}
-            </div>
-          </div>
-
-          <button class="cartTrash" data-cart-k="${k}" data-cart-a="x" title="Quitar artículo">
-            🗑
-          </button>
-
-        </div>
-
-        <div style="
-          display:grid;
-          grid-template-columns:1fr 1fr 1fr;
-          gap:8px;
-          margin-top:12px;
-          align-items:end;
-        ">
-
-          <div>
-            <div style="font-size:11px; color:var(--muted); margin-bottom:5px;">
-              Cant.
-            </div>
-
-            <div class="qty" style="gap:6px;">
-              <button class="qbtn" data-cart-k="${k}" data-cart-a="d" style="width:30px;height:30px;border-radius:10px;">–</button>
-              <div class="qval" style="width:20px;">${q}</div>
-              <button class="qbtn" data-cart-k="${k}" data-cart-a="i" style="width:30px;height:30px;border-radius:10px;">+</button>
-            </div>
-          </div>
-
-          <div style="text-align:right;">
-            <div style="font-size:11px; color:var(--muted); margin-bottom:5px;">
-              Precio
-            </div>
-            <div style="
-              font-weight:900;
-              font-size:12.5px;
-              white-space:nowrap;
-            ">
-              ${price}
-            </div>
-          </div>
-
-          <div style="text-align:right;">
-            <div style="font-size:11px; color:var(--muted); margin-bottom:5px;">
-              Subtotal
-            </div>
-            <div style="
-              font-weight:900;
-              font-size:12.5px;
-              white-space:nowrap;
-            ">
-              ${lineTotal}
-            </div>
-          </div>
-
-        </div>
-
+        Ingresos de ${monthName}
       </div>
     `;
+
+    monthCart.forEach(([k, v]) => {
+
+      const p = v.p;
+      const q = v.q;
+
+      const net = pvcNeto(p);
+
+      const price = net === null
+        ? `<span class="priceConsultar">Consultar</span>`
+        : ars(net);
+
+      const lineTotal = net === null
+        ? `<span style="color:var(--muted);">—</span>`
+        : ars(net * q);
+
+      if(net !== null){
+        const line = net * q;
+        sub += line;
+        iva += line * pct(p.IVA);
+        ii  += line * pct(p.II);
+      }
+
+      items += q;
+
+      const descCorta = (p.DESCRIPCION || "").slice(0, 28);
+
+      html += `
+        <div style="
+          padding:12px;
+          margin-bottom:10px;
+          border-radius:16px;
+          border:1px solid var(--stroke);
+          background:rgba(255,255,255,.04);
+        ">
+
+          <div style="
+            display:flex;
+            justify-content:space-between;
+            gap:10px;
+            align-items:flex-start;
+          ">
+
+            <div style="min-width:0; flex:1;">
+              <div style="
+                font-weight:900;
+                font-size:14px;
+                white-space:nowrap;
+                overflow:hidden;
+                text-overflow:ellipsis;
+              ">
+                ${marcaOpLabel(p)}
+              </div>
+
+              <div style="
+                margin-top:3px;
+                font-size:12px;
+                color:var(--muted);
+                white-space:nowrap;
+                overflow:hidden;
+                text-overflow:ellipsis;
+              ">
+                ${p.ARTICULO || ""}
+              </div>
+
+              <div style="
+                margin-top:4px;
+                font-size:12px;
+                color:var(--muted);
+                white-space:nowrap;
+                overflow:hidden;
+                text-overflow:ellipsis;
+              ">
+                ${descCorta}
+              </div>
+            </div>
+
+            <button class="cartTrash" data-cart-month="${monthKey}" data-cart-k="${k}" data-cart-a="x" title="Quitar artículo">
+              🗑
+            </button>
+
+          </div>
+
+          <div style="
+            display:grid;
+            grid-template-columns:1fr 1fr 1fr;
+            gap:8px;
+            margin-top:12px;
+            align-items:end;
+          ">
+
+            <div>
+              <div style="font-size:11px; color:var(--muted); margin-bottom:5px;">
+                Cant.
+              </div>
+
+              <div class="qty" style="gap:6px;">
+                <button class="qbtn" data-cart-month="${monthKey}" data-cart-k="${k}" data-cart-a="d" style="width:30px;height:30px;border-radius:10px;">–</button>
+                <div class="qval" style="width:20px;">${q}</div>
+                <button class="qbtn" data-cart-month="${monthKey}" data-cart-k="${k}" data-cart-a="i" style="width:30px;height:30px;border-radius:10px;">+</button>
+              </div>
+            </div>
+
+            <div style="text-align:right;">
+              <div style="font-size:11px; color:var(--muted); margin-bottom:5px;">
+                Precio
+              </div>
+              <div style="
+                font-weight:900;
+                font-size:12.5px;
+                white-space:nowrap;
+              ">
+                ${price}
+              </div>
+            </div>
+
+            <div style="text-align:right;">
+              <div style="font-size:11px; color:var(--muted); margin-bottom:5px;">
+                Subtotal
+              </div>
+              <div style="
+                font-weight:900;
+                font-size:12.5px;
+                white-space:nowrap;
+              ">
+                ${lineTotal}
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      `;
+    });
   });
 
   const total = sub + iva + ii;
@@ -3337,24 +3397,56 @@ Object.values(ALL_CARTS).forEach(monthCart => {
   container.querySelectorAll("[data-cart-a]").forEach(b => {
     b.onclick = () => {
 
+      const monthKey = b.getAttribute("data-cart-month");
       const k = b.getAttribute("data-cart-k");
       const act = b.getAttribute("data-cart-a");
 
-      const item = CART.get(k);
-      if(!item) return;
+      ALL_CARTS = JSON.parse(localStorage.getItem("tm_carts") || "{}");
+
+      const monthCart = ALL_CARTS[monthKey] || [];
+      const idx = monthCart.findIndex(([art]) => art === k);
+
+      if(idx === -1) return;
+
+      const item = monthCart[idx][1];
 
       if(act === "i"){
-        setQty(item.p, item.q + 1);
+        item.q = item.q + 1;
       }
 
       if(act === "d"){
-        setQty(item.p, item.q - 1);
+        item.q = item.q - 1;
       }
 
       if(act === "x"){
-        setQty(item.p, 0);
+        item.q = 0;
       }
 
+      if(item.q <= 0){
+        monthCart.splice(idx, 1);
+      }else{
+        monthCart[idx][1] = item;
+      }
+
+      if(monthCart.length === 0){
+        delete ALL_CARTS[monthKey];
+      }else{
+        ALL_CARTS[monthKey] = monthCart;
+      }
+
+      localStorage.setItem("tm_carts", JSON.stringify(ALL_CARTS));
+
+      if(monthKey === currentMonthKey()){
+        CART.clear();
+
+        const currentSaved = ALL_CARTS[currentMonthKey()] || [];
+        currentSaved.forEach(([art, val]) => {
+          CART.set(art, val);
+        });
+      }
+
+      totals();
+      render();
       renderCart();
     };
   });
@@ -3382,7 +3474,6 @@ Object.values(ALL_CARTS).forEach(monthCart => {
 
       totals();
       render();
-      renderCart();
 
       const cartModal = document.getElementById("cartModal");
       if(cartModal){
