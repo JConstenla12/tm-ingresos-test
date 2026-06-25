@@ -1284,11 +1284,11 @@ body.theme-light .dot.on{
    DESKTOP BÁSICO (sin premium todavía)
    ========================= */
 @media (min-width: 768px){
-  .appShell{
-    width:min(calc(100% - 36px), var(--shell-max-desktop));
-    padding-top:18px;
-    padding-bottom:36px;
-  }
+ .appShell{
+  width:min(100%, 1100px); /* 👈 más ancho usable */
+  margin:0 auto;
+}
+
 
   .row1{
     grid-template-columns:auto minmax(0,1fr);
@@ -1326,7 +1326,7 @@ body.theme-light .dot.on{
 
   .row3{
     margin-top:14px;
-    grid-template-columns:minmax(280px,1.35fr) repeat(3,minmax(150px,1fr));
+    grid-template-columns:repeat(4, minmax(0,1fr));
     gap:10px;
   }
 
@@ -2118,7 +2118,7 @@ flex:0 0 110px !important;
 .rowSearchCart{
   margin-top:10px !important;
   display:grid !important;
-  grid-template-columns:minmax(0,1fr) 88px !important;
+  grid-template-columns:minmax(0,1fr) 130px !important;
   gap:10px !important;
   align-items:center !important;
 }
