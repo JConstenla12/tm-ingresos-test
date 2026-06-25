@@ -1657,13 +1657,41 @@ body.theme-light #btnNewIngresos.active{
 
 #cartModal .modalBox{
   width:min(620px,96vw);
-  height:calc(100dvh - 20px); /* 👈 clave mobile real */
+  height:calc(100dvh - 20px);
 
   display:flex;
   flex-direction:column;
 
-  overflow:hidden; /* 👈 importante */
+  overflow:hidden;
 }
+#cartModal .modalTop{
+  flex:0 0 auto;
+}
+
+#cartModal .cartModalBody{
+  flex:1 1 auto;
+
+  display:block;
+
+  min-height:0;
+
+  padding:12px;
+
+  overflow-y:auto;
+  overflow-x:hidden;
+
+  -webkit-overflow-scrolling:touch;
+
+  justify-content:flex-start !important;
+  align-items:stretch !important;
+}
+
+#cartContent{
+  width:100%;
+  display:block;
+}
+
+  
 #cartContent{
   width:100%;
 }
@@ -2630,15 +2658,7 @@ flex:0 0 110px !important;
       <button id="cartClose">Cerrar ✕</button>
     </div>
 
-    <div class="modalBody" style="
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  align-items:stretch;
-  padding:12px;
-  overflow-y:auto;
-  -webkit-overflow-scrolling:touch;
-">
+    <div class="modalBody cartModalBody">
 
       <div id="cartContent">
         <!-- acá vamos a renderizar los productos -->
@@ -3655,9 +3675,10 @@ function renderCart(){
 
   ALL_CARTS = JSON.parse(localStorage.getItem("tm_carts") || "{}");
 
-  const monthEntries = Object.entries(ALL_CARTS)
-    .filter(([monthKey, monthCart]) => Array.isArray(monthCart) && monthCart.length > 0);
-
+  const monthEntries = MONTHS
+  .map(m => [m.file, ALL_CARTS[m.file] || []])
+  .filter(([monthKey, monthCart]) => Array.isArray(monthCart) && monthCart.length > 0);
+    
   if(monthEntries.length === 0){
     container.innerHTML = `
       <div style="text-align:center; padding:28px; color:var(--muted);">
@@ -4045,6 +4066,11 @@ if(btnCartModal){
     if(cartModal){
       renderCart();
       cartModal.style.display = "flex";
+
+      const body = cartModal.querySelector(".cartModalBody");
+      if(body){
+        body.scrollTop = 0;
+      }
     }
   };
 }
