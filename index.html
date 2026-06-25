@@ -2119,6 +2119,250 @@ body.theme-light .cartTotalsBox{
     font-size:12px !important;
   }
 }
+
+  /* =========================================================
+   RESET HEADER FINAL — TM INGRESOS TEST
+   ========================================================= */
+
+/* Contenedor general */
+.appShell{
+  width:min(calc(100% - (var(--shell-side) * 2)), var(--shell-max-mobile)) !important;
+  margin:0 auto !important;
+}
+
+/* FILA 1: logo grande + theme */
+.row1{
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) auto !important;
+  align-items:center !important;
+  gap:10px !important;
+}
+
+.brandLeft{
+  display:flex !important;
+  align-items:center !important;
+  min-width:0 !important;
+}
+
+.logo{
+  font-size:clamp(40px,12vw,56px) !important;
+  font-weight:900 !important;
+  line-height:.95 !important;
+  white-space:nowrap !important;
+  letter-spacing:.1px !important;
+}
+
+.rightBtns{
+  display:flex !important;
+  justify-content:flex-end !important;
+  align-items:center !important;
+  flex-wrap:nowrap !important;
+}
+
+/* FILA 2: dirección */
+.row2addr{
+  margin-top:6px !important;
+}
+
+.addrLineTop{
+  display:flex !important;
+  flex-wrap:wrap !important;
+  gap:6px 10px !important;
+  color:var(--muted) !important;
+  font-size:11px !important;
+  line-height:1.25 !important;
+}
+
+/* FILA 3: web + redes */
+.rowWebSocial{
+  margin-top:4px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:10px !important;
+}
+
+.rowWebSocial > a{
+  color:#3b82f6 !important;
+  text-decoration:underline !important;
+  font-size:11px !important;
+  white-space:nowrap !important;
+}
+
+.rowWebSocial .social{
+  display:flex !important;
+  gap:6px !important;
+  align-items:center !important;
+  flex-shrink:0 !important;
+}
+
+.rowWebSocial .iconBtn{
+  width:28px !important;
+  height:28px !important;
+}
+
+.rowWebSocial .iconBtn svg{
+  width:14px !important;
+  height:14px !important;
+}
+
+/* FILA MES / TÍTULO */
+.rowMonth{
+  margin-top:12px !important;
+  display:grid !important;
+  grid-template-columns:112px minmax(0,1fr) !important;
+  gap:10px !important;
+  align-items:center !important;
+}
+
+.monthBtn{
+  width:100% !important;
+  height:42px !important;
+  min-height:42px !important;
+  padding:10px 12px !important;
+  border-radius:14px !important;
+  font-size:12.5px !important;
+  font-weight:900 !important;
+}
+
+.titleBox{
+  min-width:0 !important;
+  display:flex !important;
+  align-items:center !important;
+}
+
+.titleBox h1{
+  margin:0 !important;
+  font-size:clamp(22px,7vw,30px) !important;
+  font-weight:900 !important;
+  line-height:1.05 !important;
+  white-space:nowrap !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+}
+
+/* FILA NUEVOS / QUITAR / PVC */
+.rowBtnsTop{
+  margin-top:12px !important;
+  display:grid !important;
+  grid-template-columns:minmax(0,1.15fr) minmax(0,.75fr) 76px !important;
+  gap:8px !important;
+  align-items:center !important;
+}
+
+#btnNewIngresos,
+#btnClearFilters{
+  width:100% !important;
+  height:42px !important;
+  min-height:42px !important;
+  padding:9px 10px !important;
+  border-radius:999px !important;
+  font-size:12px !important;
+  font-weight:900 !important;
+  white-space:nowrap !important;
+}
+
+.rowBtnsTop #btnPVL{
+  width:76px !important;
+  min-width:76px !important;
+  height:42px !important;
+  padding:0 10px !important;
+  border-radius:999px !important;
+  font-size:12px !important;
+}
+
+/* FILA BUSCAR + CARRITO */
+.rowSearchCart{
+  margin-top:10px !important;
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) 88px !important;
+  gap:10px !important;
+  align-items:center !important;
+}
+
+.rowSearchCart #q{
+  width:100% !important;
+  height:42px !important;
+  min-height:42px !important;
+}
+
+.rowSearchCart #btnCart{
+  width:88px !important;
+  min-width:88px !important;
+  height:42px !important;
+  padding:9px 10px !important;
+  border-radius:999px !important;
+  font-size:13px !important;
+  font-weight:900 !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:6px !important;
+  white-space:nowrap !important;
+}
+
+#cartCount{
+  display:inline-block !important;
+  min-width:22px !important;
+  text-align:center !important;
+}
+
+/* Carrito activo */
+#btnCart.active{
+  background:linear-gradient(135deg,#f59e0b,#fbbf24) !important;
+  color:#111 !important;
+  box-shadow:
+    0 0 0 3px rgba(245,158,11,.25),
+    0 10px 25px rgba(245,158,11,.35) !important;
+  transform:translateY(-1px) !important;
+}
+
+/* Evitar restos de layout anterior */
+.rowPVLCart{
+  display:none !important;
+}
+
+/* Ajuste celulares chicos */
+@media (max-width:380px){
+  .logo{
+    font-size:clamp(34px,11vw,46px) !important;
+  }
+
+  .rowMonth{
+    grid-template-columns:104px minmax(0,1fr) !important;
+  }
+
+  .titleBox h1{
+    font-size:clamp(20px,6.4vw,26px) !important;
+  }
+
+  .rowBtnsTop{
+    grid-template-columns:minmax(0,1.15fr) minmax(0,.72fr) 72px !important;
+    gap:7px !important;
+  }
+
+  #btnNewIngresos,
+  #btnClearFilters{
+    font-size:11px !important;
+    padding:8px 8px !important;
+  }
+
+  .rowBtnsTop #btnPVL{
+    width:72px !important;
+    min-width:72px !important;
+    font-size:11px !important;
+  }
+
+  .rowSearchCart{
+    grid-template-columns:minmax(0,1fr) 82px !important;
+  }
+
+  .rowSearchCart #btnCart{
+    width:82px !important;
+    min-width:82px !important;
+    font-size:12px !important;
+  }
+}
   
 </style>
 </head>
@@ -2134,7 +2378,7 @@ body.theme-light .cartTotalsBox{
   <div class="top">
     <div class="appShell">
 
-  <!-- FILA 1 - Logo + theme -->
+ <!-- FILA 1 - Logo + theme -->
 <div class="shellBlock row1">
 
   <div class="brandLeft">
@@ -2153,30 +2397,75 @@ body.theme-light .cartTotalsBox{
 
 </div>
 
-<!-- FILA 2 - Dirección + web + redes -->
+<!-- FILA 2 - Dirección -->
 <div class="shellBlock row2addr">
+  <div class="addrLineTop">
+    <span>Av. Martin Garcia 463 | CABA</span>
+    <span>Tel. +54 9 (11) 5565-7500</span>
+  </div>
+</div>
 
-  <div class="addrStack">
+<!-- FILA 3 - Web + redes -->
+<div class="shellBlock rowWebSocial">
 
-    <div class="addrLineTop">
-      <span>Av. Martin Garcia 463 | CABA</span>
-      <span>Tel. +54 9 (11) 5565-7500</span>
-    </div>
+  <a href="https://todomusica.com.ar/" target="_blank">
+    www.todomusica.com.ar
+  </a>
 
-    <div class="addrWebSocial">
+  <div class="social">
+    <a class="iconBtn" target="_blank" rel="noopener" href="https://www.facebook.com/people/Todomusica-SA/100064115318334/">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.4h-1.2c-1.2 0-1.6.8-1.6 1.5V12h2.7l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"/></svg>
+    </a>
 
-      <a href="https://todomusica.com.ar/" target="_blank">
-        www.todomusica.com.ar
-      </a>
+    <a class="iconBtn" target="_blank" rel="noopener" href="https://www.instagram.com/todomusicasa/">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3zm-5 3.5A4.5 4.5 0 1 1 7.5 12 4.5 4.5 0 0 1 12 7.5zm0 2A2.5 2.5 0 1 0 14.5 12 2.5 2.5 0 0 0 12 9.5zm5.2-2.2a1 1 0 1 1-1 1 1 1 0 0 1 1-1z"/></svg>
+    </a>
 
-      <div class="social">
-        <a class="iconBtn" target="_blank" rel="noopener" href="https://www.facebook.com/people/Todomusica-SA/100064115318334/">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.4h-1.2c-1.2 0-1.6.8-1.6 1.5V12h2.7l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"/></svg>
-        </a>
+    <a class="iconBtn" target="_blank" rel="noopener" href="https://www.youtube.com/@TodomusicaS.A">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.6 7.2a3 3 0 0 0-2.1-2.1C17.7 4.6 12 4.6 12 4.6s-5.7 0-7.5.5A3 3 0 0 0 2.4 7.2 31 31 0 0 0 2 12a31 31 0 0 0 .4 4.8 3 3 0 0 0 2.1 2.1c1.8.5 7.5.5 7.5.5s5.7 0 7.5-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 22 12a31 31 0 0 0-.4-4.8zM10 15.5v-7l6 3.5-6 3.5z"/></svg>
+    </a>
+  </div>
 
-        <a class="iconBtn" target="_blank" rel="noopener" href="https://www.instagram.com/todomusicasa/">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm10 2H7a3 3 0 0
-                                                         
+</div>
+
+<!-- FILA MES / TITULO -->
+<div class="shellBlock rowMonth">
+
+  <select class="inp monthBtn" id="selMonth"></select>
+
+  <div class="titleBox">
+    <h1 id="ttl">Ingresos de Mayo</h1>
+  </div>
+
+</div>
+
+<!-- FILA BOTONES PRINCIPALES -->
+<div class="shellBlock row4 rowBtnsTop">
+
+  <button class="btn" id="btnNewIngresos">
+    🔥 Nuevos ingresos
+  </button>
+
+  <button class="btn" id="btnClearFilters">
+    🧹 Quitar
+  </button>
+
+  <button class="iconBtn" id="btnPVL" title="Cambiar vista (PVC / PVL)">
+    👁 <span id="lblPVL">PVC</span>
+  </button>
+
+</div>
+
+<!-- FILA BUSCAR + CARRITO -->
+<div class="shellBlock rowSearchCart">
+
+  <input class="inp" id="q" placeholder="Buscar..." />
+
+  <button class="btn" id="btnCart">
+    🛒 <span id="cartCount">0</span>
+  </button>
+
+</div>                                                        
 <!-- NUEVA FILA — FILTROS -->
 <div class="shellBlock row3 row3Filters">
   <select id="fMarca">
