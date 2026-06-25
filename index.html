@@ -1284,12 +1284,10 @@ body.theme-light .dot.on{
    DESKTOP BÁSICO (sin premium todavía)
    ========================= */
 @media (min-width: 768px){
- .appShell{
-  width:min(100%, 920px);
+.appShell{
+  width:min(calc(100% - 20px), var(--shell-max-desktop));
   margin:0 auto;
 }
-
-
   .row1{
     grid-template-columns:auto minmax(0,1fr);
     gap:12px 18px;
@@ -1359,7 +1357,7 @@ body.theme-light .dot.on{
   }
 
   .grid{
-    grid-template-columns:repeat(3,minmax(0,1fr));
+    grid-template-columns:repeat(2,minmax(0,1fr));
     gap:18px;
   }
 
@@ -2201,8 +2199,8 @@ flex:0 0 110px !important;
 
 /* Contenedor general */
 .appShell{
-  width:min(calc(100% - (var(--shell-side) * 2)), var(--shell-max-mobile)) !important;
-  margin:0 auto !important;
+  width:min(calc(100% - (var(--shell-side) * 2)), var(--shell-max-mobile));
+  margin:0 auto;
 }
 
 /* FILA 1: logo grande + theme */
