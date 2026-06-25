@@ -1573,6 +1573,17 @@ body.theme-light #btnNewIngresos.active{
     0 6px 16px rgba(0,0,0,.35),
     inset 0 1px 0 rgba(255,255,255,.06);
 }
+  #btnCart.active{
+  background:linear-gradient(135deg,#f59e0b,#fbbf24);
+  color:#111;
+
+  box-shadow:
+    0 0 0 3px rgba(245,158,11,.25),
+    0 10px 25px rgba(245,158,11,.35);
+
+  transform:translateY(-1px);
+}
+
   /* =========================
    MODAL CARRITO — PRO
    ========================= */
@@ -2608,6 +2619,11 @@ if(net !== null){
 
   document.getElementById("it").textContent  = String(items);
   const cartCountEl = document.getElementById("cartCount");
+  const btnCart = document.getElementById("btnCart");
+if(btnCart){
+  btnCart.classList.toggle("active", items > 0);
+}
+
 if(cartCountEl){
   cartCountEl.textContent = String(items);
 }
@@ -3103,28 +3119,11 @@ function renderCart(){
     </div>
   `;
 
-  CART.forEach((v, k) => {
+   ALL_CARTS = JSON.parse(localStorage.getItem("tm_carts") || "{}");
 
-    const p = v.p;
-    const q = v.q;
+Object.values(ALL_CARTS).forEach(monthCart => {
 
-    const net = pvcNeto(p);
-
-    const price = net === null
-      ? `<span class="priceConsultar">Consultar</span>`
-      : ars(net);
-
-    const lineTotal = net === null
-      ? `<span style="color:var(--muted);">—</span>`
-      : ars(net * q);
-
-    if(net !== null){
-      const line = net * q;
-      sub += line;
-      iva += line * pct(p.IVA);
-      ii  += line * pct(p.II);
-    }
-
+  (monthCart || []).forEach(([k, v]) => {
     items += q;
 
     const descCorta = (p.DESCRIPCION || "").slice(0, 28);
