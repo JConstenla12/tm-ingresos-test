@@ -2503,6 +2503,23 @@ flex:0 0 110px !important;
     transform:translateY(0);
   }
 }
+  /* =========================
+   CART BAR PULSE
+   ========================= */
+
+@keyframes cartPulse{
+  0%   { transform:scale(1); }
+  40%  { transform:scale(1.02); }
+  100% { transform:scale(1); }
+}
+
+.cartInner.pulse{
+  animation:cartPulse .25s ease;
+
+  box-shadow:
+    0 0 0 3px rgba(245,158,11,.25),
+    0 10px 28px rgba(245,158,11,.35);
+}
   
 </style>
 </head>
@@ -2921,8 +2938,21 @@ function setQty(p, q){
   /* guardar solo el carrito del mes actual dentro del global */
   saveCurrentMonthCart();
 
-  totals();
-  render();
+  const hadItemsBefore = CART.size;
+
+totals();
+render();
+
+/* =========================
+   CART PULSE SI YA EXISTÍA
+   ========================= */
+const cart = document.getElementById("cart");
+
+if(cart && hadItemsBefore > 0 && q > 0){
+  cart.classList.remove("pulse");
+  void cart.offsetWidth;
+  cart.classList.add("pulse");
+}
 
   /* =========================
      CART FEEDBACK — SOLO AL SUMAR
