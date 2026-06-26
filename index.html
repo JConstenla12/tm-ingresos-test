@@ -3643,38 +3643,33 @@ function renderCart(){
     cartWA.href = "https://wa.me/?text=" + encodeURIComponent(txt);
   }
 }
-  /* =========================
+/* =========================
    CARRITO — MODAL OPEN/CLOSE
    ========================= */
+
 const btnCartModal = document.getElementById("btnCart");
-  const btnGoCart = document.getElementById("btnGoCart");
+const btnGoCart = document.getElementById("btnGoCart");
 const cartModal = document.getElementById("cartModal");
 const cartClose = document.getElementById("cartClose");
 
-if(btnCartModal){
-  btnCartModal.onclick = () => {
-    if(cartModal){
-      renderCart();
-      cartModal.style.display = "flex";
+function openCartModal(){
+  if(cartModal){
+    renderCart();
+    cartModal.style.display = "flex";
 
-      const body = cartModal.querySelector(".cartModalBody");
-      if(body){
-        body.scrollTop = 0;
-      }
+    const body = cartModal.querySelector(".cartModalBody");
+    if(body){
+      body.scrollTop = 0;
     }
-  };
+  }
 }
-if(btnGoCart){if  btnGoCart.onclick = () => {
-    if(cartModal){
-      renderCart();
-      cartModal.style.display = "flex";
 
-      const body = cartModal.querySelector(".cartModalBody");
-      if(body){
-        body.scrollTop = 0;
-      }
-    }
-  };
+if(btnCartModal){
+  btnCartModal.onclick = openCartModal;
+}
+
+if(btnGoCart){
+  btnGoCart.onclick = openCartModal;
 }
 
 if(cartClose){
@@ -3691,8 +3686,7 @@ if(cartModal){
       cartModal.style.display = "none";
     }
   };
-}
-  
+}  
 </script>
 </body>
 </html>
