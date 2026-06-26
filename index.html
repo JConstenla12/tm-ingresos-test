@@ -3029,7 +3029,7 @@ function card(p){
         <div class="prod-line">
           ${badgeStock(p.STOCK_TXT)}
           <span class="mini">IVA ${(iva*100).toLocaleString("es-AR",{maximumFractionDigits:1})}%</span>
-          <span class="mini">II ${Math.round(ii*100)}%</span>
+          <span class="mini">Imp. Int. ${Math.round(ii*100)}%</span>
         </div>
 
         <div class="prod-line">
@@ -3310,14 +3310,66 @@ if(cartCountEl){
   const txt = buildWA(sub, iva, ii, tot);
 
  const wa = document.getElementById("wa");
-  if(wa){
-    wa.href = items > 0
-      ? "https://wa.me/?text=" + encodeURIComponent(txt)
-      : "#";
-  }
+
+if(wa){
+
+  wa.href = items > 0
+    ? "https://wa.me/?text=" + encodeURIComponent(txt)
+    : "#";
+
+  wa.onclick = (e)=>{
+    if(items === 0){
+      e.preventDefault();
+      showEmptyCartMessage();
+    }
+  };
+
+}
 
   updateNewIngresoBanner();
 }
+
+function showEmptyCartMessage(){
+
+  const msg = document.createElement("div");
+
+  msg.textContent = "No tenés productos en el carrito";
+
+  msg.style.position = "fixed";
+  msg.style.bottom = "90px";
+  msg.style.left = "50%";
+  msg.style.transform = "translateX(-50%)";
+
+  msg.style.background = "rgba(0,0,0,.85)";
+  msg.style.color = "#fff";
+
+  msg.style.padding = "10px 16px";
+  msg.style.borderRadius = "12px";
+
+  msg.style.fontSize = "13px";
+  msg.style.fontWeight = "700";
+
+  msg.style.zIndex = "9999";
+  msg.style.opacity = "0";
+  msg.style.transition = "opacity .25s ease, transform .25s ease";
+
+  document.body.appendChild(msg);
+
+  requestAnimationFrame(()=>{
+    msg.style.opacity = "1";
+    msg.style.transform = "translateX(-50%) translateY(-6px)";
+  });
+
+  setTimeout(()=>{
+    msg.style.opacity = "0";
+    msg.style.transform = "translateX(-50%)";
+  }, 1800);
+
+  setTimeout(()=>{
+    msg.remove();
+  }, 2200);
+}
+  
 function buildWA(sub, iva, ii, tot){
   const lines = [];
   
