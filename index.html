@@ -1667,6 +1667,66 @@ body.theme-light .dot.on{
 body.theme-light .filterChip{
   background:linear-gradient(135deg,#f59e0b,#fcd34d);
 }
+/* =========================
+   TOAST + FILTROS ACTIVOS + FADE
+   ========================= */
+
+.toast{
+  position:fixed;
+  bottom:110px;
+  left:50%;
+  transform:translateX(-50%) translateY(10px);
+  background:rgba(0,0,0,.9);
+  color:#fff;
+  padding:10px 16px;
+  border-radius:12px;
+  font-size:13px;
+  font-weight:800;
+  opacity:0;
+  transition:all .25s ease;
+  z-index:9999;
+  pointer-events:none;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(-4px);
+}
+
+.grid.fade{
+  opacity:.35;
+  transform:translateY(6px);
+  transition:all .18s ease;
+}
+
+.filtersActiveBar{
+  margin-top:10px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
+
+.filterChip{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 10px;
+  border-radius:999px;
+  background:linear-gradient(135deg,#f59e0b,#fbbf24);
+  color:#111;
+  font-size:11px;
+  font-weight:900;
+  box-shadow:0 4px 10px rgba(245,158,11,.35);
+}
+
+.filterChip span{
+  cursor:pointer;
+  font-weight:900;
+}
+
+body.theme-light .filterChip{
+  background:linear-gradient(135deg,#f59e0b,#fcd34d);
+}
   
 </style>
 </head>
@@ -1783,13 +1843,18 @@ body.theme-light .filterChip{
     <option value="">Rubro</option>
   </select>
 
-  <select id="fStk">
+<select id="fStk">
     <option value="">Stock</option>
     <option value=">10">&gt;10</option>
     <option value="<10">&lt;10</option>
     <option value="INGRESANDO">Ingresando</option>
   </select>
 </div>
+
+<div class="shellBlock">
+  <div id="filtersActiveBar" class="filtersActiveBar"></div>
+</div>
+
 <!-- TOTALES -->
 <div class="totBlock">
 
@@ -2095,6 +2160,7 @@ function setQty(p, q){
   /* feedback solo al sumar */
   if(q > oldQ){
     cartFeedback();
+    showToast("✅ Agregado al carrito");
 
     const cart = document.getElementById("cart");
 
@@ -2104,6 +2170,26 @@ function setQty(p, q){
       cart.classList.add("pulse");
     }
   }
+}
+  function showToast(msg){
+
+  const t = document.createElement("div");
+  t.className = "toast";
+  t.textContent = msg;
+
+  document.body.appendChild(t);
+
+  requestAnimationFrame(()=>{
+    t.classList.add("show");
+  });
+
+  setTimeout(()=>{
+    t.classList.remove("show");
+  }, 1600);
+
+  setTimeout(()=>{
+    t.remove();
+  }, 2000);
 }
 
 function totalCartItems(){
@@ -2452,7 +2538,8 @@ g.innerHTML = `
 }
  async function apply(){
 
-   const g = document.getElementById("grid");
+  const g = document.getElementById("grid");
+
   if(g){
     g.classList.add("fade");
   }
@@ -2464,6 +2551,7 @@ g.innerHTML = `
   }
 
   rebuildDependentFilters();
+
   const q = (document.getElementById("q").value || "").toLowerCase().trim();
   let m = document.getElementById("fMarca").value;
   let r = document.getElementById("fRubro").value;
@@ -2510,16 +2598,17 @@ g.innerHTML = `
   }
 
   VIEW = result;
-   if(g){
+
+  if(g){
     setTimeout(()=>{
       g.classList.remove("fade");
     }, 80);
   }
+
   render();
   totals();
-
   checkFiltersActive();
-   renderActiveFilters();
+  renderActiveFilters();
 }
 /* =========================
    TOTALES GLOBALES + WHATSAPP POR MES (PASO 13 FIX)
@@ -2971,7 +3060,16 @@ function checkFiltersActive(){
   if(btnNew){
     btnNew.classList.toggle("active", filtroNuevosIngresos);
   }
-  function renderActiveFilters(){
+
+  /* activar botón limpiar si hay cualquier filtro */
+  if(q.value.trim() || m.value || r.value || s.value || filtroNuevosIngresos){
+    btnClear.classList.add("active");
+  }else{
+    btnClear.classList.remove("active");
+  }
+}
+
+function renderActiveFilters(){
 
   const bar = document.getElementById("filtersActiveBar");
   if(!bar) return;
@@ -2999,30 +3097,28 @@ function checkFiltersActive(){
     html += `<div class="filterChip">Stock: ${s} <span data-x="s">✕</span></div>`;
   }
 
+  if(filtroNuevosIngresos){
+    html += `<div class="filterChip">🔥 Nuevos <span data-x="new">✕</span></div>`;
+  }
+
   bar.innerHTML = html;
 
   bar.querySelectorAll("[data-x]").forEach(el=>{
     el.onclick = ()=>{
       const t = el.getAttribute("data-x");
 
-      if(t==="q") document.getElementById("q").value="";
-      if(t==="m") document.getElementById("fMarca").value="";
-      if(t==="r") document.getElementById("fRubro").value="";
-      if(t==="s") document.getElementById("fStk").value="";
+      if(t === "q") document.getElementById("q").value = "";
+      if(t === "m") document.getElementById("fMarca").value = "";
+      if(t === "r") document.getElementById("fRubro").value = "";
+      if(t === "s") document.getElementById("fStk").value = "";
+      if(t === "new") filtroNuevosIngresos = false;
 
       apply();
     };
   });
 }
 
-  /* activar botón limpiar si hay cualquier filtro */
-  if(q.value.trim() || m.value || r.value || s.value || filtroNuevosIngresos){
-    btnClear.classList.add("active");
-  }else{
-    btnClear.classList.remove("active");
-  }
-} 
-   document.getElementById("btnClearFilters").onclick = () => {
+document.getElementById("btnClearFilters").onclick = () => {
   filtroNuevosIngresos = false;
 
   document.getElementById("q").value = "";
@@ -3032,7 +3128,8 @@ function checkFiltersActive(){
 
   apply();
 };
-   document.getElementById("btnNewIngresos").onclick = () => {
+
+document.getElementById("btnNewIngresos").onclick = () => {
   filtroNuevosIngresos = !filtroNuevosIngresos;
 
   document.getElementById("q").value = "";
@@ -3058,7 +3155,7 @@ function checkFiltersActive(){
 
   apply();
 };
-
+  
 /* THEME */
 const btnTheme = document.getElementById("btnTheme");
 
