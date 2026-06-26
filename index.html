@@ -353,43 +353,9 @@ body.theme-light #btnPVL:active{
   box-shadow:0 0 0 3px rgba(245,158,11,.3), 0 6px 18px rgba(245,158,11,.25);
 }
 
-.addr{
-  min-width:0;
-  color:var(--muted);
-  font-size:11px;
-  line-height:1.3;
-  align-self:center;
-}
-/* FILA 2 - dirección en línea adaptable */
-.addrLine{
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px 10px;
-  font-size:11px;
-  color:var(--muted);
-  line-height:1.3;
-}
 
-.addrLine a{
-  color:#3b82f6;
-  text-decoration:underline;
-  white-space:nowrap;
-}
-.addr a{
-  color:#3b82f6;
-  text-decoration:underline;
-}
 
-/* =========================
-   FILA 2
-   ========================= */
-.row2{
-  margin-top:12px;
-  display:grid;
-  grid-template-columns:auto auto minmax(0,1fr);
-  gap:8px;
-  align-items:center;
-}
+
 
 .titleBox{
   min-width:0;
@@ -427,16 +393,7 @@ body.theme-light #btnPVL:active{
   gap:10px;
   align-items:center;
 }
-/* =========================
-   FILA PVL / CARRITO
-   ========================= */
-.rowPVLCart{
-  margin-top:10px;
-  display:flex;
-  justify-content:flex-end;
-  align-items:center;
-  gap:10px;
-}
+
 
 /* =========================
    FILA 3
@@ -506,12 +463,6 @@ select{
   text-align:right;
 }
 
-/* =========================
-   FILA 5
-   ========================= */
-.row5{
-  margin-top:12px;
-}
 
  /* =========================
    TOTALES - GRID MODULAR
@@ -610,10 +561,6 @@ align-items:stretch;
  
 }
 
-.waIconCircle svg{
-  width:18px;
-  height:18px;
-}
 
 .waSub{
   font-size:12px;
@@ -659,17 +606,7 @@ align-items:stretch;
   box-shadow:0 0 0 3px rgba(245,158,11,.25), 0 8px 20px rgba(245,158,11,.25);
 }
 
-.btn.primary{
-  background:var(--accent);
-  color:#111;
-  border-color:rgba(0,0,0,.15);
-  font-weight:800;
-  box-shadow:0 6px 16px rgba(245,158,11,.25);
-}
 
-.btn.primary:active{
-  box-shadow:0 0 0 3px rgba(245,158,11,.22), 0 10px 22px rgba(245,158,11,.18);
-}
 
 .themeSwitch{
   display:flex;
@@ -1266,15 +1203,7 @@ body.theme-light .dot.on{
     font-size:10px;
   }
 
-  .totals{
-    padding:10px;
-    gap:8px;
-  }
-
-  .totalList{
-    gap:6px 10px;
-    font-size:11px;
-  }
+ 
 
   .btn{
     padding:9px 10px;
@@ -1282,97 +1211,6 @@ body.theme-light .dot.on{
   }
 }
 
-/* =========================
-   DESKTOP BÁSICO (sin premium todavía)
-   ========================= */
-@media (min-width: 768px){
-.appShell{
-  width:min(calc(100% - (var(--shell-side) * 2)), var(--shell-max-desktop));
-  margin:0 auto;
-}
-  .row1{
-    grid-template-columns:auto minmax(0,1fr);
-    gap:12px 18px;
-  }
-
-  .logo{
-    font-size:52px;
-  }
-
-  .iconBtn{
-    width:38px;
-    height:38px;
-  }
-
-  .iconBtn svg{
-    width:18px;
-    height:18px;
-  }
-
-  .addr{
-    font-size:17px;
-    line-height:1.35;
-  }
-
-  .row2{
-    margin-top:16px;
-    grid-template-columns:auto auto minmax(0,1fr);
-    gap:12px;
-  }
-
-  .titleBox h1{
-    font-size:20px;
-  }
-
-  .row3{
-    margin-top:14px;
-    grid-template-columns:repeat(4, minmax(0,1fr));
-    gap:10px;
-  }
-
-  .inp, select{
-    min-height:50px;
-    font-size:14px;
-    padding:12px 14px;
-  }
-
-  .row4{
-    margin-top:12px;
-  }
-
-  .legal{
-    font-size:14px;
-  }
-
-  .row5{
-    margin-top:14px;
-  }
-
-  .totals{
-    padding:14px 16px;
-    grid-template-columns:minmax(0,1fr) auto;
-  }
-
-  .totalList{
-    gap:10px 18px;
-    font-size:14px;
-  }
-
-  .grid{
-    grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:18px;
-  }
-
-  .products{
-    margin-top:20px;
-    max-width:100%;
-
-  }
-
-  .cartInner{
-    width:min(calc(100% - 20px), var(--shell-max-desktop));
-  }
-}
 
 /* Facebook */
 .iconBtn[href*="facebook"]:active{
@@ -1488,9 +1326,7 @@ select option:checked{
   gap:10px;
   align-items:center;
 }
-.row3Search{
-  grid-template-columns:1fr;
-}
+
 /* =========================
    FILTROS ACTIVOS — MODO BOTON (DARK)
    ========================= */
@@ -1549,19 +1385,7 @@ body.theme-light select.active{
   box-shadow:
     0 4px 10px rgba(245,158,11,.35);
 }
-  /* =========================
-   TEXTO NUEVOS INGRESOS
-   ========================= */
-.newIngresoTxt{
-  margin-top:6px;
-
-  font-size:12px;
-  font-weight:900;
-
-  color:#f59e0b;
-
-  display:none;
-}
+ 
   /* =========================
    BOTONES SUPERIORES (NUEVOS + LIMPIAR)
    ========================= */
@@ -1693,86 +1517,6 @@ body.theme-light #btnNewIngresos.active{
   display:block;
 }
 
-  
-#cartContent{
-  width:100%;
-}
-
-.cartHeaderRow{
-  display:grid;
-  grid-template-columns:minmax(0,1.4fr) 94px 96px 106px 38px;
-  gap:8px;
-  align-items:center;
-
-  padding:10px 12px;
-  margin-bottom:10px;
-
-  border-radius:12px;
-  background:rgba(255,255,255,.06);
-  color:var(--muted);
-
-  font-size:12px;
-  font-weight:900;
-}
-
-.cartItemRow{
-  display:grid;
-  grid-template-columns:minmax(0,1.4fr) 94px 96px 106px 38px;
-  gap:8px;
-  align-items:center;
-
-  padding:12px;
-  margin-bottom:10px;
-
-  border-radius:14px;
-  border:1px solid var(--stroke);
-  background:rgba(255,255,255,.04);
-}
-
-.cartProdTitle{
-  font-weight:900;
-  font-size:14px;
-  line-height:1.2;
-}
-
-.cartProdArt{
-  margin-top:3px;
-  font-size:12px;
-  color:var(--muted);
-}
-
-.cartProdDesc{
-  margin-top:4px;
-  font-size:12px;
-  color:var(--muted);
-  line-height:1.25;
-}
-
-.cartQtyBox{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-}
-
-.cartQtyBox .qbtn{
-  width:34px;
-  height:34px;
-  border-radius:12px;
-}
-
-.cartPriceBox{
-  text-align:right;
-  font-weight:900;
-  font-size:13px;
-}
-
-.cartSubBox{
-  text-align:right;
-  font-weight:900;
-  font-size:13px;
-}
-
 .cartTrash{
   width:34px;
   height:34px;
@@ -1793,72 +1537,7 @@ body.theme-light #btnNewIngresos.active{
   box-shadow:0 0 0 3px rgba(239,68,68,.18);
 }
 
-.cartTotalsBox{
-  margin-top:14px;
-  padding:12px;
 
-  border:1px solid var(--stroke);
-  border-radius:14px;
-  background:rgba(255,255,255,.04);
-}
-
-.cartTotalLine{
-  display:flex;
-  justify-content:space-between;
-  margin-bottom:8px;
-  font-size:13px;
-}
-
-.cartTotalLine span{
-  color:var(--muted);
-}
-
-.cartTotalFinal{
-  display:flex;
-  justify-content:space-between;
-
-  margin-top:10px;
-  padding-top:10px;
-
-  border-top:1px solid var(--stroke);
-  font-size:17px;
-  font-weight:900;
-}
-
-.cartTotalFinal b{
-  color:var(--accent);
-}
-
-.cartActions{
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-  margin-top:14px;
-}
-
-.cartWAButton{
-  width:100%;
-
-  background:#22c55e !important;
-  color:#fff !important;
-
-  border:1px solid rgba(255,255,255,.18) !important;
-  border-radius:16px;
-
-  font-size:16px;
-  font-weight:900;
-
-  box-shadow:
-    0 0 0 3px rgba(34,197,94,.20),
-    0 10px 24px rgba(34,197,94,.38);
-}
-
-.cartWAButton:active{
-  transform:scale(.97);
-  box-shadow:
-    0 0 0 3px rgba(34,197,94,.22),
-    0 6px 18px rgba(34,197,94,.30);
-}
 /* =========================
    BOTONES MODAL CARRITO — ACCIONES
    ========================= */
@@ -1885,86 +1564,7 @@ body.theme-light #btnNewIngresos.active{
   background:rgba(239,68,68,.06);
 }
   
-/* Light mode */
-body.theme-light .cartHeaderRow,
-body.theme-light .cartItemRow,
-body.theme-light .cartTotalsBox{
-  background:#ffffff;
-  border:1px solid rgba(0,0,0,.08);
-  box-shadow:0 4px 12px rgba(0,0,0,.06);
-}
 
-/* Ajuste teléfonos chicos */
-@media (max-width: 430px){
-  /* =========================
-     CARRITO — MOBILE AJUSTADO
-     ========================= */
-
-  .cartHeaderRow{
-    grid-template-columns:minmax(92px,1fr) 68px 78px 82px 28px;
-    gap:4px;
-    padding:9px 8px;
-    font-size:10.5px;
-  }
-
-  .cartItemRow{
-    grid-template-columns:minmax(92px,1fr) 68px 78px 82px 28px;
-    gap:4px;
-    padding:10px 8px;
-    align-items:center;
-  }
-
-  .cartProdTitle{
-    font-size:12.5px;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-  }
-
-  .cartProdArt{
-    font-size:10.5px;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-  }
-
-  .cartProdDesc{
-    display:block;
-    max-width:92px;
-    font-size:10.5px;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-  }
-
-  .cartQtyBox{
-    gap:4px;
-  }
-
-  .cartQtyBox .qbtn{
-    width:28px;
-    height:28px;
-    border-radius:10px;
-    font-size:17px;
-  }
-
-  .cartQtyBox .qval{
-    width:18px;
-    font-size:13px;
-  }
-
-  .cartPriceBox,
-  .cartSubBox{
-    font-size:11.5px;
-    white-space:nowrap;
-  }
-
-  .cartTrash{
-    width:28px;
-    height:28px;
-    font-size:13px;
-  }
-}
 
   /* =========================================================
    HEADER / CONTROLES — FINAL CLEAN
