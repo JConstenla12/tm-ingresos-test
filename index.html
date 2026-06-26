@@ -3175,6 +3175,51 @@ function rebuildDependentFilters(){
 }
 function render(){
   const g=document.getElementById("grid");
+
+  /* =========================
+     SIN RESULTADOS
+     ========================= */
+  if(VIEW.length === 0){
+
+    const qVal = (document.getElementById("q").value || "").trim();
+    const mVal = document.getElementById("fMarca").value;
+    const rVal = document.getElementById("fRubro").value;
+    const sVal = document.getElementById("fStk").value;
+
+    if(qVal || mVal || rVal || sVal){
+      g.innerHTML = `
+        <div style="
+          grid-column:1 / -1;
+          text-align:center;
+          padding:40px 20px;
+          color:var(--muted);
+        ">
+          <div style="
+            font-size:28px;
+            margin-bottom:10px;
+          ">🔍</div>
+
+          <div style="
+            font-size:14px;
+            font-weight:800;
+            margin-bottom:6px;
+          ">
+            No encontramos productos
+          </div>
+
+          <div style="
+            font-size:12px;
+            opacity:.8;
+          ">
+            Probá cambiar la búsqueda o los filtros
+          </div>
+        </div>
+      `;
+      return;
+    }
+
+  }
+
   g.innerHTML = VIEW.map(card).join("");
 
   g.querySelectorAll(".card").forEach(el=>{
