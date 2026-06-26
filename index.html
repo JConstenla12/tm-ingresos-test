@@ -2535,6 +2535,29 @@ flex:0 0 110px !important;
     0 0 0 3px rgba(245,158,11,.25),
     0 10px 28px rgba(245,158,11,.35);
 }
+
+/* =========================
+   CART COUNT POP
+   ========================= */
+
+@keyframes cartCountPop{
+  0%{
+    transform:scale(1);
+  }
+
+  40%{
+    transform:scale(1.25);
+  }
+
+  100%{
+    transform:scale(1);
+  }
+}
+
+#cartCount.pop{
+  animation:cartCountPop .22s ease;
+}
+
   
 </style>
 </head>
@@ -3412,7 +3435,18 @@ if(btnCart){
 }
 
 if(cartCountEl){
+
+  const prev = parseInt(cartCountEl.textContent || "0", 10);
+
   cartCountEl.textContent = String(items);
+
+  /* animar SOLO si aumenta */
+  if(items > prev){
+    cartCountEl.classList.remove("pop");
+    void cartCountEl.offsetWidth;
+    cartCountEl.classList.add("pop");
+  }
+
 }
   document.getElementById("sub").textContent = ars(sub);
   document.getElementById("iva").textContent = ars(iva);
