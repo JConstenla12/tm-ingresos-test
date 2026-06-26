@@ -2465,6 +2465,23 @@ flex:0 0 110px !important;
     0 0 0 4px rgba(245,158,11,.28),
     0 12px 28px rgba(245,158,11,.38) !important;
 }
+
+  /* =========================
+   EMPTY GRID ANIMATION
+   ========================= */
+
+.emptyState{
+  opacity:0;
+  transform:translateY(10px);
+  animation:emptyFadeIn .35s ease forwards;
+}
+
+@keyframes emptyFadeIn{
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
   
 </style>
 </head>
@@ -3187,13 +3204,14 @@ function render(){
     const sVal = document.getElementById("fStk").value;
 
     if(qVal || mVal || rVal || sVal){
-      g.innerHTML = `
-        <div style="
-          grid-column:1 / -1;
-          text-align:center;
-          padding:40px 20px;
-          color:var(--muted);
-        ">
+
+g.innerHTML = `
+  <div class="emptyState" style="
+    grid-column:1 / -1;
+    text-align:center;
+    padding:40px 20px;
+    color:var(--muted);
+  ">  
           <div style="
             font-size:28px;
             margin-bottom:10px;
