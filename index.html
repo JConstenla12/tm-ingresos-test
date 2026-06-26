@@ -1593,6 +1593,80 @@ body.theme-light .dot.on{
     font-size:11.5px;
   }
 }
+/* =========================
+   TOAST (AGREGADO)
+   ========================= */
+.toast{
+  position:fixed;
+  bottom:110px;
+  left:50%;
+  transform:translateX(-50%) translateY(10px);
+
+  background:rgba(0,0,0,.9);
+  color:#fff;
+
+  padding:10px 16px;
+  border-radius:12px;
+
+  font-size:13px;
+  font-weight:800;
+
+  opacity:0;
+  transition:all .25s ease;
+
+  z-index:9999;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(-4px);
+}
+
+/* =========================
+   FADE FILTER (grid)
+   ========================= */
+.grid.fade{
+  opacity:.35;
+  transform:translateY(6px);
+  transition:all .18s ease;
+}
+
+/* =========================
+   BARRA FILTROS ACTIVOS
+   ========================= */
+.filtersActiveBar{
+  margin-top:10px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
+
+.filterChip{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+
+  padding:6px 10px;
+
+  border-radius:999px;
+
+  background:linear-gradient(135deg,#f59e0b,#fbbf24);
+  color:#111;
+
+  font-size:11px;
+  font-weight:900;
+
+  box-shadow:0 4px 10px rgba(245,158,11,.35);
+}
+
+.filterChip span{
+  cursor:pointer;
+  font-weight:900;
+}
+
+body.theme-light .filterChip{
+  background:linear-gradient(135deg,#f59e0b,#fcd34d);
+}
   
 </style>
 </head>
@@ -1698,6 +1772,9 @@ body.theme-light .dot.on{
 </div>                                                        
 <!-- NUEVA FILA — FILTROS -->
 <div class="shellBlock row3 row3Filters">
+  <div class="shellBlock"><div class="shell <div id="filtersActiveBar" class="filtersActiveBar"></div>
+</div>
+
   <select id="fMarca">
     <option value="">Marca</option>
   </select>
@@ -2375,6 +2452,11 @@ g.innerHTML = `
 }
  async function apply(){
 
+   const g = document.getElementById("grid");
+  if(g){
+    g.classList.add("fade");
+  }
+
   if(filtroNuevosIngresos && !ALL.some(p =>
     (p.NUEVO_INGRESO || "").trim().toUpperCase() === "SI"
   )){
@@ -2428,10 +2510,16 @@ g.innerHTML = `
   }
 
   VIEW = result;
+   if(g){
+    setTimeout(()=>{
+      g.classList.remove("fade");
+    }, 80);
+  }
   render();
   totals();
 
   checkFiltersActive();
+   renderActiveFilters();
 }
 /* =========================
    TOTALES GLOBALES + WHATSAPP POR MES (PASO 13 FIX)
@@ -2883,6 +2971,49 @@ function checkFiltersActive(){
   if(btnNew){
     btnNew.classList.toggle("active", filtroNuevosIngresos);
   }
+  function renderActiveFilters(){
+
+  const bar = document.getElementById("filtersActiveBar");
+  if(!bar) return;
+
+  const q = document.getElementById("q").value.trim();
+  const m = document.getElementById("fMarca").value;
+  const r = document.getElementById("fRubro").value;
+  const s = document.getElementById("fStk").value;
+
+  let html = "";
+
+  if(q){
+    html += `<div class="filterChip">🔍 ${q} <span data-x="q">✕</span></div>`;
+  }
+
+  if(m){
+    html += `<div class="filterChip">Marca: ${m} <span data-x="m">✕</span></div>`;
+  }
+
+  if(r){
+    html += `<div class="filterChip">Rubro: ${r} <span data-x="r">✕</span></div>`;
+  }
+
+  if(s){
+    html += `<div class="filterChip">Stock: ${s} <span data-x="s">✕</span></div>`;
+  }
+
+  bar.innerHTML = html;
+
+  bar.querySelectorAll("[data-x]").forEach(el=>{
+    el.onclick = ()=>{
+      const t = el.getAttribute("data-x");
+
+      if(t==="q") document.getElementById("q").value="";
+      if(t==="m") document.getElementById("fMarca").value="";
+      if(t==="r") document.getElementById("fRubro").value="";
+      if(t==="s") document.getElementById("fStk").value="";
+
+      apply();
+    };
+  });
+}
 
   /* activar botón limpiar si hay cualquier filtro */
   if(q.value.trim() || m.value || r.value || s.value || filtroNuevosIngresos){
