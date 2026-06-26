@@ -2484,37 +2484,52 @@ flex:0 0 110px !important;
 }
 
 /* =========================
-   CART BAR ANIMATION
+   CART BAR ANIMATION — SAFE
    ========================= */
 
 .cartInner{
-  opacity:0;
-  transform:translateY(20px);
+  opacity:1;
+  transform:none;
 }
 
-/* estado visible */
+/* entrada suave SOLO cuando aparece */
 .cartInner.show{
-  animation:cartSlideUp .35s ease forwards;
+  animation:cartSlideUp .35s ease;
 }
 
 @keyframes cartSlideUp{
+  from{
+    opacity:0;
+    transform:translateY(20px);
+  }
+
   to{
     opacity:1;
     transform:translateY(0);
   }
 }
-  /* =========================
-   CART BAR PULSE
+
+/* =========================
+   CART BAR PULSE — SAFE
    ========================= */
 
 @keyframes cartPulse{
-  0%   { transform:scale(1); }
-  40%  { transform:scale(1.02); }
-  100% { transform:scale(1); }
+  0%{
+    transform:scale(1);
+  }
+
+  40%{
+    transform:scale(1.02);
+  }
+
+  100%{
+    transform:scale(1);
+  }
 }
 
 .cartInner.pulse{
   animation:cartPulse .25s ease;
+  opacity:1 !important;
 
   box-shadow:
     0 0 0 3px rgba(245,158,11,.25),
@@ -2924,6 +2939,7 @@ function qty(p){
 
 function setQty(p, q){
   const oldQ = qty(p);
+  const hadItemsBefore = totalCartItems() > 0;
 
   q = Math.max(0, q|0);
   const k = p.ARTICULO;
@@ -2938,28 +2954,35 @@ function setQty(p, q){
   /* guardar solo el carrito del mes actual dentro del global */
   saveCurrentMonthCart();
 
-  const hadItemsBefore = CART.size;
+  totals();
+  render();
 
-totals();
-render();
-
-/* =========================
-   CART PULSE SI YA EXISTÍA
-   ========================= */
-const cart = document.getElementById("cart");
-
-if(cart && hadItemsBefore > 0 && q > 0){
-  cart.classList.remove("pulse");
-  void cart.offsetWidth;
-  cart.classList.add("pulse");
-}
-
-  /* =========================
-     CART FEEDBACK — SOLO AL SUMAR
-     ========================= */
+  /* feedback solo al sumar */
   if(q > oldQ){
     cartFeedback();
+
+    const cart = document.getElementById("cart");
+
+    if(cart && hadItemsBefore){
+      cart.classList.remove("pulse");
+      void cart.offsetWidth;
+      cart.classList.add("pulse");
+    }
   }
+}
+
+function totalCartItems(){
+  let total = 0;
+
+  const carts = JSON.parse(localStorage.getItem("tm_carts") || "{}");
+
+  Object.values(carts).forEach(monthCart => {
+    (monthCart || []).forEach(([k, v]) => {
+      total += v.q || 0;
+    });
+  });
+
+  return total;
 }
 function cartFeedback(){
   const btnCart = document.getElementById("btnCart");
@@ -2984,23 +3007,7 @@ function cartFeedback(){
   }, 380);
 }
 
-/* =========================
-   CART FEEDBACK (bounce + glow)
-   ========================= */
-const btnCart = document.getElementById("btnCart");
 
-if(btnCart){
-  btnCart.classList.remove("cart-bounce");
-  void btnCart.offsetWidth; // reset animation
-
-  btnCart.classList.add("cart-bounce");
-  btnCart.classList.add("cart-glow");
-
-  setTimeout(()=>{
-    btnCart.classList.remove("cart-glow");
-  }, 350);
-  
-}
 
 function badgeStock(v){
   const s=stkNorm(v);
