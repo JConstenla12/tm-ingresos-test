@@ -506,12 +506,13 @@ body.theme-light #btnPVL{
 
 .row3.row3Filters{
   display:grid;
-  grid-template-columns:1fr 1fr;
+  grid-template-columns:repeat(3,minmax(0,1fr));
   gap:8px;
 }
 
 .row3.row3Filters select{
   width:100%;
+  min-width:0;
 }
 
 .inp,
@@ -1579,9 +1580,15 @@ body.theme-light .dot.on{
     font-size:12px;
   }
 
-  .row3.row3Filters{
-    gap:6px;
-  }
+ .row3.row3Filters{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:6px;
+}
+
+.row3.row3Filters select{
+  font-size:11px;
+  padding:8px 6px;
+}
 
   .inp,
   select{
@@ -1838,8 +1845,6 @@ body.theme-light .filterChip{
 </div>                                                        
 <!-- NUEVA FILA — FILTROS -->
 <div class="shellBlock row3 row3Filters">
-  <div class="shellBlock"><div class="shell <div id="filtersActiveBar" class="filtersActiveBar"></div>
-</div>
 
   <select id="fMarca">
     <option value="">Marca</option>
@@ -1849,12 +1854,13 @@ body.theme-light .filterChip{
     <option value="">Rubro</option>
   </select>
 
-<select id="fStk">
+  <select id="fStk">
     <option value="">Stock</option>
     <option value=">10">&gt;10</option>
     <option value="<10">&lt;10</option>
     <option value="INGRESANDO">Ingresando</option>
   </select>
+
 </div>
 
 <div class="shellBlock">
