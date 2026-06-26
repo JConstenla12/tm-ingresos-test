@@ -505,7 +505,13 @@ body.theme-light #btnPVL{
 }
 
 .row3.row3Filters{
-  grid-template-columns:repeat(3,minmax(0,1fr));
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.row3.row3Filters select{
+  width:100%;
 }
 
 .inp,
@@ -1489,10 +1495,10 @@ body.theme-light .dot.on{
     font-size:15px;
   }
 
-  .row3.row3Filters{
-    grid-template-columns:repeat(3,minmax(0,1fr));
-    gap:14px;
-  }
+ .row3.row3Filters{
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
 
   .row3.row3Filters select{
     height:54px;
