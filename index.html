@@ -1047,6 +1047,13 @@ body.theme-light .sun{
   gap:8px;
   flex-wrap:wrap;
 }
+  
+#btnGoCart{
+  background:linear-gradient(135deg,#f59e0b,#fbbf24);
+  color:#111;
+  font-weight:900;
+}
+
 
 /* =========================
    MODALES
@@ -1937,8 +1944,16 @@ body.theme-light .filterChip{
         <div id="cTot">Total: $0</div>
       </div>
       <div class="cartRight">
-        <button class="btn" id="btnEmpty">Vaciar</button>
-      </div>
+
+  <button class="btn" id="btnGoCart">
+    Ver carrito
+  </button>
+
+  <button class="btn" id="btnEmpty">
+    Vaciar
+  </button>
+
+</div>
     </div>
   </div>
 
@@ -3632,11 +3647,24 @@ function renderCart(){
    CARRITO — MODAL OPEN/CLOSE
    ========================= */
 const btnCartModal = document.getElementById("btnCart");
+  const btnGoCart = document.getElementById("btnGoCart");
 const cartModal = document.getElementById("cartModal");
 const cartClose = document.getElementById("cartClose");
 
 if(btnCartModal){
   btnCartModal.onclick = () => {
+    if(cartModal){
+      renderCart();
+      cartModal.style.display = "flex";
+
+      const body = cartModal.querySelector(".cartModalBody");
+      if(body){
+        body.scrollTop = 0;
+      }
+    }
+  };
+}
+if(btnGoCart){if  btnGoCart.onclick = () => {
     if(cartModal){
       renderCart();
       cartModal.style.display = "flex";
@@ -3664,6 +3692,7 @@ if(cartModal){
     }
   };
 }
+  
 </script>
 </body>
 </html>
