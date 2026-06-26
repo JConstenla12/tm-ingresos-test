@@ -2482,6 +2482,27 @@ flex:0 0 110px !important;
     transform:translateY(0);
   }
 }
+
+/* =========================
+   CART BAR ANIMATION
+   ========================= */
+
+.cartInner{
+  opacity:0;
+  transform:translateY(20px);
+}
+
+/* estado visible */
+.cartInner.show{
+  animation:cartSlideUp .35s ease forwards;
+}
+
+@keyframes cartSlideUp{
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
   
 </style>
 </head>
@@ -3362,13 +3383,24 @@ if(cartCountEl){
   document.getElementById("tot").textContent = ars(tot);
 
   const cart = document.getElementById("cart");
-  if(items > 0){
-    cart.style.display = "flex";
-    document.getElementById("cIt").textContent = `${items} ítems`;
-    document.getElementById("cTot").textContent = `Total: ${ars(tot)}`;
-  }else{
-    cart.style.display = "none";
+ if(items > 0){
+
+  const wasHidden = (cart.style.display === "none" || cart.style.display === "");
+
+  cart.style.display = "flex";
+
+  document.getElementById("cIt").textContent = `${items} ítems`;
+  document.getElementById("cTot").textContent = `Total: ${ars(tot)}`;
+
+  if(wasHidden){
+    cart.classList.remove("show");
+    void cart.offsetWidth;
+    cart.classList.add("show");
   }
+
+}else{
+  cart.style.display = "none";
+}
 
   const txt = buildWA(sub, iva, ii, tot);
 
