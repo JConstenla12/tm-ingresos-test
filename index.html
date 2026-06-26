@@ -2558,6 +2558,24 @@ flex:0 0 110px !important;
   animation:cartCountPop .22s ease;
 }
 
+/* =========================
+   NOTEBOOK FIX (768px - 1100px)
+   ========================= */
+@media (min-width: 768px) and (max-width: 1100px){
+
+  /* FILA FILTROS */
+  .row3.row3Filters{
+    grid-template-columns:repeat(3, minmax(0,1fr)) !important;
+    gap:14px;
+  }
+
+  /* Inputs más cómodos */
+  .row3.row3Filters select{
+    height:46px;
+    font-size:13.5px;
+  }
+
+}
   
 </style>
 </head>
