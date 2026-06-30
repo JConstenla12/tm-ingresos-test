@@ -3182,7 +3182,7 @@ if(btnTheme){
     localStorage.setItem("tm_theme", isLight ? "light" : "dark");
   };
 }
-  function mostrarMantenimiento(){
+ function mostrarMantenimiento(){
 
 document.body.innerHTML = `
 <style>
@@ -3198,7 +3198,9 @@ document.body.innerHTML = `
   100%{ transform:scale(1); }
 }
 </style>
-<div style="min-height:100dvh
+
+<div style="
+  min-height:100dvh;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -3209,52 +3211,48 @@ document.body.innerHTML = `
   text-align:center;
 ">
 
-      <div style="
-  max-width:420px;
-  width:100%;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-">
+  <div style="
+    max-width:420px;
+    width:100%;
+  ">
 
-      <div style="
-  font-size:52px;
-  font-weight:900;
-  margin-bottom:14px;
-  letter-spacing:.5px;
-  animation:logoPulse 3s ease-in-out infinite;
-">
-  todomusica
-</div>
-
-       <div style="
-  font-size:24px;
-  font-weight:900;
-  margin-bottom:12px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-">
-  <span style="font-size:26px;">🚧</span>
-  <span>En mantenimiento</span>
-</div>
-        <div style="
-  font-size:14px;
-  color:#9db0d4;
-  animation:fadeLoop 2s ease-in-out infinite;
-">
-  Estamos actualizando los ingresos.<br>
-  Volvé a intentar en unos minutos.
-</div>
-
-      </div>
-
+    <div style="
+      font-size:52px;
+      font-weight:900;
+      margin-bottom:14px;
+      letter-spacing:.5px;
+      animation:logoPulse 3s ease-in-out infinite;
+    ">
+      todomusica
     </div>
-  `;
-}
 
+    <div style="
+      font-size:24px;
+      font-weight:900;
+      margin-bottom:12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+    ">
+      <span style="font-size:26px;">🚧</span>
+      <span>En mantenimiento</span>
+    </div>
+
+    <div style="
+      font-size:14px;
+      color:#9db0d4;
+      animation:fadeLoop 2s ease-in-out infinite;
+    ">
+      Estamos actualizando los ingresos.<br>
+      Volvé a intentar en unos minutos.
+    </div>
+
+  </div>
+
+</div>
+`;
+}
 /* INIT */
 
 if(MODO_MANTENIMIENTO){
