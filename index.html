@@ -3184,7 +3184,22 @@ if(btnTheme){
 }
   function mostrarMantenimiento(){
 
-  document.body.innerHTML = `
+document.body.innerHTML = `
+<style>
+@keyframes fadeLoop{
+  0%{ opacity:.6; }
+  50%{ opacity:1; }
+  100%{ opacity:.6; }
+}
+
+@keyframes logoPulse{
+  0%{ transform:scale(1); }
+  50%{ transform:scale(1.03); }
+  100%{ transform:scale(1); }
+}
+</style>
+
+<div style="min-height:100vh;
     <div style="
       min-height:100vh;
       display:flex;
@@ -3199,29 +3214,36 @@ if(btnTheme){
 
       <div style="max-width:420px">
 
-        <div style="
-          font-size:42px;
-          font-weight:900;
-          margin-bottom:10px;
-        ">
-          todomusica
-        </div>
+      <div style="
+  font-size:52px;
+  font-weight:900;
+  margin-bottom:14px;
+  letter-spacing:.5px;
+  animation:logoPulse 3s ease-in-out infinite;
+">
+  todomusica
+</div>
 
+       <div style="
+  font-size:24px;
+  font-weight:900;
+  margin-bottom:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+">
+  <span style="font-size:26px;">🚧</span>
+  <span>En mantenimiento</span>
+</div>
         <div style="
-          font-size:20px;
-          font-weight:900;
-          margin-bottom:12px;
-        ">
-          🚧 En mantenimiento
-        </div>
-
-        <div style="
-          font-size:14px;
-          color:#9db0d4;
-        ">
-          Estamos actualizando los ingresos.<br>
-          Volvé a intentar en unos minutos.
-        </div>
+  font-size:14px;
+  color:#9db0d4;
+  animation:fadeLoop 2s ease-in-out infinite;
+">
+  Estamos actualizando los ingresos.<br>
+  Volvé a intentar en unos minutos.
+</div>
 
       </div>
 
