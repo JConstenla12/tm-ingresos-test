@@ -1978,6 +1978,12 @@ body.theme-light .filterChip{
    MES — CONFIG (PASO 3.1)
    ========================= */
 
+/* =========================
+   MODO MANTENIMIENTO
+   ========================= */
+
+const MODO_MANTENIMIENTO = false; // ← cambiar a true para activar
+
 const MONTHS = [
   { name: "Mayo",  file: "ingresostm_mayo.csv" },
   { name: "Junio", file: "ingresostm_junio.csv" }
@@ -3176,10 +3182,60 @@ if(btnTheme){
     localStorage.setItem("tm_theme", isLight ? "light" : "dark");
   };
 }
+  function mostrarMantenimiento(){
+
+  document.body.innerHTML = `
+    <div style="
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:radial-gradient(circle at top left,#0a1a3a,#070b14 72%);
+      color:#eaf0ff;
+      font-family:Arial;
+      padding:20px;
+      text-align:center;
+    ">
+
+      <div style="max-width:420px">
+
+        <div style="
+          font-size:42px;
+          font-weight:900;
+          margin-bottom:10px;
+        ">
+          todomusica
+        </div>
+
+        <div style="
+          font-size:20px;
+          font-weight:900;
+          margin-bottom:12px;
+        ">
+          🚧 En mantenimiento
+        </div>
+
+        <div style="
+          font-size:14px;
+          color:#9db0d4;
+        ">
+          Estamos actualizando los ingresos.<br>
+          Volvé a intentar en unos minutos.
+        </div>
+
+      </div>
+
+    </div>
+  `;
+}
 
 /* INIT */
-loadCSV();
-  
+
+if(MODO_MANTENIMIENTO){
+  mostrarMantenimiento();
+}else{
+  loadCSV();
+}
   /* =========================
    BOTÓN PVL — TOGGLE (PASO 10.1)
    ========================= */
