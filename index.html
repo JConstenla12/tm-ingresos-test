@@ -2752,12 +2752,19 @@ if(wa){
     : "#";
 
   wa.onclick = (e)=>{
-    if(items === 0){
-      e.preventDefault();
-      showEmptyCartMessage();
-    }
-  };
 
+  if(items === 0){
+    e.preventDefault();
+    showEmptyCartMessage();
+    return;
+  }
+
+  registrarEvento("WA_SENT",{
+    cantidad: items,
+    total: Math.round(tot)
+  });
+
+};
 }
 
   updateNewIngresoBanner();
