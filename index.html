@@ -2779,10 +2779,10 @@ if(wa){
 
   });
 
- registrarEvento("WA_SENT",{
+registrarEvento("WA_SENT",{
     cantidad: items,
     total: Math.round(tot),
-    detalle: "FUNCIONA_TEST_123"
+    detalle: detallePedido.join(" | ")
 });
 };
 }
