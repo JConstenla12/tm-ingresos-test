@@ -3773,10 +3773,46 @@ function renderCart(){
 
   /* botón WhatsApp */
   const cartWA = document.getElementById("cartWA");
-  if(cartWA){
-    const txt = buildWA(sub, iva, ii, total);
-    cartWA.href = "https://wa.me/?text=" + encodeURIComponent(txt);
-  }
+
+if(cartWA){
+
+  const txt = buildWA(sub, iva, ii, total);
+
+  cartWA.href =
+    "https://wa.me/?text=" +
+    encodeURIComponent(txt);
+
+  cartWA.onclick = () => {
+
+    const detallePedido = [];
+
+    ALL_CARTS = JSON.parse(
+      localStorage.getItem("tm_carts") || "{}"
+    );
+
+    Object.values(ALL_CARTS).forEach(monthCart => {
+
+      (monthCart || []).forEach(([k, v]) => {
+
+        const p = v.p;
+
+        detallePedido.push(
+          `${p.MARCA || ""} ${p.ARTICULO || ""} x${v.q}`
+        );
+
+      });
+
+    });
+
+    registrarEvento("WA_SENT",{
+      cantidad: items,
+      total: Math.round(total),
+      detalle: detallePedido.join(" | ")
+    });
+
+  };
+
+}
 }
 /* =========================
    CARRITO — MODAL OPEN/CLOSE
