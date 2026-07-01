@@ -2034,7 +2034,7 @@ function registrarEvento(evento, extras = {}){
           ? "Mobile"
           : "Desktop",
        userAgent: navigator.userAgent,
-detalle: detallePedido.join(" | ")
+detalle: extras.detalle || ""
       })
     });
 
