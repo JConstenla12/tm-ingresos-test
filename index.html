@@ -1999,6 +1999,49 @@ const CART = new Map();
 let ALL = [], VIEW = [];
 const MONTH_DATA = {};
 
+  /* =========================
+   ANALYTICS TEST
+   ========================= */
+
+const ANALYTICS_URL =
+"https://script.google.com/macros/s/AKfycbxkXX8vAIiReAvbWIY-WME_Wtoy7gLVibKv_6uvqnCvo1mDOuIkco8iRwZaaDMbJkoa/exec";
+
+function registrarEvento(evento, extras = {}){
+
+  try{
+
+    const ahora = new Date();
+
+    fetch(ANALYTICS_URL,{
+      method:"POST",
+      mode:"no-cors",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({
+        fecha: ahora.toLocaleDateString("es-AR"),
+        hora: ahora.toLocaleTimeString("es-AR"),
+        timestamp: ahora.toISOString(),
+        evento: evento,
+        mes: MONTHS[currentMonthIndex]?.name || "",
+        articulo: extras.articulo || "",
+        marca: extras.marca || "",
+        cantidad: extras.cantidad || "",
+        total: extras.total || "",
+        busqueda: extras.busqueda || "",
+        device: /Mobi|Android|iPhone/i.test(navigator.userAgent)
+          ? "Mobile"
+          : "Desktop",
+        userAgent: navigator.userAgent
+      })
+    });
+
+  }catch(err){
+    console.log("Analytics error", err);
+  }
+
+}
+
 /* =========================
    CARTS GLOBAL POR MES (PASO 13)
    ========================= */
@@ -3261,7 +3304,11 @@ document.body.innerHTML = `
 if(MODO_MANTENIMIENTO){
   mostrarMantenimiento();
 }else{
+
+  registrarEvento("APP_OPEN");
+
   loadCSV();
+
 }
   /* =========================
    BOTÓN PVL — TOGGLE (PASO 10.1)
