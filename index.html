@@ -843,6 +843,21 @@ body.theme-light .sun{
   z-index:3;
 }
 
+  .stickerNew{
+  position:absolute;
+  top:10px;
+  right:10px;
+  background:linear-gradient(135deg,#f59e0b,#fbbf24);
+  color:#111;
+  font-weight:900;
+  font-size:11px;
+  padding:6px 10px;
+  border-radius:999px;
+  box-shadow:0 10px 22px rgba(245,158,11,.35);
+  border:1px solid rgba(255,255,255,.15);
+  z-index:3;
+  white-space:nowrap;
+}
 .cardInfo{
   min-width:0;
 }
@@ -2327,15 +2342,17 @@ function card(p){
   if(modoPVL){
     return `
     <div class="card ${inCart}" data-k="${art}">
-      <div class="imgBox" data-z="1">
-        ${off > 0 ? `<div class="stickerOff">${Math.round(off*100)}% OFF</div>` : ``}
-        <img src="${im}" onerror="this.onerror=null;this.src='${PLACE}'">
-      </div>
+     <div class="imgBox" data-z="1">
+  ${off > 0 ? `<div class="stickerOff">${Math.round(off*100)}% OFF</div>` : ``}
+  ${esNuevo ? `<div class="stickerNew">🔥 Nuevo Ingreso</div>` : ``}
+  <img src="${im}" onerror="this.onerror=null;this.src='${PLACE}'">
+</div>
+
 
       <div class="cardInfo">
         <div class="pTitle">
   ${marcaOp} · ${art}
-  ${esNuevo ? '<span class="badgeNew">Nuevo 🔥</span>' : ''}
+  ${''}
 </div>
 
         <p class="pDesc">${desc}</p>
@@ -2368,14 +2385,15 @@ function card(p){
   return `
   <div class="card ${inCart}" data-k="${art}">
     <div class="imgBox" data-z="1">
-      ${off > 0 ? `<div class="stickerOff">${Math.round(off*100)}% OFF</div>` : ``}
-      <img src="${im}" onerror="this.onerror=null;this.src='${PLACE}'">
-    </div>
+  ${off > 0 ? `<div class="stickerOff">${Math.round(off*100)}% OFF</div>` : ``}
+  ${esNuevo ? `<div class="stickerNew">🔥 Nuevo Ingreso</div>` : ``}
+  <img src="${im}" onerror="this.onerror=null;this.src='${PLACE}'">
+</div>
 
     <div class="cardInfo">
       <div class="pTitle">
   ${marcaOp} · ${art}
-  ${esNuevo ? '<span class="badgeNew">Nuevo 🔥</span>' : ''}
+ 
 </div>
       <p class="pDesc">${desc}</p>
 
