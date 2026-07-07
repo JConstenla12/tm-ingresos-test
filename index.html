@@ -2097,7 +2097,7 @@ function saveCurrentMonthCart(){
    MODO PVL (PASO 10)
    ========================= */
 let modoPVL = false;
-  let filtroNuevosIngresos = false;
+
 
 function num(v){
   if(v==null) return NaN;
@@ -2586,17 +2586,7 @@ function card(p){
   });
 
 }
-  function updateNewIngresoBanner(){
-  const hasNew = ALL.some(p =>
-    (p.NUEVO_INGRESO || "").trim().toUpperCase() === "SI"
-  );
-
-  const el = document.getElementById("btnNewIngresos");
-
-  if(!el) return;
-
-  el.style.display = hasNew ? "inline-flex" : "none";
-}
+  
   function buildMarcaOptions(data){
   const marcaMap = new Map();
 
@@ -2943,7 +2933,6 @@ registrarEvento("WA_SENT",{
 };
 }
 
-  updateNewIngresoBanner();
 }
 
 function showEmptyCartMessage(){
@@ -3358,7 +3347,7 @@ function checkFiltersActive(){
   const e = document.getElementById("fEstado");
 
   const btnClear = document.getElementById("btnClearFilters");
-  const btnNew = null;
+ 
 
   /* limpiar estados */
   [q, m, r, s, e].forEach(el => el.classList.remove("active"));
@@ -3370,10 +3359,7 @@ function checkFiltersActive(){
   if(s.value) s.classList.add("active");
   if(e.value) e.classList.add("active");
 
-  /* activar botón Nuevos ingresos */
-  if(btnNew){
-    btnNew.classList.toggle("active", filtroNuevosIngresos);
-  }
+ 
 
   /* activar botón limpiar si hay cualquier filtro */
   if(q.value.trim() || m.value || r.value || s.value || e.value || filtroNuevosIngresos){
@@ -3424,10 +3410,7 @@ const e = document.getElementById("fEstado").value;
     </div>
   `;
 }
-  if(filtroNuevosIngresos){
-    html += `<div class="filterChip">🔥 Nuevos <span data-x="new">✕</span></div>`;
-  }
-
+  
   bar.innerHTML = html;
 
   bar.querySelectorAll("[data-x]").forEach(el=>{
@@ -3440,7 +3423,7 @@ if(t === "r") document.getElementById("fRubro").value = "";
 if(t === "s") document.getElementById("fStk").value = "";
 if(t === "e") document.getElementById("fEstado").value = "";
 
-if(t === "new") filtroNuevosIngresos = false;
+
 
       apply();
     };
