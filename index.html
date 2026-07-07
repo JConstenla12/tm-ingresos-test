@@ -2341,9 +2341,9 @@ function badgeStock(v){
   }
 
   const texto =
-    currentMonthIndex === MONTHS.length - 1
-      ? "📦 Ingresando"
-      : "📦 Ingreso reciente";
+  currentMonthIndex === MONTHS.length - 1
+    ? "📦 Ingresando"
+    : "🆕 Ingreso reciente";
 
   return `
     <span class="badge badge-condicion">
@@ -3118,8 +3118,14 @@ if(hayNuevo){
 }
 
 if(hayIngresando){
+
+  const textoEstado =
+    currentMonthIndex === MONTHS.length - 1
+      ? "📦 Ingresando"
+      : "🆕 Ingreso reciente";
+
   fEstado.innerHTML +=
-    '<option value="INGRESANDO">📦 Ingresando</option>';
+    `<option value="INGRESANDO">${textoEstado}</option>`;
 }
 
     fMarca.innerHTML = '<option value="">Marca</option>';
