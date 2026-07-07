@@ -2204,11 +2204,9 @@ function estadoLabel(codigo){
     .toUpperCase()
     .replace(/\s+/g, "_");
 
-  if(key === "INGRESANDO"){
-    return currentMonthIndex === MONTHS.length - 1
-      ? "📦 Ingresando"
-      : "🆕 Ingreso reciente";
-  }
+ if(key === "INGRESANDO"){
+  return "🆕 Ingreso reciente";
+}
 
   if(key === "MAS_VENDIDO"){
     return "⭐ Más vendido";
