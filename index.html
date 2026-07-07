@@ -2537,17 +2537,25 @@ function card(p){
 
   if(e){
 
+ if(e){
+
   if(e === "NUEVO"){
+
     const esNuevo =
       (p.NUEVO_INGRESO || "")
       .trim()
       .toUpperCase() === "SI";
 
-    if(!esNuevo) return false;
+    if(!esNuevo){
+      return false;
+    }
+
   }else{
+
     if(!tieneCondicion(p, e)){
       return false;
     }
+
   }
 
 }
