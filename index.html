@@ -2181,6 +2181,48 @@ function stkNorm(v){
 
   return s || "";
 }
+  function condicionesArray(p){
+  return String(p.CONDICION || "")
+    .split("|")
+    .map(x => x.trim().toUpperCase().replace(/\s+/g, "_"))
+    .filter(Boolean);
+}
+
+function tieneCondicion(p, condicion){
+  const key = String(condicion || "")
+    .trim()
+    .toUpperCase()
+    .replace(/\s+/g, "_");
+
+  return condicionesArray(p).includes(key);
+}
+
+function estadoLabel(codigo){
+
+  const key = String(codigo || "")
+    .trim()
+    .toUpperCase()
+    .replace(/\s+/g, "_");
+
+  if(key === "INGRESANDO"){
+    return currentMonthIndex === MONTHS.length - 1
+      ? "📦 Ingresando"
+      : "🆕 Ingreso reciente";
+  }
+
+  if(key === "MAS_VENDIDO"){
+    return "⭐ Más vendido";
+  }
+
+  if(key === "OFERTA" || key === "OFERTAS"){
+    return "💸 Oferta";
+  }
+
+  return key
+    .replace(/_/g, " ")
+    .toLowerCase()
+    .replace(/\b\w/g, l => l.toUpperCase());
+}
 /* =========================
    MARCA + OP (PASO 8.1)
    ========================= */
@@ -2334,23 +2376,19 @@ function badgeStock(v){
 
   function badgeCondicion(p){
 
-  const cond = (p.CONDICION || "").trim().toUpperCase();
+  const condiciones = condicionesArray(p);
 
-  if(cond !== "INGRESANDO"){
+  if(!condiciones.length){
     return "";
   }
 
-  const texto =
-  currentMonthIndex === MONTHS.length - 1
-    ? "📦 Ingresando"
-    : "🆕 Ingreso reciente";
-
-  return `
+  return condiciones.map(c => `
     <span class="badge badge-condicion">
-      ${texto}
+      ${estadoLabel(c)}
     </span>
-  `;
+  `).join("");
 }
+
 function card(p){
   const marca   = p.MARCA || "";
   const marcaOp = marcaOpLabel(p);
@@ -2497,6 +2535,8 @@ function card(p){
     }
     if(e){
 
+  if(e){
+
   if(e === "NUEVO"){
     const esNuevo =
       (p.NUEVO_INGRESO || "")
@@ -2504,20 +2544,13 @@ function card(p){
       .toUpperCase() === "SI";
 
     if(!esNuevo) return false;
-  }
-
-  if(e === "INGRESANDO"){
-    const cond =
-      (p.CONDICION || "")
-      .trim()
-      .toUpperCase();
-
-    if(cond !== "INGRESANDO"){
+  }else{
+    if(!tieneCondicion(p, e)){
       return false;
     }
   }
-}
 
+}
     if(!q) return true;
 
     const blob = [p.MARCA, p.ARTICULO, p.DESCRIPCION, p.RUBRO, p.OP]
@@ -2613,8 +2646,8 @@ function rebuildDependentFilters(){
 
   /* 3) reconstrucción final ya con valores válidos */
   marcas = buildMarcaOptions(
-    applyFilters(ALL, q, "", r, s)
-  );
+  applyFilters(ALL, q, "", r, s, e)
+);
 
   rubros = buildRubroOptions(
     applyFilters(ALL, q, m, "", s, e)
@@ -3091,11 +3124,14 @@ async function loadCSV(){
     const rubros = [...new Set(ALL.map(x => (x.RUBRO || "").trim()).filter(Boolean))]
       .sort((a,b) => a.localeCompare(b, "es", { sensitivity:"base" }));
 
-    const fMarca = document.getElementById("fMarca");
-    const fRubro = document.getElementById("fRubro");
-    const fStk   = document.getElementById("fStk");
-    const fEstado = document.getElementById("fEstado");
-    fEstado.innerHTML =
+   const fMarca = document.getElementById("fMarca");
+const fRubro = document.getElementById("fRubro");
+const fStk   = document.getElementById("fStk");
+const fEstado = document.getElementById("fEstado");
+
+const prevEstado = fEstado.value;
+
+fEstado.innerHTML =
   '<option value="">Estado</option>';
 
 const hayNuevo =
@@ -3105,28 +3141,41 @@ const hayNuevo =
     .toUpperCase() === "SI"
   );
 
-const hayIngresando =
-  ALL.some(p =>
-    (p.CONDICION || "")
-    .trim()
-    .toUpperCase() === "INGRESANDO"
-  );
-
 if(hayNuevo){
   fEstado.innerHTML +=
     '<option value="NUEVO">🔥 Nuevo ingreso</option>';
 }
 
-if(hayIngresando){
+const estadosSet = new Set();
 
-  const textoEstado =
-    currentMonthIndex === MONTHS.length - 1
-      ? "📦 Ingresando"
-      : "🆕 Ingreso reciente";
+ALL.forEach(p => {
+  condicionesArray(p).forEach(c => estadosSet.add(c));
+});
 
-  fEstado.innerHTML +=
-    `<option value="INGRESANDO">${textoEstado}</option>`;
-}
+const ordenEstados = [
+  "INGRESANDO",
+  "MAS_VENDIDO",
+  "OFERTA",
+  "OFERTAS"
+];
+
+const estadosOrdenados = [...estadosSet].sort((a,b) => {
+  const ia = ordenEstados.indexOf(a);
+  const ib = ordenEstados.indexOf(b);
+
+  if(ia !== -1 && ib !== -1) return ia - ib;
+  if(ia !== -1) return -1;
+  if(ib !== -1) return 1;
+
+  return a.localeCompare(b, "es", { sensitivity:"base" });
+});
+
+estadosOrdenados.forEach(c => {
+  const o = document.createElement("option");
+  o.value = c;
+  o.textContent = estadoLabel(c);
+  fEstado.appendChild(o);
+});
 
     fMarca.innerHTML = '<option value="">Marca</option>';
     fRubro.innerHTML = '<option value="">Rubro</option>';
@@ -3159,6 +3208,11 @@ if(hayIngresando){
     }
 
     fStk.value = prevStk;
+    if([...fEstado.options].some(o => o.value === prevEstado)){
+  fEstado.value = prevEstado;
+}else{
+  fEstado.value = "";
+}
 
     /* =========================
        CART — REHIDRATAR MES ACTUAL
@@ -3242,6 +3296,7 @@ document.getElementById("q").addEventListener("change", () => {
     document.getElementById("fMarca").value = "";
     document.getElementById("fRubro").value = "";
     document.getElementById("fStk").value = "";
+    document.getElementById("fEstado").value = "";
   }
 
   apply();
@@ -3317,7 +3372,7 @@ const e = document.getElementById("fEstado").value;
   const estadoTxt =
     e === "NUEVO"
       ? "🔥 Nuevo ingreso"
-      : "📦 Ingresando";
+      : estadoLabel(e);
 
   html += `
     <div class="filterChip">
@@ -3326,7 +3381,6 @@ const e = document.getElementById("fEstado").value;
     </div>
   `;
 }
-
   if(filtroNuevosIngresos){
     html += `<div class="filterChip">🔥 Nuevos <span data-x="new">✕</span></div>`;
   }
