@@ -3251,18 +3251,20 @@ function checkFiltersActive(){
   const m = document.getElementById("fMarca");
   const r = document.getElementById("fRubro");
   const s = document.getElementById("fStk");
+  const e = document.getElementById("fEstado");
 
   const btnClear = document.getElementById("btnClearFilters");
   const btnNew = null;
 
   /* limpiar estados */
-  [q, m, r, s].forEach(el => el.classList.remove("active"));
+  [q, m, r, s, e].forEach(el => el.classList.remove("active"));
 
   /* activar filtros según valor */
   if(q.value.trim()) q.classList.add("active");
   if(m.value) m.classList.add("active");
   if(r.value) r.classList.add("active");
   if(s.value) s.classList.add("active");
+  if(e.value) e.classList.add("active");
 
   /* activar botón Nuevos ingresos */
   if(btnNew){
@@ -3270,13 +3272,12 @@ function checkFiltersActive(){
   }
 
   /* activar botón limpiar si hay cualquier filtro */
-  if(q.value.trim() || m.value || r.value || s.value || filtroNuevosIngresos){
+  if(q.value.trim() || m.value || r.value || s.value || e.value || filtroNuevosIngresos){
     btnClear.classList.add("active");
   }else{
     btnClear.classList.remove("active");
   }
 }
-
 function renderActiveFilters(){
 
   const bar = document.getElementById("filtersActiveBar");
