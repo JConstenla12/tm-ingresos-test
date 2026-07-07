@@ -2431,7 +2431,10 @@ function card(p){
       <p class="pDesc">${desc}</p>
 
       <div class="prod-block">
-        <div class="prod-rubro">${rub || "—"}</div>
+        <div class="prod-line">
+  <div class="prod-rubro">${rub || "—"}</div>
+  ${badgeCondicion(p)}
+</div>
 
         <div class="prod-line">
           ${badgeStock(p.STOCK_TXT)}
