@@ -2337,7 +2337,7 @@ function badgeStock(v){
   return `<span class="badge">Stock: <b>${s || "—"}</b></span>`;
 }
 
-  function badgeCondicion(p){
+function badgeCondicion(p){
 
   const condiciones = condicionesArray(p);
 
@@ -2345,7 +2345,22 @@ function badgeStock(v){
     return "";
   }
 
-  return condiciones.map(c => `
+  const esNuevoIngreso =
+    (p.NUEVO_INGRESO || "")
+    .trim()
+    .toUpperCase() === "SI";
+
+  const condicionesFiltradas = condiciones.filter(c => {
+
+    if(c === "INGRESANDO" && esNuevoIngreso){
+      return false;
+    }
+
+    return true;
+
+  });
+
+  return condicionesFiltradas.map(c => `
     <span class="badge badge-condicion">
       ${estadoLabel(c)}
     </span>
