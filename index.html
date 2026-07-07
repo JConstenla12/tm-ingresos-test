@@ -371,7 +371,16 @@ body.theme-light #btnClearFilters{
     inset 0 1px 0 rgba(255,255,255,.9);
 }
 
-
+#btnClearFilters.active,
+#btnPVL.active,
+#btnCart.active{
+  background:linear-gradient(135deg,#f59e0b,#fbbf24);
+  color:#111;
+  border-color:rgba(0,0,0,.20);
+  box-shadow:
+    0 0 0 3px rgba(245,158,11,.25),
+    0 10px 25px rgba(245,158,11,.35);
+}
 body.theme-light #btnClearFilters.active,
 body.theme-light #btnPVL.active,
 body.theme-light #btnCart.active{
