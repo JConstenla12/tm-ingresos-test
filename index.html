@@ -3176,7 +3176,24 @@ if(hayNuevo){
 const estadosSet = new Set();
 
 ALL.forEach(p => {
-  condicionesArray(p).forEach(c => estadosSet.add(c));
+
+  const esNuevoIngreso =
+    (p.NUEVO_INGRESO || "")
+    .trim()
+    .toUpperCase() === "SI";
+
+  condicionesArray(p).forEach(c => {
+
+    /* si es INGRESANDO pero además es NUEVO_INGRESO,
+       no agregamos el estado al filtro */
+    if(c === "INGRESANDO" && esNuevoIngreso){
+      return;
+    }
+
+    estadosSet.add(c);
+
+  });
+
 });
 
 const ordenEstados = [
