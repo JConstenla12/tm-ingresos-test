@@ -17,7 +17,6 @@
   --accent:#f59e0b;
   --good:#22c55e;
   --warn:#fbbf24;
-  --ing:#38bdf8;
   --bad:#ef4444;
 
   --shell-max-mobile:430px;
@@ -348,15 +347,7 @@ button,
   white-space:nowrap;
 }
 
-#btnNewIngresos{
-  display:none;
-  background:rgba(255,255,255,.06);
-  color:var(--text);
-  border:1px solid var(--stroke);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.05),
-    0 4px 10px rgba(0,0,0,.18);
-}
+
 
 #btnClearFilters{
   background:linear-gradient(135deg,#1f2937,#111827);
@@ -368,18 +359,7 @@ button,
     inset 0 1px 0 rgba(255,255,255,.06);
 }
 
-#btnNewIngresos.active,
-#btnClearFilters.active,
-#btnPVL.active,
-#btnCart.active{
-  background:linear-gradient(135deg,#f59e0b,#fbbf24);
-  color:#111;
-  border-color:rgba(0,0,0,.2);
-  box-shadow:
-    0 0 0 3px rgba(245,158,11,.25),
-    0 10px 25px rgba(245,158,11,.35);
-  transform:translateY(-1px);
-}
+
 
 #btnNewIngresos.active{
   background:linear-gradient(135deg,#f97316,#facc15);
@@ -397,14 +377,6 @@ body.theme-light #btnClearFilters{
     inset 0 1px 0 rgba(255,255,255,.9);
 }
 
-body.theme-light #btnNewIngresos.active{
-  background:linear-gradient(135deg,#f97316,#fcd34d);
-  color:#111;
-  border-color:rgba(0,0,0,.16);
-  box-shadow:
-    0 6px 16px rgba(249,115,22,.26),
-    0 0 0 3px rgba(249,115,22,.18);
-}
 
 body.theme-light #btnClearFilters.active,
 body.theme-light #btnPVL.active,
@@ -935,9 +907,7 @@ body.theme-light .sun{
   color:var(--warn);
 }
 
-.badge.stock-ing b{
-  color:var(--ing);
-}
+
 
 .badge.stock-bad b{
   color:var(--bad);
