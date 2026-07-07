@@ -2594,7 +2594,7 @@ function rebuildDependentFilters(){
 
   /* 1) validar marca contra el contexto actual (ignorando la propia marca) */
   let marcas = buildMarcaOptions(
-    applyFilters(ALL, q, "", r, s)
+    applyFilters(ALL, q, "", r, s, e)
   );
 
   if(!marcas.includes(m)){
@@ -2603,7 +2603,8 @@ function rebuildDependentFilters(){
 
   /* 2) validar rubro contra el contexto actual (ignorando el propio rubro) */
   let rubros = buildRubroOptions(
-    applyFilters(ALL, q, m, "", s)
+    applyFilters(ALL, q, m, "", s, e)
+
   );
 
   if(!rubros.includes(r)){
@@ -2616,7 +2617,7 @@ function rebuildDependentFilters(){
   );
 
   rubros = buildRubroOptions(
-    applyFilters(ALL, q, m, "", s)
+    applyFilters(ALL, q, m, "", s, e)
   );
 
   refillSelect(fMarca, "Marca", marcas, m);
@@ -2709,6 +2710,7 @@ g.innerHTML = `
   let m = document.getElementById("fMarca").value;
   let r = document.getElementById("fRubro").value;
   const s = document.getElementById("fStk").value;
+   const e = document.getElementById("fEstado").value;
 
   let result = applyFilters(ALL, q, m, r, s, e);
 
@@ -2746,7 +2748,7 @@ g.innerHTML = `
       m = document.getElementById("fMarca").value;
       r = document.getElementById("fRubro").value;
 
-      result = applyFilters(ALL, q, m, r, s);
+     result = applyFilters(ALL, q, m, r, s, e);
     }
   }
 
@@ -3251,7 +3253,7 @@ function checkFiltersActive(){
   const s = document.getElementById("fStk");
 
   const btnClear = document.getElementById("btnClearFilters");
-  const btnNew   = document.getElementById("btnNewIngresos");
+  const btnNew = null;
 
   /* limpiar estados */
   [q, m, r, s].forEach(el => el.classList.remove("active"));
@@ -3317,6 +3319,7 @@ function renderActiveFilters(){
       if(t === "m") document.getElementById("fMarca").value = "";
       if(t === "r") document.getElementById("fRubro").value = "";
       if(t === "s") document.getElementById("fStk").value = "";
+      
       if(t === "new") filtroNuevosIngresos = false;
 
       apply();
@@ -3331,36 +3334,11 @@ document.getElementById("btnClearFilters").onclick = () => {
   document.getElementById("fMarca").value = "";
   document.getElementById("fRubro").value = "";
   document.getElementById("fStk").value = "";
+  document.getElementById("fEstado").value = "";
 
   apply();
 };
 
-document.getElementById("btnNewIngresos").onclick = () => {
-  filtroNuevosIngresos = !filtroNuevosIngresos;
-
-  document.getElementById("q").value = "";
-  document.getElementById("fRubro").value = "";
-  document.getElementById("fStk").value = "";
-
-  const marcasNuevas = [...new Set(
-    ALL
-      .filter(p => (p.NUEVO_INGRESO || "").trim().toUpperCase() === "SI")
-      .map(p => marcaOpLabel(p))
-      .filter(Boolean)
-  )];
-
-  /*
-    Si hay una sola marca nueva, la seleccionamos en Marca
-    y se ilumina el filtro de Marca.
-  */
-  if(filtroNuevosIngresos && marcasNuevas.length === 1){
-    document.getElementById("fMarca").value = marcasNuevas[0];
-  }else{
-    document.getElementById("fMarca").value = "";
-  }
-
-  apply();
-};
   
 /* THEME */
 const btnTheme = document.getElementById("btnTheme");
