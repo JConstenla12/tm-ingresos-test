@@ -2522,13 +2522,9 @@ function card(p){
   return data.filter(p => {
 
     const esNuevoIngreso =
-      (p.NUEVO_INGRESO || "")
-      .trim()
-      .toUpperCase() === "SI";
-
-    if(filtroNuevosIngresos && !esNuevoIngreso){
-      return false;
-    }
+  (p.NUEVO_INGRESO || "")
+  .trim()
+  .toUpperCase() === "SI";
 
     if(m && marcaOpLabel(p) !== m){
       return false;
@@ -2747,11 +2743,7 @@ g.innerHTML = `
     g.classList.add("fade");
   }
 
-  if(filtroNuevosIngresos && !ALL.some(p =>
-    (p.NUEVO_INGRESO || "").trim().toUpperCase() === "SI"
-  )){
-    filtroNuevosIngresos = false;
-  }
+  
 
   rebuildDependentFilters();
 
@@ -3362,7 +3354,7 @@ function checkFiltersActive(){
  
 
   /* activar botón limpiar si hay cualquier filtro */
-  if(q.value.trim() || m.value || r.value || s.value || e.value || filtroNuevosIngresos){
+  if(q.value.trim() || m.value || r.value || s.value || e.value){
     btnClear.classList.add("active");
   }else{
     btnClear.classList.remove("active");
@@ -3431,7 +3423,7 @@ if(t === "e") document.getElementById("fEstado").value = "";
 }
 
 document.getElementById("btnClearFilters").onclick = () => {
-  filtroNuevosIngresos = false;
+  
 
   document.getElementById("q").value = "";
   document.getElementById("fMarca").value = "";
