@@ -2533,11 +2533,11 @@ function card(p){
       const st = stkNorm(p.STOCK_TXT);
       if(st !== s) return false;
     }
-    if(e){
+   /* =========================
+   FILTRO ESTADO
+   ========================= */
 
-  if(e){
-
- if(e){
+if(e){
 
   if(e === "NUEVO"){
 
@@ -2549,6 +2549,16 @@ function card(p){
     if(!esNuevo){
       return false;
     }
+
+  }else{
+
+    if(!tieneCondicion(p, e)){
+      return false;
+    }
+
+  }
+
+}
 
   }else{
 
