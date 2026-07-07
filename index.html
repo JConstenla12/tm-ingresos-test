@@ -2520,63 +2520,74 @@ function card(p){
     </div>
   </div>`;
 }
-  function applyFilters(data, q, m, r, s, e){
+ function applyFilters(data, q, m, r, s, e){
+
   return data.filter(p => {
 
-    const esNuevoIngreso = (p.NUEVO_INGRESO || "").trim().toUpperCase() === "SI";
-
-    if(filtroNuevosIngresos && !esNuevoIngreso) return false;
-    if(m && marcaOpLabel(p) !== m) return false;
-    if(r && (p.RUBRO || "") !== r) return false;
-
-    if(s){
-      const st = stkNorm(p.STOCK_TXT);
-      if(st !== s) return false;
-    }
-   /* =========================
-   FILTRO ESTADO
-   ========================= */
-
-if(e){
-
-  if(e === "NUEVO"){
-
-    const esNuevo =
+    const esNuevoIngreso =
       (p.NUEVO_INGRESO || "")
       .trim()
       .toUpperCase() === "SI";
 
-    if(!esNuevo){
+    if(filtroNuevosIngresos && !esNuevoIngreso){
       return false;
     }
 
-  }else{
-
-    if(!tieneCondicion(p, e)){
+    if(m && marcaOpLabel(p) !== m){
       return false;
     }
 
-  }
-
-}
-
-  }else{
-
-    if(!tieneCondicion(p, e)){
+    if(r && (p.RUBRO || "") !== r){
       return false;
     }
 
-  }
+    if(s){
+      const st = stkNorm(p.STOCK_TXT);
+      if(st !== s){
+        return false;
+      }
+    }
 
-}
-    if(!q) return true;
+    /* =========================
+       FILTRO ESTADO
+       ========================= */
 
-    const blob = [p.MARCA, p.ARTICULO, p.DESCRIPCION, p.RUBRO, p.OP]
-      .join(" ")
-      .toLowerCase();
+    if(e){
+
+      if(e === "NUEVO"){
+
+        if(!esNuevoIngreso){
+          return false;
+        }
+
+      }else{
+
+        if(!tieneCondicion(p, e)){
+          return false;
+        }
+
+      }
+
+    }
+
+    if(!q){
+      return true;
+    }
+
+    const blob = [
+      p.MARCA,
+      p.ARTICULO,
+      p.DESCRIPCION,
+      p.RUBRO,
+      p.OP
+    ]
+    .join(" ")
+    .toLowerCase();
 
     return blob.includes(q);
+
   });
+
 }
   function updateNewIngresoBanner(){
   const hasNew = ALL.some(p =>
