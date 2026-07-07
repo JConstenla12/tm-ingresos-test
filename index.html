@@ -1819,7 +1819,7 @@ body.theme-light .filterChip{
 <div class="shellBlock row4 rowBtnsTop">
 
   <button class="btn" id="btnNewIngresos">
-    🔥 Nuevos ingresos
+    ✨ Estado
   </button>
 
   <button class="btn" id="btnClearFilters">
@@ -2215,6 +2215,13 @@ function qty(p){
 
 function setQty(p, q){
   const oldQ = qty(p);
+  if(
+  stkNorm(p.STOCK_TXT) === "AGOTADO" &&
+  q > oldQ
+){
+  showToast("🚫 Producto agotado");
+  return;
+}
   const hadItemsBefore = totalCartItems() > 0;
 
   q = Math.max(0, q|0);
@@ -2456,12 +2463,21 @@ function card(p){
             <div class="netLabel">${net === null ? "" : "PVC Neto"}</div>
           </div>
 
-          <div class="qty">
-            <button class="qbtn" data-a="d">–</button>
-            <div class="qval">${q}</div>
-            <button class="qbtn" data-a="i">+</button>
-          </div>
-        </div>
+          ${stkNorm(p.STOCK_TXT) === "AGOTADO"
+  ? `
+    <div class="badge stock-bad">
+      🚫 Agotado
+    </div>
+  `
+  : `
+    <div class="qty">
+      <button class="qbtn" data-a="d">–</button>
+      <div class="qval">${q}</div>
+      <button class="qbtn" data-a="i">+</button>
+    </div>
+  `
+}
+                  </div>
 </div>
     </div>
   </div>`;
