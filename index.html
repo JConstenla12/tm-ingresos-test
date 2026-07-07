@@ -3283,10 +3283,11 @@ function renderActiveFilters(){
   const bar = document.getElementById("filtersActiveBar");
   if(!bar) return;
 
-  const q = document.getElementById("q").value.trim();
-  const m = document.getElementById("fMarca").value;
-  const r = document.getElementById("fRubro").value;
-  const s = document.getElementById("fStk").value;
+ const q = document.getElementById("q").value.trim();
+const m = document.getElementById("fMarca").value;
+const r = document.getElementById("fRubro").value;
+const s = document.getElementById("fStk").value;
+const e = document.getElementById("fEstado").value;
 
   let html = "";
 
@@ -3305,6 +3306,20 @@ function renderActiveFilters(){
   if(s){
     html += `<div class="filterChip">Stock: ${s} <span data-x="s">✕</span></div>`;
   }
+  if(e){
+
+  const estadoTxt =
+    e === "NUEVO"
+      ? "🔥 Nuevo ingreso"
+      : "📦 Ingresando";
+
+  html += `
+    <div class="filterChip">
+      Estado: ${estadoTxt}
+      <span data-x="e">✕</span>
+    </div>
+  `;
+}
 
   if(filtroNuevosIngresos){
     html += `<div class="filterChip">🔥 Nuevos <span data-x="new">✕</span></div>`;
@@ -3316,12 +3331,13 @@ function renderActiveFilters(){
     el.onclick = ()=>{
       const t = el.getAttribute("data-x");
 
-      if(t === "q") document.getElementById("q").value = "";
-      if(t === "m") document.getElementById("fMarca").value = "";
-      if(t === "r") document.getElementById("fRubro").value = "";
-      if(t === "s") document.getElementById("fStk").value = "";
-      
-      if(t === "new") filtroNuevosIngresos = false;
+     if(t === "q") document.getElementById("q").value = "";
+if(t === "m") document.getElementById("fMarca").value = "";
+if(t === "r") document.getElementById("fRubro").value = "";
+if(t === "s") document.getElementById("fStk").value = "";
+if(t === "e") document.getElementById("fEstado").value = "";
+
+if(t === "new") filtroNuevosIngresos = false;
 
       apply();
     };
