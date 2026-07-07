@@ -1818,9 +1818,9 @@ body.theme-light .filterChip{
 <!-- FILA BOTONES PRINCIPALES -->
 <div class="shellBlock row4 rowBtnsTop">
 
-  <button class="btn" id="btnNewIngresos">
-    ✨ Estado
-  </button>
+  <select id="fEstado">
+  <option value="">Estado</option>
+</select>
 
   <button class="btn" id="btnClearFilters">
     🧹 Quitar filtros
@@ -2482,7 +2482,7 @@ function card(p){
     </div>
   </div>`;
 }
-  function applyFilters(data, q, m, r, s){
+  function applyFilters(data, q, m, r, s, e){
   return data.filter(p => {
 
     const esNuevoIngreso = (p.NUEVO_INGRESO || "").trim().toUpperCase() === "SI";
@@ -2495,6 +2495,28 @@ function card(p){
       const st = stkNorm(p.STOCK_TXT);
       if(st !== s) return false;
     }
+    if(e){
+
+  if(e === "NUEVO"){
+    const esNuevo =
+      (p.NUEVO_INGRESO || "")
+      .trim()
+      .toUpperCase() === "SI";
+
+    if(!esNuevo) return false;
+  }
+
+  if(e === "INGRESANDO"){
+    const cond =
+      (p.CONDICION || "")
+      .trim()
+      .toUpperCase();
+
+    if(cond !== "INGRESANDO"){
+      return false;
+    }
+  }
+}
 
     if(!q) return true;
 
@@ -2565,6 +2587,7 @@ function rebuildDependentFilters(){
   let m = document.getElementById("fMarca").value;
   let r = document.getElementById("fRubro").value;
   const s = document.getElementById("fStk").value;
+  const e = document.getElementById("fEstado").value;
 
   const fMarca = document.getElementById("fMarca");
   const fRubro = document.getElementById("fRubro");
@@ -2687,7 +2710,7 @@ g.innerHTML = `
   let r = document.getElementById("fRubro").value;
   const s = document.getElementById("fStk").value;
 
-  let result = applyFilters(ALL, q, m, r, s);
+  let result = applyFilters(ALL, q, m, r, s, e);
 
   /* -------------------------------------------------
      SI HAY TEXTO Y NO ENCUENTRA EN EL MES ACTUAL,
@@ -3069,6 +3092,33 @@ async function loadCSV(){
     const fMarca = document.getElementById("fMarca");
     const fRubro = document.getElementById("fRubro");
     const fStk   = document.getElementById("fStk");
+    const fEstado = document.getElementById("fEstado");
+    fEstado.innerHTML =
+  '<option value="">Estado</option>';
+
+const hayNuevo =
+  ALL.some(p =>
+    (p.NUEVO_INGRESO || "")
+    .trim()
+    .toUpperCase() === "SI"
+  );
+
+const hayIngresando =
+  ALL.some(p =>
+    (p.CONDICION || "")
+    .trim()
+    .toUpperCase() === "INGRESANDO"
+  );
+
+if(hayNuevo){
+  fEstado.innerHTML +=
+    '<option value="NUEVO">🔥 Nuevo ingreso</option>';
+}
+
+if(hayIngresando){
+  fEstado.innerHTML +=
+    '<option value="INGRESANDO">📦 Ingresando</option>';
+}
 
     fMarca.innerHTML = '<option value="">Marca</option>';
     fRubro.innerHTML = '<option value="">Rubro</option>';
@@ -3171,6 +3221,7 @@ document.getElementById("q").addEventListener("input", () => {
     document.getElementById("fMarca").value = "";
     document.getElementById("fRubro").value = "";
     document.getElementById("fStk").value = "";
+    document.getElementById("fEstado").value = "";
   }
 
   apply();
@@ -3188,7 +3239,7 @@ document.getElementById("q").addEventListener("change", () => {
   apply();
 });
 
-["fMarca","fRubro","fStk"].forEach(id=>{
+["fMarca","fRubro","fStk","fEstado"].forEach(id=>{
   document.getElementById(id).addEventListener("input", apply);
   document.getElementById(id).addEventListener("change", apply);
 });
