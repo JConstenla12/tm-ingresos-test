@@ -917,6 +917,12 @@ body.theme-light .sun{
   transition:all .2s ease;
 }
 
+  .badge-condicion{
+  background:rgba(56,189,248,.15);
+  border:1px solid rgba(56,189,248,.45);
+  color:#38bdf8;
+  font-weight:900;
+}
 .badge b{
   color:var(--text);
 }
@@ -2319,6 +2325,25 @@ function badgeStock(v){
   return `<span class="badge">Stock: <b>${s || "—"}</b></span>`;
 }
 
+  function badgeCondicion(p){
+
+  const cond = (p.CONDICION || "").trim().toUpperCase();
+
+  if(cond !== "INGRESANDO"){
+    return "";
+  }
+
+  const texto =
+    currentMonthIndex === MONTHS.length - 1
+      ? "📦 Ingresando"
+      : "📦 Ingreso reciente";
+
+  return `
+    <span class="badge badge-condicion">
+      ${texto}
+    </span>
+  `;
+}
 function card(p){
   const marca   = p.MARCA || "";
   const marcaOp = marcaOpLabel(p);
@@ -2363,7 +2388,10 @@ function card(p){
         <p class="pDesc">${desc}</p>
 
         <div class="prod-block">
-          <div class="prod-rubro">${rub || "—"}</div>
+          <div class="prod-line">
+  <div class="prod-rubro">${rub || "—"}</div>
+  ${badgeCondicion(p)}
+</div>
 
           <div class="prod-line">
             ${badgeStock(p.STOCK_TXT)}
