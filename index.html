@@ -257,21 +257,48 @@ button,
 
 .campaignBtn{
   margin-left:auto;
-  height:30px;
+  height:32px;
   padding:0 12px;
   border-radius:999px;
-  border:1px solid rgba(245,158,11,.35);
-  background:rgba(245,158,11,.12);
+  border:1px solid rgba(245,158,11,.45);
+  background:rgba(245,158,11,.10);
   color:#fbbf24;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
   font-size:11px;
   font-weight:900;
+  line-height:1;
   cursor:pointer;
   white-space:nowrap;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.08),
+    0 4px 12px rgba(0,0,0,.18);
+  transition:
+    transform .12s ease,
+    background .12s ease,
+    color .12s ease,
+    border-color .12s ease,
+    box-shadow .12s ease;
+}
+
+.campaignIcon{
+  font-size:15px;
+  line-height:1;
+}
+
+.campaignBtn:active{
+  transform:scale(.96);
 }
 
 .campaignBtn.active{
   background:linear-gradient(135deg,#f59e0b,#fbbf24);
   color:#111;
+  border-color:rgba(0,0,0,.20);
+  box-shadow:
+    0 0 0 3px rgba(245,158,11,.20),
+    0 8px 20px rgba(245,158,11,.30);
 }
   
 /* =========================
@@ -1786,8 +1813,9 @@ body.theme-light .filterChip{
     </a>
   </div>
 
-  <button class="campaignBtn" id="btnCampaign">
-  Dia del Niño
+ <button class="campaignBtn" id="btnCampaign" type="button">
+  <span class="campaignIcon">🎁</span>
+  <span>Día del Niño</span>
 </button>
   
 </div>
