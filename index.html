@@ -2204,6 +2204,10 @@ function estadoLabel(codigo){
   if(key === "OFERTA" || key === "OFERTAS"){
     return "💸 Oferta";
   }
+  if(key === "DIA_NINO"){
+  return "🎁 Día del Niño";
+}
+
 
   return key
     .replace(/_/g, " ")
@@ -3342,6 +3346,7 @@ function checkFiltersActive(){
   const r = document.getElementById("fRubro");
   const s = document.getElementById("fStk");
   const e = document.getElementById("fEstado");
+  const btnCampaign = document.getElementById("btnCampaign");
 
   const btnClear = document.getElementById("btnClearFilters");
  
@@ -3360,10 +3365,17 @@ function checkFiltersActive(){
 
   /* activar botón limpiar si hay cualquier filtro */
   if(q.value.trim() || m.value || r.value || s.value || e.value){
-    btnClear.classList.add("active");
-  }else{
-    btnClear.classList.remove("active");
-  }
+  btnClear.classList.add("active");
+}else{
+  btnClear.classList.remove("active");
+}
+
+if(btnCampaign){
+  btnCampaign.classList.toggle(
+    "active",
+    e.value === "DIA_NINO"
+  );
+}
 }
 function renderActiveFilters(){
 
@@ -3548,6 +3560,7 @@ if(MODO_MANTENIMIENTO){
    ========================= */
 const btnPVL = document.getElementById("btnPVL");
 const lblPVL = document.getElementById("lblPVL");
+  const btnCampaign = document.getElementById("btnCampaign");
 
 /* =========================
    MODO PVL — UI GENERAL (PASO 10.2)
@@ -3590,6 +3603,31 @@ btnPVL.onclick = () => {
 
 
 };
+
+  if(btnCampaign){
+
+  btnCampaign.onclick = () => {
+
+    const fEstado = document.getElementById("fEstado");
+
+    if(fEstado.value === "DIA_NINO"){
+
+      fEstado.value = "";
+      btnCampaign.classList.remove("active");
+
+    }else{
+
+      fEstado.value = "DIA_NINO";
+      btnCampaign.classList.add("active");
+
+    }
+
+    apply();
+
+  };
+
+}
+  
 /* =========================
    CARRITO — RENDER CONTENIDO
    ========================= */
