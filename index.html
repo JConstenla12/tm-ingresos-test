@@ -1813,9 +1813,8 @@ body.theme-light .filterChip{
     </a>
   </div>
 
- <button class="campaignBtn" id="btnCampaign" type="button">
-  <span class="campaignIcon">🎁</span>
-  <span>Día del Niño</span>
+<button class="campaignBtn" id="btnCampaign" type="button">
+  <span id="campaignLabel">🎁 Día del Niño</span>
 </button>
   
 </div>
@@ -2014,6 +2013,11 @@ body.theme-light .filterChip{
    ========================= */
 
 const MODO_MANTENIMIENTO = false; // ← cambiar a true para activar
+
+  const CAMPAIGN_ENABLED = false;
+
+const CAMPAIGN_NAME = "🎁 Día del Niño";
+const CAMPAIGN_FILTER = "DIA_NINO";
 
 
 const MONTHS = [
@@ -3401,7 +3405,7 @@ function checkFiltersActive(){
 if(btnCampaign){
   btnCampaign.classList.toggle(
     "active",
-    e.value === "DIA_NINO"
+    e.value === CAMPAIGN_FILTER
   );
 }
 }
@@ -3589,7 +3593,23 @@ if(MODO_MANTENIMIENTO){
 const btnPVL = document.getElementById("btnPVL");
 const lblPVL = document.getElementById("lblPVL");
   const btnCampaign = document.getElementById("btnCampaign");
+const campaignLabel = document.getElementById("campaignLabel");
 
+if(btnCampaign){
+
+  if(!CAMPAIGN_ENABLED){
+
+    btnCampaign.style.display = "none";
+
+  }else{
+
+    if(campaignLabel){
+      campaignLabel.textContent = CAMPAIGN_NAME;
+    }
+
+  }
+
+}
 /* =========================
    MODO PVL — UI GENERAL (PASO 10.2)
    ========================= */
@@ -3638,14 +3658,14 @@ btnPVL.onclick = () => {
 
     const fEstado = document.getElementById("fEstado");
 
-    if(fEstado.value === "DIA_NINO"){
+   if(fEstado.value === CAMPAIGN_FILTER){
 
       fEstado.value = "";
       btnCampaign.classList.remove("active");
 
     }else{
 
-      fEstado.value = "DIA_NINO";
+      fEstado.value = CAMPAIGN_FILTER;
       btnCampaign.classList.add("active");
 
     }
