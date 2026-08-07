@@ -255,6 +255,25 @@ button,
   box-shadow:0 0 0 3px rgba(255,0,0,.25);
 }
 
+.campaignBtn{
+  margin-left:auto;
+  height:30px;
+  padding:0 12px;
+  border-radius:999px;
+  border:1px solid rgba(245,158,11,.35);
+  background:rgba(245,158,11,.12);
+  color:#fbbf24;
+  font-size:11px;
+  font-weight:900;
+  cursor:pointer;
+  white-space:nowrap;
+}
+
+.campaignBtn.active{
+  background:linear-gradient(135deg,#f59e0b,#fbbf24);
+  color:#111;
+}
+  
 /* =========================
    MES / TÍTULO
    ========================= */
@@ -1753,7 +1772,7 @@ body.theme-light .filterChip{
     www.todomusica.com.ar
   </a>
 
-  <div class="social">
+    <div class="social">
     <a class="iconBtn" target="_blank" rel="noopener" href="https://www.facebook.com/people/Todomusica-SA/100064115318334/">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.4h-1.2c-1.2 0-1.6.8-1.6 1.5V12h2.7l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"/></svg>
     </a>
@@ -1767,6 +1786,10 @@ body.theme-light .filterChip{
     </a>
   </div>
 
+  <button class="campaignBtn" id="btnCampaign">
+  Dia del Niño
+</button>
+  
 </div>
 
 <!-- FILA MES / TITULO -->
