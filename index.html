@@ -2508,7 +2508,9 @@ const q = qty(p);
 </div>
 
 <div class="netLabel">
-  ${pvLNeto === null ? "" : "PVL Neto"}
+  ${pvLNeto === null
+  ? ""
+  : (offPVL > 0 ? "PVL Neto" : "PVL")}
 </div>
                           </div>
           </div>
@@ -2575,7 +2577,13 @@ const q = qty(p);
             <div class="priceBig">
   ${net === null ? '<span class="priceConsultar">Consultar</span>' : ars(net)}
 </div>
-            <div class="netLabel">${net === null ? "" : "PVC Neto"}</div>
+            <div class="netLabel">
+  ${
+    net === null
+      ? ""
+      : (offPVC > 0 ? "PVC Neto" : "PVC")
+  }
+</div>
           </div>
 
           ${stkNorm(p.STOCK_TXT) === "AGOTADO"
