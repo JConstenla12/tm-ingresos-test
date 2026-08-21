@@ -2515,7 +2515,7 @@ const ii  = pct(p.II);
   return `
   <div class="card ${inCart}" data-k="${art}">
     <div class="imgBox" data-z="1">
-  ${off > 0 ? `<div class="stickerOff">${Math.round(off*100)}% OFF</div>` : ``}
+  ${offPVC > 0 ? `<div class="stickerOff">${Math.round(offPVC*100)}% OFF</div>` : ``}
   ${esNuevo ? `<div class="stickerNew">🔥 Nuevo ingreso</div>` : ``}
   <img src="${im}" onerror="this.onerror=null;this.src='${PLACE}'">
 </div>
@@ -2546,7 +2546,7 @@ const ii  = pct(p.II);
 
         <div class="prod-bottom">
           <div>
-            ${off > 0 && net !== null ? `<div class="oldPrice">PVC: ${ars(num(p.PVC))}</div>` : ``}
+            ${offPVC > 0 && net !== null ? `<div class="oldPrice">PVC: ${ars(num(p.PVC))}</div>` : ``}
             <div class="priceBig">
   ${net === null ? '<span class="priceConsultar">Consultar</span>' : ars(net)}
 </div>
