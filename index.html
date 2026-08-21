@@ -2285,6 +2285,10 @@ function pvlNeto(p){
 
   return pvl * (1 - offPVL);
 }
+
+function qty(p){
+  return CART.get(p.ARTICULO)?.q ?? 0;
+}
 function setQty(p, q){
   const oldQ = qty(p);
   if(
