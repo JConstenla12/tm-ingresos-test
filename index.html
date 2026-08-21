@@ -2446,17 +2446,18 @@ function card(p){
   const esNuevo = (p.NUEVO_INGRESO || "").trim().toUpperCase() === "SI";
   const rub     = p.RUBRO || "";
 
-  const net = pvcNeto(p);
+ const net = pvcNeto(p);
 
 const offPVC = pct(p.OFF_PVC);
 const offPVL = pct(p.OFF_PVL);
 
 const pvL = num(p.PVL);
+const pvLNeto = pvlNeto(p);
 
 const mk  = pct(p.MKUP);
 const iva = pct(p.IVA);
 const ii  = pct(p.II);
-  const q = qty(p);
+const q = qty(p);
 
   /* en PVL no queremos resaltar carrito */
   const inCart = (!modoPVL && q > 0) ? "inCart" : "";
@@ -2540,9 +2541,22 @@ const ii  = pct(p.II);
         </div>
 
         <div class="prod-line">
-          ${Number.isFinite(pvL) && pvL > 0 ? `<span class="mini">PVL ${ars(pvL)}</span>` : ""}
-          ${mk > 0 ? `<span class="mini">MKUP ${Math.round(mk*100)}%</span>` : ""}
-        </div>
+  ${Number.isFinite(pvL) && pvL > 0
+    ? `<span class="mini">PVL ${ars(pvL)}</span>`
+    : ""}
+
+  ${offPVL > 0
+    ? `<span class="mini">▼${Math.round(offPVL*100)}%</span>`
+    : ""}
+
+  ${offPVL > 0 && pvLNeto !== null
+    ? `<span class="mini">PVL ${ars(pvLNeto)}</span>`
+    : ""}
+
+  ${mk > 0
+    ? `<span class="mini">MKUP ${Math.round(mk*100)}%</span>`
+    : ""}
+</div>
 
         <div class="prod-bottom">
           <div>
