@@ -2548,9 +2548,9 @@ const q = qty(p);
         </div>
 
         <div class="prod-line">
-  ${Number.isFinite(pvL) && pvL > 0
-    ? `<span class="mini">PVL ${ars(pvL)}</span>`
-    : ""}
+ ${Number.isFinite(pvL) && pvL > 0
+  ? `<span class="mini" style="text-decoration:line-through;">PVL ${ars(pvL)}</span>`
+  : ""}
 
   ${offPVL > 0
   ? `<span class="mini" style="color:#ef4444;font-weight:900;">▼${Math.round(offPVL*100)}%</span>`
