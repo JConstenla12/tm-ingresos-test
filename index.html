@@ -2549,7 +2549,11 @@ const q = qty(p);
 
         <div class="prod-line">
  ${Number.isFinite(pvL) && pvL > 0
-  ? `<span class="mini" style="text-decoration:line-through;">PVL ${ars(pvL)}</span>`
+  ? `<span class="mini" ${
+      offPVL > 0
+        ? 'style="text-decoration:line-through;"'
+        : ''
+    }>PVL ${ars(pvL)}</span>`
   : ""}
 
   ${offPVL > 0
