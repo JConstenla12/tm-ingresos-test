@@ -2447,12 +2447,15 @@ function card(p){
   const rub     = p.RUBRO || "";
 
   const net = pvcNeto(p);
-  const off = pct(p.OFF);
-  const pvL = num(p.PVL);
-  const mk  = pct(p.MKUP);
-  const iva = pct(p.IVA);
-  const ii  = pct(p.II);
 
+const offPVC = pct(p.OFF_PVC);
+const offPVL = pct(p.OFF_PVL);
+
+const pvL = num(p.PVL);
+
+const mk  = pct(p.MKUP);
+const iva = pct(p.IVA);
+const ii  = pct(p.II);
   const q = qty(p);
 
   /* en PVL no queremos resaltar carrito */
@@ -2467,7 +2470,7 @@ function card(p){
     return `
     <div class="card ${inCart}" data-k="${art}">
      <div class="imgBox" data-z="1">
-  ${off > 0 ? `<div class="stickerOff">${Math.round(off*100)}% OFF</div>` : ``}
+  ${offPVL > 0 ? `<div class="stickerOff">${Math.round(offPVL*100)}% OFF</div>` : ``}
   ${esNuevo ? `<div class="stickerNew">🔥 Nuevo ingreso</div>` : ``}
   <img src="${im}" onerror="this.onerror=null;this.src='${PLACE}'">
 </div>
