@@ -2497,13 +2497,20 @@ const q = qty(p);
 
           <div class="prod-bottom">
             <div>
-              <div class="priceBig">
-  ${Number.isFinite(pvL) && pvL > 0 
-    ? ars(pvL) 
-    : '<span class="priceConsultar">Consultar</span>'}
+              ${offPVL > 0 && pvLNeto !== null
+  ? `<div class="oldPrice">PVL: ${ars(pvL)}</div>`
+  : ``}
+
+<div class="priceBig">
+  ${pvLNeto === null
+    ? '<span class="priceConsultar">Consultar</span>'
+    : ars(pvLNeto)}
 </div>
-<div class="netLabel">${Number.isFinite(pvL) && pvL > 0 ? "PVL sugerido" : ""}</div>
-            </div>
+
+<div class="netLabel">
+  ${pvLNeto === null ? "" : "PVL Neto"}
+</div>
+                          </div>
           </div>
         </div>
       </div>
@@ -2546,8 +2553,8 @@ const q = qty(p);
     : ""}
 
   ${offPVL > 0
-    ? `<span class="mini">▼${Math.round(offPVL*100)}%</span>`
-    : ""}
+  ? `<span class="mini" style="color:#ef4444;font-weight:900;">▼${Math.round(offPVL*100)}%</span>`
+  : ""}
 
   ${offPVL > 0 && pvLNeto !== null
     ? `<span class="mini">PVL ${ars(pvLNeto)}</span>`
