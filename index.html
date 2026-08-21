@@ -2266,18 +2266,25 @@ function opNum(p){
   
 function pvcNeto(p){
   const pvc = num(p.PVC);
-  const off = pct(p.OFF);
+  const offPVC = pct(p.OFF_PVC);
 
   if(!Number.isFinite(pvc) || pvc === 0){
-    return null; // 👈 clave
+    return null;
   }
 
-  return pvc * (1 - off);
-}
-function qty(p){
-  return CART.get(p.ARTICULO)?.q ?? 0;
+  return pvc * (1 - offPVC);
 }
 
+function pvlNeto(p){
+  const pvl = num(p.PVL);
+  const offPVL = pct(p.OFF_PVL);
+
+  if(!Number.isFinite(pvl) || pvl === 0){
+    return null;
+  }
+
+  return pvl * (1 - offPVL);
+}
 function setQty(p, q){
   const oldQ = qty(p);
   if(
